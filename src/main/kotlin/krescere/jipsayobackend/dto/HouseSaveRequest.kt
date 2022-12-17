@@ -1,31 +1,17 @@
-package krescere.jipsayobackend.entity
+package krescere.jipsayobackend.dto
 
-import javax.persistence.*
-
-@Entity
-class House(
+class HouseSaveRequest (
     jibunAddress: String,
     cost: Long,
     latitude: Double?,
     longitude: Double?
 ) {
-    @Column(nullable = false, unique = true)
     var jibunAddress: String = jibunAddress
         private set
-
-    @Column(nullable = false)
     var cost: Long = cost
         private set
-
-    @Column(nullable = true)
     var latitude: Double ?= latitude
         private set
-
-    @Column(nullable = true)
     var longitude: Double ?= longitude
         private set
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
 }

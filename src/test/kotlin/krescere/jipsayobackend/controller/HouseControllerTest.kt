@@ -1,8 +1,8 @@
 package krescere.jipsayobackend.controller
 
-import krescere.jipsayobackend.dto.ResearchSaveRequest
 import com.fasterxml.jackson.databind.ObjectMapper
-import krescere.jipsayobackend.repository.ResearchRepository
+import krescere.jipsayobackend.dto.HouseSaveRequest
+import krescere.jipsayobackend.repository.HouseRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -24,9 +24,9 @@ import org.springframework.web.context.WebApplicationContext
 @Transactional
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ResearchControllerTest @Autowired constructor(
+class HouseControllerTest @Autowired constructor(
     private val context: WebApplicationContext,
-    private val researchRepository: ResearchRepository
+    private val houseRepository: HouseRepository
 ) {
     @LocalServerPort
     val port: Int = 0
@@ -44,27 +44,24 @@ class ResearchControllerTest @Autowired constructor(
     }
 
     @Test
-    fun researchSaveTest() {
+    fun houseSaveTest() {
         // given
-        val researchSaveRequest = ResearchSaveRequest(
-            savedMoney = 1000,
-            moneyPerMonth = 1000,
+        val houseSaveRequest = HouseSaveRequest(
             jibunAddress = "서울특별시 강남구 역삼동",
-            increaseRate = 0.1,
-            job = "개발자",
-            occupation = "IT"
+            cost = 1000,
+            latitude = 37.0,
+            longitude = 127.0
         )
         // when
-        val url="$localhost$port$apiV1/research"
+        val url="$localhost$port$apiV1/houses"
         val result = mvc!!.perform(post(url)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(ObjectMapper().writeValueAsString(researchSaveRequest)))
+            .content(ObjectMapper().writeValueAsString(houseSaveRequest)))
             .andExpect(status().isCreated)
             .andReturn()
-
         // then
         assertThat(result.response.contentAsString).contains(
-            researchRepository.findAll()[0].id.toString()
+            houseRepository.findAll()[0].id.toString()
         )
     }
 }
