@@ -9,6 +9,7 @@ import krescere.jipsayobackend.service.HouseService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.util.*
 
 @RequestMapping("/api/v1")
 @RestController
@@ -29,7 +30,8 @@ class HouseController(
     fun findByQuery(query: HouseGetQuery) : ResponseEntity<Any> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(houseService.findByQuery(query))
+            .body(houseService.findByQuery(query)
+                ?: Collections.emptyMap<String, Any>())
     }
 
     @PutMapping("/houses")
@@ -37,7 +39,7 @@ class HouseController(
         houseService.updateByQuery(query, houseUpdateRequest)
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(null)
+            .body("업데이트 성공")
     }
 
     @DeleteMapping("/houses")
@@ -45,6 +47,6 @@ class HouseController(
         houseService.deleteByQuery(query)
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(null)
+            .body("삭제 성공")
     }
 }
