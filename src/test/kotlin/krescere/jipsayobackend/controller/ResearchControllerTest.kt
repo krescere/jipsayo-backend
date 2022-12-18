@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.WebApplicationContext
+import org.springframework.web.filter.CharacterEncodingFilter
 
 @Transactional
 @ExtendWith(SpringExtension::class)
@@ -39,17 +40,19 @@ class ResearchControllerTest @Autowired constructor(
     fun setUp() {
         mvc = MockMvcBuilders
             .webAppContextSetup(context)
+            .addFilters<DefaultMockMvcBuilder>(CharacterEncodingFilter("UTF-8", true))
             .alwaysDo<DefaultMockMvcBuilder?>(MockMvcResultHandlers.print())
             .build()
     }
 
     @Test
-    fun researchSaveTest() {
+    fun 설문조사_저장() {
         // given
         val researchSaveRequest = ResearchSaveRequest(
             savedMoney = 1000,
             moneyPerMonth = 1000,
             jibunAddress = "서울특별시 강남구 역삼동",
+            roadAddress = null,
             increaseRate = 0.1,
             job = "개발자",
             occupation = "IT"
