@@ -3,6 +3,7 @@ package krescere.jipsayobackend.dto
 class HouseGetResponse(
     id: Long,
     jibunAddress: String,
+    roadAddress: String,
     cost: Long,
     latitude: Double?,
     longitude: Double?,
@@ -12,6 +13,8 @@ class HouseGetResponse(
     var id: Long = id
         private set
     var jibunAddress: String = jibunAddress
+        private set
+    var roadAddress: String = roadAddress
         private set
     var cost: Long = cost
         private set

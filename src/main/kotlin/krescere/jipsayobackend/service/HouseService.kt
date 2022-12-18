@@ -1,5 +1,6 @@
 package krescere.jipsayobackend.service
 
+import krescere.jipsayobackend.dto.HouseGetQuery
 import krescere.jipsayobackend.dto.HouseGetResponse
 import krescere.jipsayobackend.dto.HouseSaveRequest
 import krescere.jipsayobackend.dto.HouseUpdateRequest
@@ -16,6 +17,7 @@ class HouseService(
     fun save(request: HouseSaveRequest) : Long {
         return houseRepository.save(House(
             jibunAddress = request.jibunAddress,
+            roadAddress = request.roadAddress,
             cost = request.cost,
             latitude = request.latitude,
             longitude = request.longitude
@@ -23,33 +25,50 @@ class HouseService(
     }
 
     @Transactional(readOnly = true)
-    fun findByJibunAddress(jibunAddress: String) : HouseGetResponse? {
-        return houseRepository.findByJibunAddress(jibunAddress)?.let {
+    fun findByQuery(query: HouseGetQuery) : HouseGetResponse? {
+        val house = query.jibunAddress?.let { houseRepository.findByJibunAddress(it) }
+            ?: query.roadAddress?.let { houseRepository.findByRoadAddress(it) }
+            ?: query.id?.let {
+                houseRepository.findById(it)
+                    .orElseThrow { IllegalArgumentException("해당 부동산이 존재하지 않습니다.") }
+            }
+        return if (house != null) {
             HouseGetResponse(
-                id = it.id!!,
-                jibunAddress = it.jibunAddress,
-                cost = it.cost,
-                latitude = it.latitude,
-                longitude = it.longitude,
-                createdDate = it.createdDate.toString(),
-                modifiedDate = it.modifiedDate.toString()
+                id = house.id!!,
+                jibunAddress = house.jibunAddress,
+                roadAddress = house.roadAddress,
+                cost = house.cost,
+                latitude = house.latitude,
+                longitude = house.longitude,
+                createdDate = house.createdDate.toString(),
+                modifiedDate = house.modifiedDate.toString()
             )
-        }
+        } else null;
     }
 
     @Transactional
-    fun updateByJibunAddress(jibunAddress: String, request: HouseUpdateRequest) {
-        houseRepository.findByJibunAddress(jibunAddress)?.let {
-            request.cost?.let { cost -> it.updateCost(cost) }
-            request.latitude?.let { latitude -> it.updateLatitude(latitude) }
-            request.longitude?.let { longitude -> it.updateLongitude(longitude) }
-        }
+    fun updateByQuery(query : HouseGetQuery, request: HouseUpdateRequest) {
+        val house = query.jibunAddress?.let { houseRepository.findByJibunAddress(it) }
+            ?: query.roadAddress?.let { houseRepository.findByRoadAddress(it) }
+            ?: query.id?.let { houseRepository.findById(it)
+                .orElse(null)
+            } ?: throw IllegalArgumentException("해당 부동산이 존재하지 않습니다.")
+
+        request.jibunAddress?.let { house.updateJibunAddress(it) }
+        request.roadAddress?.let { house.updateRoadAddress(it) }
+        request.cost?.let { house.updateCost(it) }
+        request.latitude?.let { house.updateLatitude(it) }
+        request.longitude?.let { house.updateLongitude(it) }
     }
 
     @Transactional
-    fun deleteByJibunAddress(jibunAddress: String) {
-        houseRepository.findByJibunAddress(jibunAddress)?.let {
-            houseRepository.delete(it)
-        }
+    fun deleteByQuery(query : HouseGetQuery) {
+        houseRepository.delete(
+            query.jibunAddress?.let { houseRepository.findByJibunAddress(it) }
+            ?: query.roadAddress?.let { houseRepository.findByRoadAddress(it) }
+            ?: query.id?.let { houseRepository.findById(it)
+                .orElse(null)
+            } ?: throw IllegalArgumentException("해당 부동산이 존재하지 않습니다.")
+        )
     }
 }

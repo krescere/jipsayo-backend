@@ -15,10 +15,12 @@ class ResearchService(
 ) {
     @Transactional
     fun save(request: ResearchSaveRequest) : Long {
+        val house = request.jibunAddress?.let { houseRepository.findByJibunAddress(it) }
+            ?: request.roadAddress?.let { houseRepository.findByRoadAddress(it) }
         return researchRepository.save(Research(
             savedMoney = request.savedMoney,
             moneyPerMonth = request.moneyPerMonth,
-            house = houseRepository.findByJibunAddress(request.jibunAddress),
+            house = house,
             increaseRate = request.increaseRate,
             job = request.job,
             occupation = request.occupation

@@ -10,12 +10,17 @@ import javax.persistence.*
 @Entity
 class House(
     jibunAddress: String,
+    roadAddress: String,
     cost: Long,
     latitude: Double?,
     longitude: Double?
 ) {
     @Column(nullable = false, unique = true)
     var jibunAddress: String = jibunAddress
+        private set
+
+    @Column(nullable = false, unique = true)
+    var roadAddress: String = roadAddress
         private set
 
     @Column(nullable = false)
@@ -45,6 +50,14 @@ class House(
     val id: Long? = null
 
     // update
+    fun updateJibunAddress(jibunAddress: String) {
+        this.jibunAddress = jibunAddress
+    }
+
+    fun updateRoadAddress(roadAddress: String) {
+        this.roadAddress = roadAddress
+    }
+
     fun updateCost(cost: Long) {
         this.cost = cost
     }

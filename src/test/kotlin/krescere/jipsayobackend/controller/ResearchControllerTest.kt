@@ -52,6 +52,7 @@ class ResearchControllerTest @Autowired constructor(
             savedMoney = 1000,
             moneyPerMonth = 1000,
             jibunAddress = "서울특별시 강남구 역삼동",
+            roadAddress = null,
             increaseRate = 0.1,
             job = "개발자",
             occupation = "IT"

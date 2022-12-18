@@ -52,6 +52,7 @@ class HouseControllerTest @Autowired constructor(
         // given
         val houseSaveRequest = HouseSaveRequest(
             jibunAddress = "서울특별시 강남구 역삼동",
+            roadAddress = "서울특별시 강남구 테헤란로 427",
             cost = 1000,
             latitude = 37.0,
             longitude = 127.0
@@ -74,12 +75,14 @@ class HouseControllerTest @Autowired constructor(
         // given
         val houseSaveRequest = HouseSaveRequest(
             jibunAddress = "서울특별시 강남구 역삼동",
+            roadAddress = "서울특별시 강남구 테헤란로 427",
             cost = 1000,
             latitude = 37.0,
             longitude = 127.0
         )
         houseRepository.save(House(
             jibunAddress = houseSaveRequest.jibunAddress,
+            roadAddress = houseSaveRequest.roadAddress,
             cost = houseSaveRequest.cost,
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude
@@ -95,21 +98,52 @@ class HouseControllerTest @Autowired constructor(
     }
 
     @Test
-    fun 지번주소로_업데이트() {
+    fun 도로명주소로_부동산찾기() {
         // given
         val houseSaveRequest = HouseSaveRequest(
             jibunAddress = "서울특별시 강남구 역삼동",
+            roadAddress = "서울특별시 강남구 테헤란로 427",
             cost = 1000,
             latitude = 37.0,
             longitude = 127.0
         )
         houseRepository.save(House(
             jibunAddress = houseSaveRequest.jibunAddress,
+            roadAddress = houseSaveRequest.roadAddress,
+            cost = houseSaveRequest.cost,
+            latitude = houseSaveRequest.latitude,
+            longitude = houseSaveRequest.longitude
+        ))
+        // when
+        val url="$localhost$port$apiV1/houses"
+        val result = mvc!!.perform(get(url)
+            .param("roadAddress", houseSaveRequest.roadAddress))
+            .andExpect(status().isOk)
+            .andReturn()
+        // then
+        assertThat(result.response.contentAsString).contains(houseSaveRequest.roadAddress)
+    }
+
+    @Test
+    fun 지번주소로_업데이트() {
+        // given
+        val houseSaveRequest = HouseSaveRequest(
+            jibunAddress = "서울특별시 강남구 역삼동",
+            roadAddress = "서울특별시 강남구 테헤란로 427",
+            cost = 1000,
+            latitude = 37.0,
+            longitude = 127.0
+        )
+        houseRepository.save(House(
+            jibunAddress = houseSaveRequest.jibunAddress,
+            roadAddress = houseSaveRequest.roadAddress,
             cost = houseSaveRequest.cost,
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude
         ))
         val houseUpdateRequest = HouseUpdateRequest(
+            jibunAddress = null,
+            roadAddress = null,
             cost = 2000,
             latitude = null,
             longitude = null
@@ -126,16 +160,53 @@ class HouseControllerTest @Autowired constructor(
     }
 
     @Test
-    fun 지번주소로_삭제() {
+    fun 도로명주소로_업데이트() {
         // given
         val houseSaveRequest = HouseSaveRequest(
             jibunAddress = "서울특별시 강남구 역삼동",
+            roadAddress = "서울특별시 강남구 테헤란로 427",
             cost = 1000,
             latitude = 37.0,
             longitude = 127.0
         )
         houseRepository.save(House(
             jibunAddress = houseSaveRequest.jibunAddress,
+            roadAddress = houseSaveRequest.roadAddress,
+            cost = houseSaveRequest.cost,
+            latitude = houseSaveRequest.latitude,
+            longitude = houseSaveRequest.longitude
+        ))
+        val houseUpdateRequest = HouseUpdateRequest(
+            jibunAddress = null,
+            roadAddress = null,
+            cost = 2000,
+            latitude = null,
+            longitude = null
+        )
+        // when
+        val url="$localhost$port$apiV1/houses"
+        mvc!!.perform(put(url)
+            .param("roadAddress", houseSaveRequest.roadAddress)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(ObjectMapper().writeValueAsString(houseUpdateRequest)))
+            .andExpect(status().isOk)
+        // then
+        assertThat(houseRepository.findAll()[0].cost).isEqualTo(houseUpdateRequest.cost)
+    }
+
+    @Test
+    fun 지번주소로_삭제() {
+        // given
+        val houseSaveRequest = HouseSaveRequest(
+            jibunAddress = "서울특별시 강남구 역삼동",
+            roadAddress = "서울특별시 강남구 테헤란로 427",
+            cost = 1000,
+            latitude = 37.0,
+            longitude = 127.0
+        )
+        houseRepository.save(House(
+            jibunAddress = houseSaveRequest.jibunAddress,
+            roadAddress = houseSaveRequest.roadAddress,
             cost = houseSaveRequest.cost,
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude

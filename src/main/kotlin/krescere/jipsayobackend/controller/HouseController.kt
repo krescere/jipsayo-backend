@@ -2,6 +2,7 @@ package krescere.jipsayobackend.controller
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import krescere.jipsayobackend.dto.HouseGetQuery
 import krescere.jipsayobackend.dto.HouseSaveRequest
 import krescere.jipsayobackend.dto.HouseUpdateRequest
 import krescere.jipsayobackend.service.HouseService
@@ -16,32 +17,32 @@ class HouseController(
     private val gson: Gson
 ) {
     @PostMapping("/houses")
-    fun save(@RequestBody houseSaveRequest: HouseSaveRequest) : ResponseEntity<Any> {
+    fun save(@RequestBody request: HouseSaveRequest) : ResponseEntity<Any> {
         val jsonObject=JsonObject()
-        jsonObject.addProperty("id", houseService.save(houseSaveRequest))
+        jsonObject.addProperty("id", houseService.save(request))
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(gson.toJson(jsonObject))
     }
 
     @GetMapping("/houses")
-    fun findByJibunAddress(jibunAddress: String) : ResponseEntity<Any> {
+    fun findByQuery(query: HouseGetQuery) : ResponseEntity<Any> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(houseService.findByJibunAddress(jibunAddress))
+            .body(houseService.findByQuery(query))
     }
 
     @PutMapping("/houses")
-    fun updateByJibunAddress(jibunAddress: String, @RequestBody houseUpdateRequest: HouseUpdateRequest) : ResponseEntity<Any> {
-        houseService.updateByJibunAddress(jibunAddress, houseUpdateRequest)
+    fun updateByQuery(query: HouseGetQuery, @RequestBody houseUpdateRequest: HouseUpdateRequest) : ResponseEntity<Any> {
+        houseService.updateByQuery(query, houseUpdateRequest)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(null)
     }
 
     @DeleteMapping("/houses")
-    fun deleteByJibunAddress(jibunAddress: String) : ResponseEntity<Any> {
-        houseService.deleteByJibunAddress(jibunAddress)
+    fun deleteByQuery(query: HouseGetQuery) : ResponseEntity<Any> {
+        houseService.deleteByQuery(query)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(null)
