@@ -6,12 +6,14 @@ import krescere.jipsayobackend.entity.Research
 import krescere.jipsayobackend.repository.HouseRepository
 import krescere.jipsayobackend.repository.ResearchRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ResearchService(
     private val researchRepository: ResearchRepository,
     private val houseRepository: HouseRepository
 ) {
+    @Transactional
     fun save(request: ResearchSaveRequest) : Long {
         return researchRepository.save(Research(
             savedMoney = request.savedMoney,

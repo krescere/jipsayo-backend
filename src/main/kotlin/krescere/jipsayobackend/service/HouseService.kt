@@ -6,11 +6,13 @@ import krescere.jipsayobackend.dto.HouseUpdateRequest
 import krescere.jipsayobackend.entity.House
 import krescere.jipsayobackend.repository.HouseRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class HouseService(
     private val houseRepository: HouseRepository
 ) {
+    @Transactional
     fun save(request: HouseSaveRequest) : Long {
         return houseRepository.save(House(
             jibunAddress = request.jibunAddress,
@@ -20,6 +22,7 @@ class HouseService(
         )).id!!
     }
 
+    @Transactional(readOnly = true)
     fun findByJibunAddress(jibunAddress: String) : HouseGetResponse? {
         return houseRepository.findByJibunAddress(jibunAddress)?.let {
             HouseGetResponse(
@@ -34,6 +37,7 @@ class HouseService(
         }
     }
 
+    @Transactional
     fun updateByJibunAddress(jibunAddress: String, request: HouseUpdateRequest) {
         houseRepository.findByJibunAddress(jibunAddress)?.let {
             request.cost?.let { cost -> it.updateCost(cost) }
@@ -42,6 +46,7 @@ class HouseService(
         }
     }
 
+    @Transactional
     fun deleteByJibunAddress(jibunAddress: String) {
         houseRepository.findByJibunAddress(jibunAddress)?.let {
             houseRepository.delete(it)
