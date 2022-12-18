@@ -2,6 +2,7 @@ package krescere.jipsayobackend.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import krescere.jipsayobackend.dto.HouseSaveRequest
+import krescere.jipsayobackend.entity.House
 import krescere.jipsayobackend.repository.HouseRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -13,6 +14,7 @@ import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.MediaType
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -20,6 +22,7 @@ import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.WebApplicationContext
+import org.springframework.web.filter.CharacterEncodingFilter
 
 @Transactional
 @ExtendWith(SpringExtension::class)
@@ -39,6 +42,7 @@ class HouseControllerTest @Autowired constructor(
     fun setUp() {
         mvc = MockMvcBuilders
             .webAppContextSetup(context)
+            .addFilters<DefaultMockMvcBuilder>(CharacterEncodingFilter("UTF-8", true))
             .alwaysDo<DefaultMockMvcBuilder?>(MockMvcResultHandlers.print())
             .build()
     }
@@ -63,5 +67,30 @@ class HouseControllerTest @Autowired constructor(
         assertThat(result.response.contentAsString).contains(
             houseRepository.findAll()[0].id.toString()
         )
+    }
+
+    @Test
+    fun houseFindByJibunAddressTest() {
+        // given
+        val houseSaveRequest = HouseSaveRequest(
+            jibunAddress = "서울특별시 강남구 역삼동",
+            cost = 1000,
+            latitude = 37.0,
+            longitude = 127.0
+        )
+        houseRepository.save(House(
+            jibunAddress = houseSaveRequest.jibunAddress,
+            cost = houseSaveRequest.cost,
+            latitude = houseSaveRequest.latitude,
+            longitude = houseSaveRequest.longitude
+        ))
+        // when
+        val url="$localhost$port$apiV1/houses/${houseSaveRequest.jibunAddress}"
+        val result = mvc!!.perform(get(url)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk)
+            .andReturn()
+        // then
+        assertThat(result.response.contentAsString).contains(houseSaveRequest.jibunAddress)
     }
 }
