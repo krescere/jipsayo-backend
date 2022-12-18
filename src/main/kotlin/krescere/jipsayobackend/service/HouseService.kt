@@ -41,4 +41,10 @@ class HouseService(
             request.longitude?.let { longitude -> it.updateLongitude(longitude) }
         }
     }
+
+    fun deleteByJibunAddress(jibunAddress: String) {
+        houseRepository.findByJibunAddress(jibunAddress)?.let {
+            houseRepository.delete(it)
+        }
+    }
 }

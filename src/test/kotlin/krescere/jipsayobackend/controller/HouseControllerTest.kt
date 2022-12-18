@@ -123,4 +123,28 @@ class HouseControllerTest @Autowired constructor(
         // then
         assertThat(houseRepository.findAll()[0].cost).isEqualTo(houseUpdateRequest.cost)
     }
+
+    @Test
+    fun 지번주소로_삭제() {
+        // given
+        val houseSaveRequest = HouseSaveRequest(
+            jibunAddress = "서울특별시 강남구 역삼동",
+            cost = 1000,
+            latitude = 37.0,
+            longitude = 127.0
+        )
+        houseRepository.save(House(
+            jibunAddress = houseSaveRequest.jibunAddress,
+            cost = houseSaveRequest.cost,
+            latitude = houseSaveRequest.latitude,
+            longitude = houseSaveRequest.longitude
+        ))
+        // when
+        val url="$localhost$port$apiV1/houses/${houseSaveRequest.jibunAddress}"
+        mvc!!.perform(delete(url)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk)
+        // then
+        assertThat(houseRepository.findAll().size).isEqualTo(0)
+    }
 }

@@ -38,4 +38,12 @@ class HouseController(
             .status(HttpStatus.OK)
             .body(null)
     }
+
+    @DeleteMapping("/houses/{jibunAddress}")
+    fun deleteByJibunAddress(@PathVariable jibunAddress: String) : ResponseEntity<Any> {
+        houseService.deleteByJibunAddress(jibunAddress)
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(null)
+    }
 }
