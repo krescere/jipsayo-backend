@@ -85,9 +85,9 @@ class HouseControllerTest @Autowired constructor(
             longitude = houseSaveRequest.longitude
         ))
         // when
-        val url="$localhost$port$apiV1/houses/${houseSaveRequest.jibunAddress}"
+        val url="$localhost$port$apiV1/houses"
         val result = mvc!!.perform(get(url)
-            .contentType(MediaType.APPLICATION_JSON))
+            .param("jibunAddress", houseSaveRequest.jibunAddress))
             .andExpect(status().isOk)
             .andReturn()
         // then
@@ -115,8 +115,9 @@ class HouseControllerTest @Autowired constructor(
             longitude = null
         )
         // when
-        val url="$localhost$port$apiV1/houses/${houseSaveRequest.jibunAddress}"
+        val url="$localhost$port$apiV1/houses"
         mvc!!.perform(put(url)
+            .param("jibunAddress", houseSaveRequest.jibunAddress)
             .contentType(MediaType.APPLICATION_JSON)
             .content(ObjectMapper().writeValueAsString(houseUpdateRequest)))
             .andExpect(status().isOk)
@@ -140,9 +141,9 @@ class HouseControllerTest @Autowired constructor(
             longitude = houseSaveRequest.longitude
         ))
         // when
-        val url="$localhost$port$apiV1/houses/${houseSaveRequest.jibunAddress}"
+        val url="$localhost$port$apiV1/houses"
         mvc!!.perform(delete(url)
-            .contentType(MediaType.APPLICATION_JSON))
+            .param("jibunAddress", houseSaveRequest.jibunAddress))
             .andExpect(status().isOk)
         // then
         assertThat(houseRepository.findAll().size).isEqualTo(0)

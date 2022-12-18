@@ -24,23 +24,23 @@ class HouseController(
             .body(gson.toJson(jsonObject))
     }
 
-    @GetMapping("/houses/{jibunAddress}")
-    fun findByJibunAddress(@PathVariable jibunAddress: String) : ResponseEntity<Any> {
+    @GetMapping("/houses")
+    fun findByJibunAddress(jibunAddress: String) : ResponseEntity<Any> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(houseService.findByJibunAddress(jibunAddress))
     }
 
-    @PutMapping("/houses/{jibunAddress}")
-    fun updateByJibunAddress(@PathVariable jibunAddress: String, @RequestBody houseUpdateRequest: HouseUpdateRequest) : ResponseEntity<Any> {
+    @PutMapping("/houses")
+    fun updateByJibunAddress(jibunAddress: String, @RequestBody houseUpdateRequest: HouseUpdateRequest) : ResponseEntity<Any> {
         houseService.updateByJibunAddress(jibunAddress, houseUpdateRequest)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(null)
     }
 
-    @DeleteMapping("/houses/{jibunAddress}")
-    fun deleteByJibunAddress(@PathVariable jibunAddress: String) : ResponseEntity<Any> {
+    @DeleteMapping("/houses")
+    fun deleteByJibunAddress(jibunAddress: String) : ResponseEntity<Any> {
         houseService.deleteByJibunAddress(jibunAddress)
         return ResponseEntity
             .status(HttpStatus.OK)
