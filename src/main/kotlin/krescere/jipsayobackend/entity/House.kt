@@ -30,10 +30,12 @@ class House(
     var longitude: Double ?= longitude
         private set
 
+    @Column(nullable = false)
     @CreatedDate
     var createdDate: LocalDateTime = LocalDateTime.MIN
         private set
 
+    @Column(nullable = false)
     @LastModifiedDate
     var modifiedDate: LocalDateTime = LocalDateTime.MIN
         private set
@@ -41,4 +43,17 @@ class House(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
+
+    // update
+    fun updateCost(cost: Long) {
+        this.cost = cost
+    }
+
+    fun updateLatitude(latitude: Double?) {
+        this.latitude = latitude
+    }
+
+    fun updateLongitude(longitude: Double?) {
+        this.longitude = longitude
+    }
 }

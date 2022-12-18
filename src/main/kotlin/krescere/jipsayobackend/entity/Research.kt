@@ -24,7 +24,7 @@ class Research (
         private set
 
     @ManyToOne
-    @JoinColumn(name = "HOUSE_ID")
+    @JoinColumn(name = "HOUSE_ID", nullable = true)
     var house: House? = house
         private set
 
@@ -41,6 +41,7 @@ class Research (
         private set
 
     @CreatedDate
+    @Column(nullable = false)
     var createdDate: LocalDateTime = LocalDateTime.MIN
         private set
 

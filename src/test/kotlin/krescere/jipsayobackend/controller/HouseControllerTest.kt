@@ -2,6 +2,7 @@ package krescere.jipsayobackend.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import krescere.jipsayobackend.dto.HouseSaveRequest
+import krescere.jipsayobackend.dto.HouseUpdateRequest
 import krescere.jipsayobackend.entity.House
 import krescere.jipsayobackend.repository.HouseRepository
 import org.assertj.core.api.Assertions.assertThat
@@ -14,8 +15,7 @@ import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.MediaType
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
@@ -92,5 +92,35 @@ class HouseControllerTest @Autowired constructor(
             .andReturn()
         // then
         assertThat(result.response.contentAsString).contains(houseSaveRequest.jibunAddress)
+    }
+
+    @Test
+    fun 지번주소로_업데이트() {
+        // given
+        val houseSaveRequest = HouseSaveRequest(
+            jibunAddress = "서울특별시 강남구 역삼동",
+            cost = 1000,
+            latitude = 37.0,
+            longitude = 127.0
+        )
+        houseRepository.save(House(
+            jibunAddress = houseSaveRequest.jibunAddress,
+            cost = houseSaveRequest.cost,
+            latitude = houseSaveRequest.latitude,
+            longitude = houseSaveRequest.longitude
+        ))
+        val houseUpdateRequest = HouseUpdateRequest(
+            cost = 2000,
+            latitude = null,
+            longitude = null
+        )
+        // when
+        val url="$localhost$port$apiV1/houses/${houseSaveRequest.jibunAddress}"
+        mvc!!.perform(put(url)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(ObjectMapper().writeValueAsString(houseUpdateRequest)))
+            .andExpect(status().isOk)
+        // then
+        assertThat(houseRepository.findAll()[0].cost).isEqualTo(houseUpdateRequest.cost)
     }
 }

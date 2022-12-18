@@ -2,6 +2,7 @@ package krescere.jipsayobackend.service
 
 import krescere.jipsayobackend.dto.HouseGetResponse
 import krescere.jipsayobackend.dto.HouseSaveRequest
+import krescere.jipsayobackend.dto.HouseUpdateRequest
 import krescere.jipsayobackend.entity.House
 import krescere.jipsayobackend.repository.HouseRepository
 import org.springframework.stereotype.Service
@@ -30,6 +31,14 @@ class HouseService(
                 createdDate = it.createdDate.toString(),
                 modifiedDate = it.modifiedDate.toString()
             )
+        }
+    }
+
+    fun updateByJibunAddress(jibunAddress: String, request: HouseUpdateRequest) {
+        houseRepository.findByJibunAddress(jibunAddress)?.let {
+            request.cost?.let { cost -> it.updateCost(cost) }
+            request.latitude?.let { latitude -> it.updateLatitude(latitude) }
+            request.longitude?.let { longitude -> it.updateLongitude(longitude) }
         }
     }
 }
