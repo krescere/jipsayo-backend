@@ -48,7 +48,7 @@ class HouseControllerTest @Autowired constructor(
     }
 
     @Test
-    fun houseSaveTest() {
+    fun 부동산_저장() {
         // given
         val houseSaveRequest = HouseSaveRequest(
             jibunAddress = "서울특별시 강남구 역삼동",
@@ -70,7 +70,7 @@ class HouseControllerTest @Autowired constructor(
     }
 
     @Test
-    fun houseFindByJibunAddressTest() {
+    fun 지번주소로_부동산찾기() {
         // given
         val houseSaveRequest = HouseSaveRequest(
             jibunAddress = "서울특별시 강남구 역삼동",

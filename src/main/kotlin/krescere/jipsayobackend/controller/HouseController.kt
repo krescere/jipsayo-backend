@@ -1,7 +1,7 @@
 package krescere.jipsayobackend.controller
 
-import com.fasterxml.jackson.annotation.JsonFormat
-import com.fasterxml.jackson.annotation.JsonValue
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import krescere.jipsayobackend.dto.HouseSaveRequest
 import krescere.jipsayobackend.service.HouseService
 import org.springframework.http.HttpStatus
@@ -11,13 +11,16 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/v1")
 @RestController
 class HouseController(
-    private val houseService: HouseService
+    private val houseService: HouseService,
+    private val gson: Gson
 ) {
     @PostMapping("/houses")
     fun save(@RequestBody houseSaveRequest: HouseSaveRequest) : ResponseEntity<Any> {
+        val jsonObject=JsonObject()
+        jsonObject.addProperty("id", houseService.save(houseSaveRequest))
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(houseService.save(houseSaveRequest))
+            .body(gson.toJson(jsonObject))
     }
 
     @GetMapping("/houses/{jibunAddress}")

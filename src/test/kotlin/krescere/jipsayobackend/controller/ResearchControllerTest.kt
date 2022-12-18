@@ -46,7 +46,7 @@ class ResearchControllerTest @Autowired constructor(
     }
 
     @Test
-    fun researchSaveTest() {
+    fun 설문조사_저장() {
         // given
         val researchSaveRequest = ResearchSaveRequest(
             savedMoney = 1000,
