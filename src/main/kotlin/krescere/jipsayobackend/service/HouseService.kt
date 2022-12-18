@@ -26,7 +26,9 @@ class HouseService(
                 jibunAddress = it.jibunAddress,
                 cost = it.cost,
                 latitude = it.latitude,
-                longitude = it.longitude
+                longitude = it.longitude,
+                createdDate = it.createdDate.toString(),
+                modifiedDate = it.modifiedDate.toString()
             )
         }
     }

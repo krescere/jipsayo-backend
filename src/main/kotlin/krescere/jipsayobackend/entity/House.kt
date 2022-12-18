@@ -1,7 +1,12 @@
 package krescere.jipsayobackend.entity
 
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.time.LocalDateTime
 import javax.persistence.*
 
+@EntityListeners(AuditingEntityListener::class)
 @Entity
 class House(
     jibunAddress: String,
@@ -23,6 +28,14 @@ class House(
 
     @Column(nullable = true)
     var longitude: Double ?= longitude
+        private set
+
+    @CreatedDate
+    var createdDate: LocalDateTime = LocalDateTime.MIN
+        private set
+
+    @LastModifiedDate
+    var modifiedDate: LocalDateTime = LocalDateTime.MIN
         private set
 
     @Id

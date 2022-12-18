@@ -5,7 +5,9 @@ class HouseGetResponse(
     jibunAddress: String,
     cost: Long,
     latitude: Double?,
-    longitude: Double?
+    longitude: Double?,
+    createdDate: String,
+    modifiedDate: String
 ) {
     var id: Long = id
         private set
@@ -16,5 +18,9 @@ class HouseGetResponse(
     var latitude: Double ?= latitude
         private set
     var longitude: Double ?= longitude
+        private set
+    var createdDate: String = createdDate
+        private set
+    var modifiedDate: String = modifiedDate
         private set
 }
