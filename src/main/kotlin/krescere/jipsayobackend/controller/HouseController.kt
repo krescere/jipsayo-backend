@@ -36,17 +36,21 @@ class HouseController(
 
     @PutMapping("/houses")
     fun updateByQuery(query: HouseGetQuery, @RequestBody houseUpdateRequest: HouseUpdateRequest) : ResponseEntity<Any> {
+        val jsonObject=JsonObject()
+        jsonObject.addProperty("message","업데이트 성공")
         houseService.updateByQuery(query, houseUpdateRequest)
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body("업데이트 성공")
+            .body(gson.toJson(jsonObject))
     }
 
     @DeleteMapping("/houses")
     fun deleteByQuery(query: HouseGetQuery) : ResponseEntity<Any> {
+        val jsonObject=JsonObject()
+        jsonObject.addProperty("message","삭제 성공")
         houseService.deleteByQuery(query)
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body("삭제 성공")
+            .body(gson.toJson(jsonObject))
     }
 }

@@ -11,7 +11,7 @@ class Research (
     savedMoney: Long,
     moneyPerMonth: Long,
     house: House?,
-    increaseRate: Double,
+    increaseRate: Double?,
     job: String?,
     occupation: String?
 ) {
@@ -29,7 +29,7 @@ class Research (
         private set
 
     @Column(nullable = false)
-    var increaseRate: Double = increaseRate
+    var increaseRate: Double? = increaseRate
         private set
 
     @Column(nullable = true)

@@ -5,7 +5,7 @@ savedMoney: Long,
 moneyPerMonth: Long,
 jibunAddress: String?,
 roadAddress: String?,
-increaseRate: Double,
+increaseRate: Double?,
 job: String?,
 occupation: String?
 ){
@@ -13,11 +13,11 @@ occupation: String?
         private set
     var moneyPerMonth: Long = moneyPerMonth
         private set
-    var jibunAddress: String ?= jibunAddress
+    var jibunAddress: String? = jibunAddress
         private set
-    var roadAddress: String ?= roadAddress
+    var roadAddress: String? = roadAddress
         private set
-    var increaseRate: Double = increaseRate
+    var increaseRate: Double? = increaseRate
         private set
     var job: String? = job
         private set
