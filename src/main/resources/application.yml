@@ -1,19 +1,6 @@
 spring:
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
-        format_sql: true
-  h2:
-    console:
-      enabled: true
-
-  datasource:
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-    hikari:
-      jdbc-url: jdbc:h2:mem:testdb;MODE=MySQL
+  profiles:
+    active: dev
+    group:
+      dev:
+        - jipsayo_rds
