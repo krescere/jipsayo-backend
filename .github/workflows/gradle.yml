@@ -69,3 +69,7 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
       run: aws deploy create-deployment --application-name jipsayo --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name jipsayo-group --s3-location bucket=jipsayo-build,key=jipsayo-build.zip,bundleType=zip --region ap-northeast-2
+
+    # scripts 복사
+    - name : Copy scripts
+      run : cp -r ./scripts/*.sh ./deploy/

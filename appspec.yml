@@ -1,6 +1,22 @@
+# Codedeploy 는 appspec.yml 파일을 참조하여 배포를 진행한다.
 version: 0.0
 os: linux
 files:
   - source: /
     destination: /home/ec2-user/app/deploy
     overwrite: yes
+
+# 권한 설정
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ec2-user
+    group: ec2-user
+
+# 배포 진행
+hooks:
+    # 배포 진행
+    ApplicationStart:
+        - location: deploy.sh
+          timeout: 60
+          runas: ec2-user
