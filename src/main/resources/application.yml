@@ -3,4 +3,4 @@ spring:
     active: dev
     group:
       dev:
-        - jipsayo_rds
+        - rds

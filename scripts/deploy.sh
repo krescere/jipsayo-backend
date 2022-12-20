@@ -28,6 +28,6 @@ echo "> $JAR_NAME 실행"
 
 # 환경변수를 추가가 아닌 대체하는것!
 nohup java -jar \
-    -Dspring.config.location=classpath:/application.yml,/home/ec2-user/app/jipsayo_rds.yml \
+    -Dspring.config.location=classpath:/application.yml,/home/ec2-user/app/application_rds.yml \
     -Dspring.profiles.active=dev \
     $REPOSITORY/nohup.out 2>&1 &
