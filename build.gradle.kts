@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
 	id("org.springframework.boot") version "2.7.6"
@@ -36,6 +37,15 @@ dependencies {
 	implementation("org.mariadb.jdbc:mariadb-java-client:2.7.4")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+// jar enabled=false
+tasks.getByName<BootJar>("bootJar") {
+	enabled = false
+}
+
+tasks.getByName<Jar>("jar") {
+	enabled = true
 }
 
 tasks.withType<KotlinCompile> {
