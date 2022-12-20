@@ -1,6 +1,5 @@
 spring:
+  application:
+    name: jipsayo
   profiles:
     active: dev
-    group:
-      dev:
-        - rds

@@ -2,6 +2,7 @@ spring:
   config:
     activate:
       on-profile: dev
+    import: application-rds.yml
   jpa:
     show-sql: true
     hibernate:
