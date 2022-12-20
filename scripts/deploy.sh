@@ -20,9 +20,13 @@ echo "> 새 애플리케이션 배포"
 JAR_NAME=$(ls $REPOSITORY/ |grep 'jipsayo' | tail -n 1)
 echo "> JAR Name: $JAR_NAME"
 
+# deploy dir 이동
+# shellcheck disable=SC2164
+cd $REPOSITORY
+
 echo "> $JAR_NAME 에 실행권한 추가"
 # shellcheck disable=SC2086
-chmod +x $JAR_NAME
+sudo chmod +x $JAR_NAME
 
 echo "> $JAR_NAME 실행"
 
