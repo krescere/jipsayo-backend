@@ -31,7 +31,9 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	implementation("com.h2database:h2")
 	// gson
-	implementation("com.google.code.gson:gson:2.8.8")
+	implementation("com.google.code.gson:gson:2.8.9")
+	// mariadb
+	implementation("org.mariadb.jdbc:mariadb-java-client:2.7.4")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
