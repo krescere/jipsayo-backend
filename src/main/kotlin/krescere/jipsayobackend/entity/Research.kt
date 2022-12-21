@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @EntityListeners(AuditingEntityListener::class)
+@Table(name = "research")
 @Entity
 class Research (
     savedMoney: Long,
