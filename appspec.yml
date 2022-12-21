@@ -3,7 +3,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/app/deploy
+    destination: /home/ec2-user/app/deploy/zip/
     overwrite: yes
 
 # 권한 설정

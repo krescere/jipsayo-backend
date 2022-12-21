@@ -2,4 +2,10 @@ spring:
   application:
     name: jipsayo
   profiles:
-    active: dev
+    active: dev # 활성화시킬 프로파일
+    group:
+      local:
+        - local
+      dev:
+        - dev
+        - rds
