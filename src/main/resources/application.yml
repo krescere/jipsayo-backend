@@ -1,0 +1,8 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: jipsayo
+  profiles:
+    active: dev # 활성화시킬 프로파일
