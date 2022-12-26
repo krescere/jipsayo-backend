@@ -1,9 +1,6 @@
 package krescere.jipsayobackend.common.error
 
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import krescere.jipsayobackend.common.CustomBody
-import krescere.jipsayobackend.common.CustomResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -17,11 +14,14 @@ class GlobalExceptionHandler {
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
             .body(CustomBody(
+                message = "오류 발생",
                 errors = listOf(
-                    CustomException(
-                        message = exception.message,
-                        code = exception.code
-                    ).toCustomError()
+                    Error(
+                        CustomException(
+                            message = exception.message,
+                            code = exception.code
+                        ).toCustomError()
+                    )
                 )
             ))
     }
@@ -32,12 +32,22 @@ class GlobalExceptionHandler {
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(CustomBody(
+                message = "오류 발생",
                 errors = listOf(
-                    CustomException(
-                        message = exception.message,
-                        code = ErrorCode.INTERNAL_SERVER_ERROR
-                    ).toCustomError()
+                    Error(
+                        CustomException(
+                            message = exception.message,
+                            code = ErrorCode.INTERNAL_SERVER_ERROR
+                        ).toCustomError()
+                    )
                 )
             ))
+    }
+
+    class Error(
+        error: CustomException.CustomError
+    ){
+        var error = error
+            private set
     }
 }

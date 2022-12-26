@@ -17,6 +17,13 @@ class HouseService(
 ) {
     @Transactional
     fun save(request: HouseSaveRequest) : Long {
+        // check duplicate
+        houseRepository.findByJibunAddress(request.jibunAddress)?.let {
+            throw CustomException(ErrorCode.DUPLICATE_JIBUNADDRESS)
+        }
+        houseRepository.findByRoadAddress(request.roadAddress)?.let {
+            throw CustomException(ErrorCode.DUPLICATE_ROADADDRESS)
+        }
         return houseRepository.save(House(
             jibunAddress = request.jibunAddress,
             roadAddress = request.roadAddress,
