@@ -1,6 +1,7 @@
 package krescere.jipsayobackend.service
 
 import krescere.jipsayobackend.common.error.CustomException
+import krescere.jipsayobackend.common.error.ErrorCode
 import krescere.jipsayobackend.dto.HouseGetQuery
 import krescere.jipsayobackend.dto.HouseGetResponse
 import krescere.jipsayobackend.dto.HouseSaveRequest
@@ -51,7 +52,10 @@ class HouseService(
             ?: query.roadAddress?.let { houseRepository.findByRoadAddress(it) }
             ?: query.id?.let { houseRepository.findById(it)
                 .orElse(null)
-            } ?: throw CustomException("해당 부동산이 존재하지 않습니다.")
+            } ?: throw CustomException(
+                message = "부동산을 찾을 수 없습니다.",
+                code = ErrorCode.HOUSE_NOT_FOUND
+            )
 
         request.jibunAddress?.let { house.updateJibunAddress(it) }
         request.roadAddress?.let { house.updateRoadAddress(it) }
@@ -67,7 +71,10 @@ class HouseService(
             ?: query.roadAddress?.let { houseRepository.findByRoadAddress(it) }
             ?: query.id?.let { houseRepository.findById(it)
                 .orElse(null)
-            } ?: throw CustomException("해당 부동산이 존재하지 않습니다.")
+            } ?: throw CustomException(
+                message = "부동산을 찾을 수 없습니다.",
+                code = ErrorCode.HOUSE_NOT_FOUND
+            )
         )
     }
 }

@@ -1,13 +1,12 @@
 package krescere.jipsayobackend.common
 
-import krescere.jipsayobackend.common.error.CustomError
+import org.hibernate.annotations.common.util.impl.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import java.sql.Timestamp
 
 class CustomResponse(
-    private val status: HttpStatus,
-    private val body: CustomBody
+    private var status: HttpStatus,
+    private var body: CustomBody
 ) {
     fun toResponseEntity() : ResponseEntity<CustomBody> {
         return ResponseEntity

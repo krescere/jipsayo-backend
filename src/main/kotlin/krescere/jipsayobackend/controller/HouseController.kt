@@ -1,7 +1,8 @@
 package krescere.jipsayobackend.controller
 
-import com.google.gson.Gson
-import com.google.gson.JsonObject
+import krescere.jipsayobackend.common.CustomBody
+import krescere.jipsayobackend.common.CustomResponse
+import krescere.jipsayobackend.dto.EntitySaveResponse
 import krescere.jipsayobackend.dto.HouseGetQuery
 import krescere.jipsayobackend.dto.HouseSaveRequest
 import krescere.jipsayobackend.dto.HouseUpdateRequest
@@ -14,43 +15,46 @@ import java.util.*
 @RequestMapping("/api/v1")
 @RestController
 class HouseController(
-    private val houseService: HouseService,
-    private val gson: Gson
+    private val houseService: HouseService
 ) {
     @PostMapping("/houses")
-    fun save(@RequestBody request: HouseSaveRequest) : ResponseEntity<Any> {
-        val jsonObject=JsonObject()
-        jsonObject.addProperty("id", houseService.save(request))
-        return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(gson.toJson(jsonObject))
+    fun save(@RequestBody request: HouseSaveRequest) : ResponseEntity<CustomBody> {
+        return CustomResponse(
+            status = HttpStatus.CREATED,
+            CustomBody(
+                message = "부동산 저장 성공",
+                data = EntitySaveResponse(id = houseService.save(request)))
+        ).toResponseEntity()
     }
 
     @GetMapping("/houses")
-    fun findByQuery(query: HouseGetQuery) : ResponseEntity<Any> {
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(houseService.findByQuery(query)
-                ?: Collections.emptyMap<String, Any>())
+    fun findByQuery(query: HouseGetQuery) : ResponseEntity<CustomBody> {
+        return CustomResponse(
+            status = HttpStatus.OK,
+            CustomBody(
+                message = "부동산 조회 성공",
+                data = houseService.findByQuery(query)
+                    ?: Collections.emptyMap<String, Any>())
+        ).toResponseEntity()
     }
 
     @PutMapping("/houses")
-    fun updateByQuery(query: HouseGetQuery, @RequestBody houseUpdateRequest: HouseUpdateRequest) : ResponseEntity<Any> {
-        val jsonObject=JsonObject()
-        jsonObject.addProperty("message","업데이트 성공")
+    fun updateByQuery(query: HouseGetQuery, @RequestBody houseUpdateRequest: HouseUpdateRequest) : ResponseEntity<CustomBody> {
         houseService.updateByQuery(query, houseUpdateRequest)
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(gson.toJson(jsonObject))
+        return CustomResponse(
+            status = HttpStatus.OK,
+            CustomBody(
+                message = "부동산 수정 성공")
+        ).toResponseEntity()
     }
 
     @DeleteMapping("/houses")
-    fun deleteByQuery(query: HouseGetQuery) : ResponseEntity<Any> {
-        val jsonObject=JsonObject()
-        jsonObject.addProperty("message","삭제 성공")
+    fun deleteByQuery(query: HouseGetQuery) : ResponseEntity<CustomBody> {
         houseService.deleteByQuery(query)
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(gson.toJson(jsonObject))
+        return CustomResponse(
+            status = HttpStatus.OK,
+            CustomBody(
+                message = "부동산 삭제 성공")
+        ).toResponseEntity()
     }
 }
