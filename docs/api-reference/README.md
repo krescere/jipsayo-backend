@@ -2,7 +2,9 @@
 
 ## 응답 형식
 
-
+{% content-ref url="response-format/" %}
+[response-format](response-format/)
+{% endcontent-ref %}
 
 ## Research
 
