@@ -141,8 +141,13 @@ axios(config)
 {% tab title="JSON" %}
 ```json
 {
-    "id": 1
-}
+    "data": {
+        "id": 1
+    },
+    "message": "부동산 저장 성공",
+    "timestamp": "2022-12-27T18:37:14.0025331",
+    "errors": null
+
 ```
 {% endtab %}
 {% endtabs %}

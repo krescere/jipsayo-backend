@@ -97,14 +97,19 @@ axios(config)
 {% tab title="JSON" %}
 ```json
 {
-    "id": 1,
-    "jibunAddress": "한남동 810",
-    "roadAddress": "서울 용산구 독서당로 111",
-    "cost": 1000,
-    "latitude": 37,
-    "longitude": 127,
-    "createdDate": "2022-12-19T12:01:09.156860",
-    "modifiedDate": "2022-12-19T12:01:09.156860"
+    "data": {
+        "id": 1,
+        "jibunAddress": "한남동 810",
+        "roadAddress": "서울 용산구 독서당로 111",
+        "cost": 10000000000,
+        "latitude": 37.0,
+        "longitude": 127.0,
+        "createdDate": "2022-12-27T18:37:13",
+        "modifiedDate": "2022-12-27T18:37:13"
+    },
+    "message": "부동산 조회 성공",
+    "timestamp": "2022-12-27T18:37:38.5821316",
+    "errors": null
 }
 ```
 {% endtab %}

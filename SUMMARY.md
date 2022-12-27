@@ -2,8 +2,10 @@
 
 * [Welcome! Jipsayo 백엔드 서버](README.md)
 * [docs](docs/README.md)
-  * [프론트 개발을 위한 가이드](docs/front_guide.md)
+  * [프론트 개발을 위한 가이드](docs/front\_guide.md)
   * [API Reference](docs/api-reference/README.md)
+    * [Response Format](docs/api-reference/response-format/README.md)
+      * [오류 코드](docs/api-reference/response-format/undefined.md)
     * [Research](docs/api-reference/research/README.md)
       * [Research 저장](docs/api-reference/research/research.md)
     * [House](docs/api-reference/house/README.md)

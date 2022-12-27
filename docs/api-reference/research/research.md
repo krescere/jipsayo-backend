@@ -145,7 +145,12 @@ axios(config)
 {% tab title="JSON" %}
 ```json
 {
-    "id": 1
+    "data": {
+        "id": 1
+    },
+    "message": "설문조사 저장 성공",
+    "timestamp": "2022-12-27T18:38:32.3525661",
+    "errors": null
 }
 ```
 {% endtab %}

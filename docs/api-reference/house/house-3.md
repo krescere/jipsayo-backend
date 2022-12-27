@@ -97,7 +97,10 @@ axios(config)
 {% tab title="JSON" %}
 ```json
 {
-   "message":"삭제"
+    "data": null,
+    "message": "부동산 삭제 성공",
+    "timestamp": "2022-12-27T18:38:17.6775963",
+    "errors": null
 }
 ```
 {% endtab %}
