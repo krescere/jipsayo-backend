@@ -6,3 +6,6 @@ spring:
     name: jipsayo
   profiles:
     active: dev # 활성화시킬 프로파일
+
+logging:
+  config: classpath:logback-spring.xml
