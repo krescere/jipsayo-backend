@@ -1,10 +1,10 @@
 # 프로젝트 제외 경로
 /.gradle/
 /build/
-.idea
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+./logs/
 
 ### STS ###
 .apt_generated
