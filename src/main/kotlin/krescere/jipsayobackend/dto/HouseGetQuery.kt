@@ -7,8 +7,13 @@ class HouseGetQuery(
 ) {
     var id: Long ?= id
         private set
-    var jibunAddress: String ?= jibunAddress
+    var jibunAddress: String ?= underScoreToSpace(jibunAddress)
         private set
-    var roadAddress: String ?= roadAddress
+    var roadAddress: String ?= underScoreToSpace(roadAddress)
         private set
+
+    // 언더바를 띄어쓰기로 바꿔주는 함수
+    private fun underScoreToSpace(str: String?) : String? {
+        return str?.replace("_", " ")
+    }
 }
