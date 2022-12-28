@@ -28,6 +28,9 @@ class HouseService(
             jibunAddress = request.jibunAddress,
             roadAddress = request.roadAddress,
             cost = request.cost,
+            hangCode = request.hangCode,
+            danjiName = request.danjiName,
+            postCode = request.postCode,
             latitude = request.latitude,
             longitude = request.longitude
         )).id!!
@@ -45,6 +48,9 @@ class HouseService(
                 jibunAddress = house.jibunAddress,
                 roadAddress = house.roadAddress,
                 cost = house.cost,
+                hangCode = house.hangCode,
+                danjiName = house.danjiName,
+                postCode = house.postCode,
                 latitude = house.latitude,
                 longitude = house.longitude,
                 createdDate = house.createdDate.toString(),
@@ -67,6 +73,9 @@ class HouseService(
         request.jibunAddress?.let { house.updateJibunAddress(it) }
         request.roadAddress?.let { house.updateRoadAddress(it) }
         request.cost?.let { house.updateCost(it) }
+        request.hangCode?.let { house.updateHangCode(it) }
+        request.danjiName?.let { house.updateDanjiName(it) }
+        request.postCode?.let { house.updatePostCode(it) }
         request.latitude?.let { house.updateLatitude(it) }
         request.longitude?.let { house.updateLongitude(it) }
     }

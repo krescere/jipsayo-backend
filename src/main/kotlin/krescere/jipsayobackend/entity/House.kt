@@ -13,6 +13,9 @@ class House(
     jibunAddress: String,
     roadAddress: String,
     cost: Long,
+    hangCode: Long,
+    danjiName: String,
+    postCode: Int,
     latitude: Double?,
     longitude: Double?
 ) {
@@ -26,6 +29,18 @@ class House(
 
     @Column(nullable = false)
     var cost: Long = cost
+        private set
+
+    @Column(nullable = false)
+    var hangCode: Long = hangCode
+        private set
+
+    @Column(nullable = false)
+    var danjiName: String = danjiName
+        private set
+
+    @Column(nullable = false)
+    var postCode: Int = postCode
         private set
 
     @Column(nullable = true)
@@ -61,6 +76,18 @@ class House(
 
     fun updateCost(cost: Long) {
         this.cost = cost
+    }
+
+    fun updateHangCode(hangCode: Long) {
+        this.hangCode = hangCode
+    }
+
+    fun updateDanjiName(danjiName: String) {
+        this.danjiName = danjiName
+    }
+
+    fun updatePostCode(postCode: Int) {
+        this.postCode = postCode
     }
 
     fun updateLatitude(latitude: Double?) {
