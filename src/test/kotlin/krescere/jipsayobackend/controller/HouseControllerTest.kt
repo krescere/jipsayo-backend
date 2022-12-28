@@ -56,6 +56,9 @@ class HouseControllerTest {
             jibunAddress = "서울특별시 강남구 역삼동",
             roadAddress = "서울특별시 강남구 테헤란로 427",
             cost = 1000,
+            hangCode = 123,
+            danjiName = "테스트단지",
+            postCode = 12345,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -79,6 +82,9 @@ class HouseControllerTest {
             jibunAddress = "서울특별시 강남구 역삼동",
             roadAddress = "서울특별시 강남구 테헤란로 427",
             cost = 1000,
+            hangCode = 123,
+            danjiName = "테스트단지",
+            postCode = 12345,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -86,6 +92,9 @@ class HouseControllerTest {
             jibunAddress = houseSaveRequest.jibunAddress,
             roadAddress = houseSaveRequest.roadAddress,
             cost = houseSaveRequest.cost,
+            danjiName = houseSaveRequest.danjiName,
+            hangCode = houseSaveRequest.hangCode,
+            postCode = houseSaveRequest.postCode,
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude
         ))
@@ -106,6 +115,9 @@ class HouseControllerTest {
             jibunAddress = "서울특별시 강남구 역삼동",
             roadAddress = "서울특별시 강남구 테헤란로 427",
             cost = 1000,
+            hangCode = 123,
+            danjiName = "테스트단지",
+            postCode = 12345,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -113,6 +125,9 @@ class HouseControllerTest {
             jibunAddress = houseSaveRequest.jibunAddress,
             roadAddress = houseSaveRequest.roadAddress,
             cost = houseSaveRequest.cost,
+            danjiName = houseSaveRequest.danjiName,
+            hangCode = houseSaveRequest.hangCode,
+            postCode = houseSaveRequest.postCode,
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude
         ))
@@ -133,6 +148,9 @@ class HouseControllerTest {
             jibunAddress = "서울특별시 강남구 역삼동",
             roadAddress = "서울특별시 강남구 테헤란로 427",
             cost = 1000,
+            hangCode = 123,
+            danjiName = "테스트단지",
+            postCode = 12345,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -140,6 +158,9 @@ class HouseControllerTest {
             jibunAddress = houseSaveRequest.jibunAddress,
             roadAddress = houseSaveRequest.roadAddress,
             cost = houseSaveRequest.cost,
+            danjiName = houseSaveRequest.danjiName,
+            hangCode = houseSaveRequest.hangCode,
+            postCode = houseSaveRequest.postCode,
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude
         ))
@@ -161,6 +182,9 @@ class HouseControllerTest {
             jibunAddress = "서울특별시 강남구 역삼동",
             roadAddress = "서울특별시 강남구 테헤란로 427",
             cost = 1000,
+            hangCode = 123,
+            danjiName = "테스트단지",
+            postCode = 12345,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -168,6 +192,9 @@ class HouseControllerTest {
             jibunAddress = houseSaveRequest.jibunAddress,
             roadAddress = houseSaveRequest.roadAddress,
             cost = houseSaveRequest.cost,
+            danjiName = houseSaveRequest.danjiName,
+            hangCode = houseSaveRequest.hangCode,
+            postCode = houseSaveRequest.postCode,
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude
         ))
@@ -175,6 +202,9 @@ class HouseControllerTest {
             jibunAddress = null,
             roadAddress = null,
             cost = 2000,
+            hangCode = null,
+            danjiName = null,
+            postCode = null,
             latitude = null,
             longitude = null
         )
@@ -196,6 +226,9 @@ class HouseControllerTest {
             jibunAddress = "서울특별시 강남구 역삼동",
             roadAddress = "서울특별시 강남구 테헤란로 427",
             cost = 1000,
+            hangCode = 123,
+            danjiName = "테스트단지",
+            postCode = 12345,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -203,6 +236,9 @@ class HouseControllerTest {
             jibunAddress = houseSaveRequest.jibunAddress,
             roadAddress = houseSaveRequest.roadAddress,
             cost = houseSaveRequest.cost,
+            danjiName = houseSaveRequest.danjiName,
+            hangCode = houseSaveRequest.hangCode,
+            postCode = houseSaveRequest.postCode,
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude
         ))
@@ -210,6 +246,9 @@ class HouseControllerTest {
             jibunAddress = null,
             roadAddress = null,
             cost = 2000,
+            hangCode = null,
+            danjiName = null,
+            postCode = null,
             latitude = null,
             longitude = null
         )
@@ -231,6 +270,9 @@ class HouseControllerTest {
             jibunAddress = "서울특별시 강남구 역삼동",
             roadAddress = "서울특별시 강남구 테헤란로 427",
             cost = 1000,
+            hangCode = 123,
+            danjiName = "테스트단지",
+            postCode = 12345,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -238,6 +280,9 @@ class HouseControllerTest {
             jibunAddress = houseSaveRequest.jibunAddress,
             roadAddress = houseSaveRequest.roadAddress,
             cost = houseSaveRequest.cost,
+            danjiName = houseSaveRequest.danjiName,
+            hangCode = houseSaveRequest.hangCode,
+            postCode = houseSaveRequest.postCode,
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude
         ))
@@ -245,6 +290,9 @@ class HouseControllerTest {
             jibunAddress = null,
             roadAddress = null,
             cost = 2000,
+            hangCode = null,
+            danjiName = null,
+            postCode = null,
             latitude = null,
             longitude = null
         )
@@ -268,6 +316,9 @@ class HouseControllerTest {
             jibunAddress = "서울특별시 강남구 역삼동",
             roadAddress = "서울특별시 강남구 테헤란로 427",
             cost = 1000,
+            hangCode = 123,
+            danjiName = "테스트단지",
+            postCode = 12345,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -275,6 +326,9 @@ class HouseControllerTest {
             jibunAddress = houseSaveRequest.jibunAddress,
             roadAddress = houseSaveRequest.roadAddress,
             cost = houseSaveRequest.cost,
+            danjiName = houseSaveRequest.danjiName,
+            hangCode = houseSaveRequest.hangCode,
+            postCode = houseSaveRequest.postCode,
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude
         ))
@@ -294,6 +348,9 @@ class HouseControllerTest {
             jibunAddress = "서울특별시 강남구 역삼동",
             roadAddress = "서울특별시 강남구 테헤란로 427",
             cost = 1000,
+            hangCode = 123,
+            danjiName = "테스트단지",
+            postCode = 12345,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -301,6 +358,9 @@ class HouseControllerTest {
             jibunAddress = houseSaveRequest.jibunAddress,
             roadAddress = houseSaveRequest.roadAddress,
             cost = houseSaveRequest.cost,
+            danjiName = houseSaveRequest.danjiName,
+            hangCode = houseSaveRequest.hangCode,
+            postCode = houseSaveRequest.postCode,
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude
         ))
@@ -320,6 +380,9 @@ class HouseControllerTest {
             jibunAddress = "서울특별시 강남구 역삼동",
             roadAddress = "서울특별시 강남구 테헤란로 427",
             cost = 1000,
+            hangCode = 123,
+            danjiName = "테스트단지",
+            postCode = 12345,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -327,6 +390,9 @@ class HouseControllerTest {
             jibunAddress = houseSaveRequest.jibunAddress,
             roadAddress = houseSaveRequest.roadAddress,
             cost = houseSaveRequest.cost,
+            danjiName = houseSaveRequest.danjiName,
+            hangCode = houseSaveRequest.hangCode,
+            postCode = houseSaveRequest.postCode,
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude
         ))
