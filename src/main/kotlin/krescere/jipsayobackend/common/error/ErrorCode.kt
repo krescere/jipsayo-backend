@@ -9,9 +9,7 @@ enum class ErrorCode(
 ) {
     // House
     HOUSE_NOT_FOUND("H001", HttpStatus.BAD_REQUEST, "부동산을 찾을 수 없습니다."),
-    DUPLICATE_HOUSE("H002", HttpStatus.BAD_REQUEST, "중복된 부동산입니다."),
-    DUPLICATE_JIBUNADDRESS("H003", HttpStatus.BAD_REQUEST, "중복된 지번주소입니다."),
-    DUPLICATE_ROADADDRESS("H004", HttpStatus.BAD_REQUEST, "중복된 도로명주소입니다."),
+    DUPLICATE_ROAD_ADDRESS_AND_DANJI_NAME("H002", HttpStatus.BAD_REQUEST, "중복된 도로명 주소와 단지명입니다."),
     // Research
 
     // Server

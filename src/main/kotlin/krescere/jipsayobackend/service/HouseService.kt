@@ -18,11 +18,8 @@ class HouseService(
     @Transactional
     fun save(request: HouseSaveRequest) : Long {
         // check duplicate
-        houseRepository.findByJibunAddress(request.jibunAddress)?.let {
-            throw CustomException(ErrorCode.DUPLICATE_JIBUNADDRESS)
-        }
-        houseRepository.findByRoadAddress(request.roadAddress)?.let {
-            throw CustomException(ErrorCode.DUPLICATE_ROADADDRESS)
+        houseRepository.findByRoadAddressAndDanjiName(request.roadAddress, request.danjiName)?.let {
+            throw CustomException(ErrorCode.DUPLICATE_ROAD_ADDRESS_AND_DANJI_NAME)
         }
         return houseRepository.save(House(
             jibunAddress = request.jibunAddress,
@@ -38,10 +35,11 @@ class HouseService(
 
     @Transactional(readOnly = true)
     fun findByQuery(query: HouseGetQuery) : HouseGetResponse? {
-        val house = query.jibunAddress?.let { houseRepository.findByJibunAddress(it) }
-            ?: query.roadAddress?.let { houseRepository.findByRoadAddress(it) }
-            ?: query.id?.let { houseRepository.findById(it)
-                    .orElse(null) }
+        val house =
+            if(query.roadAddress!=null && query.danjiName!=null)
+                houseRepository.findByRoadAddressAndDanjiName(query.roadAddress!!, query.danjiName!!)
+            else
+                query.id?.let { houseRepository.findById(it).orElse(null) }
         return if (house != null) {
             HouseGetResponse(
                 id = house.id!!,
@@ -61,14 +59,12 @@ class HouseService(
 
     @Transactional
     fun updateByQuery(query : HouseGetQuery, request: HouseUpdateRequest) {
-        val house = query.jibunAddress?.let { houseRepository.findByJibunAddress(it) }
-            ?: query.roadAddress?.let { houseRepository.findByRoadAddress(it) }
-            ?: query.id?.let { houseRepository.findById(it)
-                .orElse(null)
-            } ?: throw CustomException(
-                message = "부동산을 찾을 수 없습니다.",
-                code = ErrorCode.HOUSE_NOT_FOUND
-            )
+        val house =
+            if(query.roadAddress!=null && query.danjiName!=null)
+                houseRepository.findByRoadAddressAndDanjiName(query.roadAddress!!, query.danjiName!!)
+            else
+                query.id?.let { houseRepository.findById(it).orElse(null) }
+        if(house==null) throw CustomException(ErrorCode.HOUSE_NOT_FOUND)
 
         request.jibunAddress?.let { house.updateJibunAddress(it) }
         request.roadAddress?.let { house.updateRoadAddress(it) }
@@ -82,15 +78,12 @@ class HouseService(
 
     @Transactional
     fun deleteByQuery(query : HouseGetQuery) {
-        houseRepository.delete(
-            query.jibunAddress?.let { houseRepository.findByJibunAddress(it) }
-            ?: query.roadAddress?.let { houseRepository.findByRoadAddress(it) }
-            ?: query.id?.let { houseRepository.findById(it)
-                .orElse(null)
-            } ?: throw CustomException(
-                message = "부동산을 찾을 수 없습니다.",
-                code = ErrorCode.HOUSE_NOT_FOUND
-            )
-        )
+        val house =
+            if(query.roadAddress!=null && query.danjiName!=null)
+                houseRepository.findByRoadAddressAndDanjiName(query.roadAddress!!, query.danjiName!!)
+            else
+                query.id?.let { houseRepository.findById(it).orElse(null) }
+        if(house==null) throw CustomException(ErrorCode.HOUSE_NOT_FOUND)
+        houseRepository.delete(house)
     }
 }

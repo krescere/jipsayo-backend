@@ -3,8 +3,8 @@ package krescere.jipsayobackend.dto
 class ResearchSaveRequest (
 savedMoney: Long,
 moneyPerMonth: Long,
-jibunAddress: String?,
 roadAddress: String?,
+danjiName: String?,
 increaseRate: Double?,
 job: String?,
 occupation: String?
@@ -13,9 +13,9 @@ occupation: String?
         private set
     var moneyPerMonth: Long = moneyPerMonth
         private set
-    var jibunAddress: String? = jibunAddress
-        private set
     var roadAddress: String? = roadAddress
+        private set
+    var danjiName: String? = danjiName
         private set
     var increaseRate: Double? = increaseRate
         private set
