@@ -54,8 +54,8 @@ class ResearchControllerTest {
         val researchSaveRequest = ResearchSaveRequest(
             savedMoney = 1000,
             moneyPerMonth = 1000,
-            jibunAddress = "서울특별시 강남구 역삼동",
-            roadAddress = null,
+            roadAddress = "충남_천안시_서북구_성정공원3길_4",
+            danjiName = "성정공원",
             increaseRate = 0.1,
             job = "개발자",
             occupation = "IT"

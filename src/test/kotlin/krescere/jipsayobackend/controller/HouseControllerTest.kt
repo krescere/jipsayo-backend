@@ -53,12 +53,12 @@ class HouseControllerTest {
     fun 부동산_저장() {
         // given
         val houseSaveRequest = HouseSaveRequest(
-            jibunAddress = "서울특별시 강남구 역삼동",
-            roadAddress = "서울특별시 강남구 테헤란로 427",
+            jibunAddress = "충남 천안시 서북구 성정동 1438",
+            roadAddress = "충남 천안시 서북구 성정공원3길 4",
             cost = 1000,
-            hangCode = 123,
-            danjiName = "테스트단지",
-            postCode = 12345,
+            hangCode = 4413310200,
+            danjiName = "학산리젠다빌 3차",
+            postCode = 31110,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -76,15 +76,15 @@ class HouseControllerTest {
     }
 
     @Test
-    fun 지번주소로_부동산찾기() {
+    fun 도로명주소_단지명으로_부동산찾기() {
         // given
         val houseSaveRequest = HouseSaveRequest(
-            jibunAddress = "서울특별시 강남구 역삼동",
-            roadAddress = "서울특별시 강남구 테헤란로 427",
+            jibunAddress = "충남 천안시 서북구 성정동 1438",
+            roadAddress = "충남 천안시 서북구 성정공원3길 4",
             cost = 1000,
-            hangCode = 123,
-            danjiName = "테스트단지",
-            postCode = 12345,
+            hangCode = 4413310200,
+            danjiName = "학산리젠다빌 3차",
+            postCode = 31110,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -98,43 +98,13 @@ class HouseControllerTest {
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude
         ))
+        val underRoadAddress="충남_천안시_서북구_성정공원3길_4"
+        val underDanjiName="학산리젠다빌_3차"
         // when
         val url="$localhost$port$apiV1/houses"
         val result = mvc!!.perform(get(url)
-            .param("jibunAddress", houseSaveRequest.jibunAddress))
-            .andExpect(status().isOk)
-            .andReturn()
-        // then
-        assertThat(result.response.contentAsString).contains(houseSaveRequest.jibunAddress)
-    }
-
-    @Test
-    fun 도로명주소로_부동산찾기() {
-        // given
-        val houseSaveRequest = HouseSaveRequest(
-            jibunAddress = "서울특별시 강남구 역삼동",
-            roadAddress = "서울특별시 강남구 테헤란로 427",
-            cost = 1000,
-            hangCode = 123,
-            danjiName = "테스트단지",
-            postCode = 12345,
-            latitude = 37.0,
-            longitude = 127.0
-        )
-        houseRepository!!.save(House(
-            jibunAddress = houseSaveRequest.jibunAddress,
-            roadAddress = houseSaveRequest.roadAddress,
-            cost = houseSaveRequest.cost,
-            danjiName = houseSaveRequest.danjiName,
-            hangCode = houseSaveRequest.hangCode,
-            postCode = houseSaveRequest.postCode,
-            latitude = houseSaveRequest.latitude,
-            longitude = houseSaveRequest.longitude
-        ))
-        // when
-        val url="$localhost$port$apiV1/houses"
-        val result = mvc!!.perform(get(url)
-            .param("roadAddress", houseSaveRequest.roadAddress))
+            .param("roadAddress", underRoadAddress)
+            .param("danjiName", underDanjiName))
             .andExpect(status().isOk)
             .andReturn()
         // then
@@ -145,12 +115,12 @@ class HouseControllerTest {
     fun 부동산찾기_실패() {
         // given
         val houseSaveRequest = HouseSaveRequest(
-            jibunAddress = "서울특별시 강남구 역삼동",
-            roadAddress = "서울특별시 강남구 테헤란로 427",
+            jibunAddress = "충남 천안시 서북구 성정동 1438",
+            roadAddress = "충남 천안시 서북구 성정공원3길 4",
             cost = 1000,
-            hangCode = 123,
-            danjiName = "테스트단지",
-            postCode = 12345,
+            hangCode = 4413310200,
+            danjiName = "학산리젠다빌 3차",
+            postCode = 31110,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -164,11 +134,13 @@ class HouseControllerTest {
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude
         ))
-        val anotherJibunAddress="서울특별시 압구정동"
+        val anotherRoadAddress="서울특별시_압구정동"
+        val anotherDanjiName="압구정푸르지오"
         // when
         val url="$localhost$port$apiV1/houses"
         val result = mvc!!.perform(get(url)
-            .param("jibunAddress", anotherJibunAddress))
+            .param("roadAddress", anotherRoadAddress)
+            .param("danjiName", anotherDanjiName))
             .andExpect(status().isOk)
             .andReturn()
         // then
@@ -176,15 +148,15 @@ class HouseControllerTest {
     }
 
     @Test
-    fun 지번주소로_업데이트() {
+    fun 도로명주소_단지명으로_업데이트() {
         // given
         val houseSaveRequest = HouseSaveRequest(
-            jibunAddress = "서울특별시 강남구 역삼동",
-            roadAddress = "서울특별시 강남구 테헤란로 427",
+            jibunAddress = "충남 천안시 서북구 성정동 1438",
+            roadAddress = "충남 천안시 서북구 성정공원3길 4",
             cost = 1000,
-            hangCode = 123,
-            danjiName = "테스트단지",
-            postCode = 12345,
+            hangCode = 4413310200,
+            danjiName = "학산리젠다빌 3차",
+            postCode = 31110,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -208,54 +180,13 @@ class HouseControllerTest {
             latitude = null,
             longitude = null
         )
+        val underRoadAddress="충남_천안시_서북구_성정공원3길_4"
+        val underDanjiName="학산리젠다빌_3차"
         // when
         val url="$localhost$port$apiV1/houses"
         mvc!!.perform(put(url)
-            .param("jibunAddress", houseSaveRequest.jibunAddress)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(ObjectMapper().writeValueAsString(houseUpdateRequest)))
-            .andExpect(status().isOk)
-        // then
-        assertThat(houseRepository!!.findAll()[0].cost).isEqualTo(houseUpdateRequest.cost)
-    }
-
-    @Test
-    fun 도로명주소로_업데이트() {
-        // given
-        val houseSaveRequest = HouseSaveRequest(
-            jibunAddress = "서울특별시 강남구 역삼동",
-            roadAddress = "서울특별시 강남구 테헤란로 427",
-            cost = 1000,
-            hangCode = 123,
-            danjiName = "테스트단지",
-            postCode = 12345,
-            latitude = 37.0,
-            longitude = 127.0
-        )
-        houseRepository!!.save(House(
-            jibunAddress = houseSaveRequest.jibunAddress,
-            roadAddress = houseSaveRequest.roadAddress,
-            cost = houseSaveRequest.cost,
-            danjiName = houseSaveRequest.danjiName,
-            hangCode = houseSaveRequest.hangCode,
-            postCode = houseSaveRequest.postCode,
-            latitude = houseSaveRequest.latitude,
-            longitude = houseSaveRequest.longitude
-        ))
-        val houseUpdateRequest = HouseUpdateRequest(
-            jibunAddress = null,
-            roadAddress = null,
-            cost = 2000,
-            hangCode = null,
-            danjiName = null,
-            postCode = null,
-            latitude = null,
-            longitude = null
-        )
-        // when
-        val url="$localhost$port$apiV1/houses"
-        mvc!!.perform(put(url)
-            .param("roadAddress", houseSaveRequest.roadAddress)
+            .param("roadAddress", underRoadAddress)
+            .param("danjiName", underDanjiName)
             .contentType(MediaType.APPLICATION_JSON)
             .content(ObjectMapper().writeValueAsString(houseUpdateRequest)))
             .andExpect(status().isOk)
@@ -267,12 +198,12 @@ class HouseControllerTest {
     fun 존재하지않는_부동산_업데이트() {
         // given
         val houseSaveRequest = HouseSaveRequest(
-            jibunAddress = "서울특별시 강남구 역삼동",
-            roadAddress = "서울특별시 강남구 테헤란로 427",
+            jibunAddress = "충남 천안시 서북구 성정동 1438",
+            roadAddress = "충남 천안시 서북구 성정공원3길 4",
             cost = 1000,
-            hangCode = 123,
-            danjiName = "테스트단지",
-            postCode = 12345,
+            hangCode = 4413310200,
+            danjiName = "학산리젠다빌 3차",
+            postCode = 31110,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -296,12 +227,13 @@ class HouseControllerTest {
             latitude = null,
             longitude = null
         )
-        val anotherJibunAddress="서울특별시 압구정동"
-
+        val anotherRoadAddress="서울특별시_압구정동"
+        val anotherDanjiName="압구정빌라"
         // when
         val url="$localhost$port$apiV1/houses"
         mvc!!.perform(put(url)
-            .param("jibunAddress", anotherJibunAddress)
+            .param("roadAddress", anotherRoadAddress)
+            .param("danjiName", anotherDanjiName)
             .contentType(MediaType.APPLICATION_JSON)
             .content(ObjectMapper().writeValueAsString(houseUpdateRequest)))
             .andExpect(status().isBadRequest)
@@ -310,15 +242,15 @@ class HouseControllerTest {
     }
 
     @Test
-    fun 지번주소로_삭제() {
+    fun 도로명주소_단지명으로_삭제() {
         // given
         val houseSaveRequest = HouseSaveRequest(
-            jibunAddress = "서울특별시 강남구 역삼동",
-            roadAddress = "서울특별시 강남구 테헤란로 427",
+            jibunAddress = "충남 천안시 서북구 성정동 1438",
+            roadAddress = "충남 천안시 서북구 성정공원3길 4",
             cost = 1000,
-            hangCode = 123,
-            danjiName = "테스트단지",
-            postCode = 12345,
+            hangCode = 4413310200,
+            danjiName = "학산리젠다빌 3차",
+            postCode = 31110,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -332,42 +264,13 @@ class HouseControllerTest {
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude
         ))
+        val underRoadAddress="충남_천안시_서북구_성정공원3길_4"
+        val underDanjiName="학산리젠다빌_3차"
         // when
         val url="$localhost$port$apiV1/houses"
         mvc!!.perform(delete(url)
-            .param("jibunAddress", houseSaveRequest.jibunAddress))
-            .andExpect(status().isOk)
-        // then
-        assertThat(houseRepository!!.findAll().size).isEqualTo(0)
-    }
-
-    @Test
-    fun 도로명주소로_삭제() {
-        // given
-        val houseSaveRequest = HouseSaveRequest(
-            jibunAddress = "서울특별시 강남구 역삼동",
-            roadAddress = "서울특별시 강남구 테헤란로 427",
-            cost = 1000,
-            hangCode = 123,
-            danjiName = "테스트단지",
-            postCode = 12345,
-            latitude = 37.0,
-            longitude = 127.0
-        )
-        houseRepository!!.save(House(
-            jibunAddress = houseSaveRequest.jibunAddress,
-            roadAddress = houseSaveRequest.roadAddress,
-            cost = houseSaveRequest.cost,
-            danjiName = houseSaveRequest.danjiName,
-            hangCode = houseSaveRequest.hangCode,
-            postCode = houseSaveRequest.postCode,
-            latitude = houseSaveRequest.latitude,
-            longitude = houseSaveRequest.longitude
-        ))
-        // when
-        val url="$localhost$port$apiV1/houses"
-        mvc!!.perform(delete(url)
-            .param("roadAddress", houseSaveRequest.roadAddress))
+            .param("roadAddress", underRoadAddress)
+            .param("danjiName", underDanjiName))
             .andExpect(status().isOk)
         // then
         assertThat(houseRepository!!.findAll().size).isEqualTo(0)
@@ -377,12 +280,12 @@ class HouseControllerTest {
     fun 존재하지않는_부동산_삭제() {
         // given
         val houseSaveRequest = HouseSaveRequest(
-            jibunAddress = "서울특별시 강남구 역삼동",
-            roadAddress = "서울특별시 강남구 테헤란로 427",
+            jibunAddress = "충남 천안시 서북구 성정동 1438",
+            roadAddress = "충남 천안시 서북구 성정공원3길 4",
             cost = 1000,
-            hangCode = 123,
-            danjiName = "테스트단지",
-            postCode = 12345,
+            hangCode = 4413310200,
+            danjiName = "학산리젠다빌 3차",
+            postCode = 31110,
             latitude = 37.0,
             longitude = 127.0
         )
@@ -396,11 +299,13 @@ class HouseControllerTest {
             latitude = houseSaveRequest.latitude,
             longitude = houseSaveRequest.longitude
         ))
-        var anotherJibunAddress="서울특별시 압구정동"
+        val anotherJibunAddress="서울특별시_압구정동"
+        val anotherDanjiName="압구정빌라"
         // when
         val url="$localhost$port$apiV1/houses"
         mvc!!.perform(delete(url)
-            .param("roadAddress", anotherJibunAddress))
+            .param("roadAddress", anotherJibunAddress)
+            .param("danjiName", anotherDanjiName))
             .andExpect(status().isBadRequest)
         // then
         assertThat(houseRepository!!.findAll()).isNotEmpty

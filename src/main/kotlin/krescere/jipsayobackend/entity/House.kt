@@ -7,7 +7,9 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @EntityListeners(AuditingEntityListener::class)
-@Table(name = "house")
+@Table(name = "house", indexes = [
+    Index(name = "idx_roadAddress_danjiName", columnList = "jibunAddress, danjiName", unique = true)
+])
 @Entity
 class House(
     jibunAddress: String,
