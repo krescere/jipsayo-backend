@@ -16,12 +16,12 @@
 부동산 아이디
 {% endswagger-parameter %}
 
-{% swagger-parameter in="query" name="jibunAddress" type="String" %}
-지번 주소
-{% endswagger-parameter %}
-
 {% swagger-parameter in="query" name="roadAddress" type="String" %}
 도로명 주소
+{% endswagger-parameter %}
+
+{% swagger-parameter in="query" name="danjiName" type="String" %}
+단지명
 {% endswagger-parameter %}
 
 {% swagger-response status="200: OK" description="부동산 반환 성공" %}

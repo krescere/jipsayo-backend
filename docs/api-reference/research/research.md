@@ -15,12 +15,12 @@
 매달 저축가능 금액
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="jibunAddress" type="String" required="false" %}
-지번 주소
-{% endswagger-parameter %}
-
 {% swagger-parameter in="body" name="roadAddress" type="String" required="false" %}
 도로명 주소
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" name="danjiNaME" %}
+단지명
 {% endswagger-parameter %}
 
 {% swagger-parameter in="body" name="increaseRate" type="Double" required="false" %}
