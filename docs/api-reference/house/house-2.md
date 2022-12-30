@@ -58,7 +58,7 @@
 {% tabs %}
 {% tab title="curl" %}
 ```powershell
-curl --location --request PUT 'localhost:8080/api/v1/houses?jibunAddress=한남동 810' \
+curl --location --request PUT 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses?roadAddress=충남_천안시_서북구_성정공원3길_4&danjiName=학산리젠다빌_3차' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "cost":2000
@@ -68,8 +68,8 @@ curl --location --request PUT 'localhost:8080/api/v1/houses?jibunAddress=한남�
 
 {% tab title="HTTP" %}
 ```
-PUT /api/v1/houses?jibunAddress=한남동 810 HTTP/1.1
-Host: localhost:8080
+PUT /api/v1/houses?roadAddress=충남_천안시_서북구_성정공원3길_4&danjiName=학산리젠다빌_3차 HTTP/1.1
+Host: ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com
 Content-Type: application/json
 Content-Length: 21
 
@@ -95,7 +95,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("localhost:8080/api/v1/houses?jibunAddress=한남동 810", requestOptions)
+fetch("ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses?roadAddress=충남_천안시_서북구_성정공원3길_4&danjiName=학산리젠다빌_3차", requestOptions)
   .then(response => response.text())
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
@@ -111,7 +111,7 @@ var data = JSON.stringify({
 
 var config = {
   method: 'put',
-  url: 'localhost:8080/api/v1/houses?jibunAddress=한남동 810',
+  url: 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses?roadAddress=충남_천안시_서북구_성정공원3길_4&danjiName=학산리젠다빌_3차',
   headers: { 
     'Content-Type': 'application/json'
   },

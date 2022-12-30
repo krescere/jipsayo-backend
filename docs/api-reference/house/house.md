@@ -47,12 +47,15 @@
 {% tabs %}
 {% tab title="curl" %}
 ```powershell
-curl --location --request POST 'localhost:8080/api/v1/houses' \
+curl --location --request POST 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "jibunAddress":"한남동 810",
-    "roadAddress":"서울 용산구 독서당로 111",
-    "cost":1000,
+    "jibunAddress":"충남 천안시 서북구 성정동 1438",
+    "roadAddress":"충남 천안시 서북구 성정공원3길 4",
+    "hangCode":4413310200,
+    "danjiName":"학산리젠다빌 3차",
+    "postCode":31110,
+    "cost":100000,
     "latitude":37.0,
     "longitude":127.0
 }'
@@ -62,14 +65,17 @@ curl --location --request POST 'localhost:8080/api/v1/houses' \
 {% tab title="HTTP" %}
 ```
 POST /api/v1/houses HTTP/1.1
-Host: localhost:8080
+Host: ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com
 Content-Type: application/json
-Content-Length: 136
+Content-Length: 235
 
 {
-    "jibunAddress":"한남동 810",
-    "roadAddress":"서울 용산구 독서당로 111",
-    "cost":1000,
+    "jibunAddress":"충남 천안시 서북구 성정동 1438",
+    "roadAddress":"충남 천안시 서북구 성정공원3길 4",
+    "hangCode":4413310200,
+    "danjiName":"학산리젠다빌 3차",
+    "postCode":31110,
+    "cost":100000,
     "latitude":37.0,
     "longitude":127.0
 }
@@ -82,9 +88,12 @@ var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 
 var raw = JSON.stringify({
-  "jibunAddress": "한남동 810",
-  "roadAddress": "서울 용산구 독서당로 111",
-  "cost": 1000,
+  "jibunAddress": "충남 천안시 서북구 성정동 1438",
+  "roadAddress": "충남 천안시 서북구 성정공원3길 4",
+  "hangCode": 4413310200,
+  "danjiName": "학산리젠다빌 3차",
+  "postCode": 31110,
+  "cost": 100000,
   "latitude": 37,
   "longitude": 127
 });
@@ -96,7 +105,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("localhost:8080/api/v1/houses", requestOptions)
+fetch("ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses", requestOptions)
   .then(response => response.text())
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
@@ -107,16 +116,19 @@ fetch("localhost:8080/api/v1/houses", requestOptions)
 ```javascript
 var axios = require('axios');
 var data = JSON.stringify({
-  "jibunAddress": "한남동 810",
-  "roadAddress": "서울 용산구 독서당로 111",
-  "cost": 1000,
+  "jibunAddress": "충남 천안시 서북구 성정동 1438",
+  "roadAddress": "충남 천안시 서북구 성정공원3길 4",
+  "hangCode": 4413310200,
+  "danjiName": "학산리젠다빌 3차",
+  "postCode": 31110,
+  "cost": 100000,
   "latitude": 37,
   "longitude": 127
 });
 
 var config = {
   method: 'post',
-  url: 'localhost:8080/api/v1/houses',
+  url: 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses',
   headers: { 
     'Content-Type': 'application/json'
   },

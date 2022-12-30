@@ -55,12 +55,13 @@
 {% tabs %}
 {% tab title="curl" %}
 ```powershell
-curl --location --request POST 'localhost:8080/api/v1/research' \
+curl --location --request POST 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/research' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "savedMoney": 100,
     "moneyPerMonth": 10,
-    "jibunAddress": "한남동 810",
+    "jibunAddress": "충남 천안시 서북구 성정동 1438",
+    "danjiName": "학산리젠다빌 3차",
     "increaseRate": 0.5
 }'
 ```
@@ -69,14 +70,15 @@ curl --location --request POST 'localhost:8080/api/v1/research' \
 {% tab title="http" %}
 ```
 POST /api/v1/research HTTP/1.1
-Host: localhost:8080
+Host: ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com
 Content-Type: application/json
-Content-Length: 111
+Content-Length: 154
 
 {
     "savedMoney": 100,
     "moneyPerMonth": 10,
-    "jibunAddress": "한남동 810",
+    "jibunAddress": "충남 천안시 서북구 성정동 1438",
+    "danjiName": "학산리젠다빌 3차",
     "increaseRate": 0.5
 }
 ```
@@ -90,7 +92,8 @@ myHeaders.append("Content-Type", "application/json");
 var raw = JSON.stringify({
   "savedMoney": 100,
   "moneyPerMonth": 10,
-  "jibunAddress": "한남동 810",
+  "jibunAddress": "충남 천안시 서북구 성정동 1438",
+  "danjiName": "학산리젠다빌 3차",
   "increaseRate": 0.5
 });
 
@@ -101,7 +104,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("localhost:8080/api/v1/research", requestOptions)
+fetch("ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/research", requestOptions)
   .then(response => response.text())
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
@@ -114,13 +117,14 @@ var axios = require('axios');
 var data = JSON.stringify({
   "savedMoney": 100,
   "moneyPerMonth": 10,
-  "jibunAddress": "한남동 810",
+  "jibunAddress": "충남 천안시 서북구 성정동 1438",
+  "danjiName": "학산리젠다빌 3차",
   "increaseRate": 0.5
 });
 
 var config = {
   method: 'post',
-  url: 'localhost:8080/api/v1/research',
+  url: 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/research',
   headers: { 
     'Content-Type': 'application/json'
   },
@@ -134,7 +138,6 @@ axios(config)
 .catch(function (error) {
   console.log(error);
 });
-
 ```
 {% endtab %}
 {% endtabs %}

@@ -45,14 +45,14 @@
 {% tabs %}
 {% tab title="curl" %}
 ```powershell
-curl --location --request GET 'localhost:8080/api/v1/houses?jibunAddress=한남동 810'
+curl --location --request GET 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses?roadAddress=충남_천안시_서북구_성정공원3길_4&danjiName=학산리젠다빌_3차'
 ```
 {% endtab %}
 
 {% tab title="HTTP" %}
 ```
-GET /api/v1/houses?jibunAddress=한남동 810 HTTP/1.1
-Host: localhost:8080
+GET /api/v1/houses?roadAddress=충남_천안시_서북구_성정공원3길_4&danjiName=학산리젠다빌_3차 HTTP/1.1
+Host: ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com
 ```
 {% endtab %}
 
@@ -63,7 +63,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("localhost:8080/api/v1/houses?jibunAddress=한남동 810", requestOptions)
+fetch("ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses?roadAddress=충남_천안시_서북구_성정공원3길_4&danjiName=학산리젠다빌_3차", requestOptions)
   .then(response => response.text())
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
@@ -76,7 +76,7 @@ var axios = require('axios');
 
 var config = {
   method: 'get',
-  url: 'localhost:8080/api/v1/houses?jibunAddress=한남동 810',
+  url: 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses?roadAddress=충남_천안시_서북구_성정공원3길_4&danjiName=학산리젠다빌_3차',
   headers: { }
 };
 
@@ -87,6 +87,7 @@ axios(config)
 .catch(function (error) {
   console.log(error);
 });
+
 ```
 {% endtab %}
 {% endtabs %}
@@ -99,16 +100,19 @@ axios(config)
 {
     "data": {
         "id": 1,
-        "jibunAddress": "한남동 810",
-        "roadAddress": "서울 용산구 독서당로 111",
-        "cost": 10000000000,
-        "latitude": 37.0,
-        "longitude": 127.0,
-        "createdDate": "2022-12-27T18:37:13",
-        "modifiedDate": "2022-12-27T18:37:13"
+        "jibunAddress": "충남 천안시 서북구 성정동 1438",
+        "roadAddress": "충남 천안시 서북구 성정공원3길 4",
+        "cost": 5500,
+        "hangCode": 4413310200,
+        "danjiName": "학산리젠다빌 3차",
+        "postCode": 31110,
+        "latitude": 36.8261598433825,
+        "longitude": 127.141338247074,
+        "createdDate": "2022-12-31T00:47:58",
+        "modifiedDate": "2022-12-31T00:47:58"
     },
     "message": "부동산 조회 성공",
-    "timestamp": "2022-12-27T18:37:38.5821316",
+    "timestamp": "2022-12-31T00:50:11.540945",
     "errors": null
 }
 ```

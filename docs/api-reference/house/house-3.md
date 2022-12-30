@@ -45,14 +45,14 @@
 {% tabs %}
 {% tab title="curl" %}
 ```powershell
-curl --location --request DELETE 'localhost:8080/api/v1/houses?jibunAddress=한남동 810'
+curl --location --request DELETE 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses?roadAddress=충남_천안시_서북구_성정공원3길_4&danjiName=학산리젠다빌_3차'
 ```
 {% endtab %}
 
 {% tab title="HTTP" %}
 ```
-DELETE /api/v1/houses?jibunAddress=한남동 810 HTTP/1.1
-Host: localhost:8080
+DELETE /api/v1/houses?roadAddress=충남_천안시_서북구_성정공원3길_4&danjiName=학산리젠다빌_3차 HTTP/1.1
+Host: ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com
 ```
 {% endtab %}
 
@@ -63,7 +63,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("localhost:8080/api/v1/houses?jibunAddress=한남동 810", requestOptions)
+fetch("ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses?roadAddress=충남_천안시_서북구_성정공원3길_4&danjiName=학산리젠다빌_3차", requestOptions)
   .then(response => response.text())
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
@@ -76,7 +76,7 @@ var axios = require('axios');
 
 var config = {
   method: 'delete',
-  url: 'localhost:8080/api/v1/houses?jibunAddress=한남동 810',
+  url: 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses?roadAddress=충남_천안시_서북구_성정공원3길_4&danjiName=학산리젠다빌_3차',
   headers: { }
 };
 
@@ -87,6 +87,7 @@ axios(config)
 .catch(function (error) {
   console.log(error);
 });
+
 ```
 {% endtab %}
 {% endtabs %}
