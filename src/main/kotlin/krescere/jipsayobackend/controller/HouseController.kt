@@ -17,6 +17,7 @@ import java.util.*
 class HouseController(
     private val houseService: HouseService
 ) {
+    val logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)!!
     @PostMapping("/houses")
     fun save(@RequestBody request: HouseSaveRequest) : ResponseEntity<CustomBody> {
         return CustomResponse(
@@ -24,7 +25,9 @@ class HouseController(
             CustomBody(
                 message = "부동산 저장 성공",
                 data = EntitySaveResponse(id = houseService.save(request)))
-        ).toResponseEntity()
+        ).toResponseEntity().also {
+            logger.info("save house: $request")
+        }
     }
 
     @GetMapping("/houses")
@@ -35,7 +38,9 @@ class HouseController(
                 message = "부동산 조회 성공",
                 data = houseService.findByQuery(query)
                     ?: Collections.emptyMap<String, Any>())
-        ).toResponseEntity()
+        ).toResponseEntity().also {
+            logger.info("get house: $query")
+        }
     }
 
     @PutMapping("/houses")
@@ -45,7 +50,9 @@ class HouseController(
             status = HttpStatus.OK,
             CustomBody(
                 message = "부동산 수정 성공")
-        ).toResponseEntity()
+        ).toResponseEntity().also {
+            logger.info("update house: $query, $houseUpdateRequest")
+        }
     }
 
     @DeleteMapping("/houses")
@@ -55,6 +62,8 @@ class HouseController(
             status = HttpStatus.OK,
             CustomBody(
                 message = "부동산 삭제 성공")
-        ).toResponseEntity()
+        ).toResponseEntity().also {
+            logger.info("delete house: $query")
+        }
     }
 }
