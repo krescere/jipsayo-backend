@@ -17,7 +17,7 @@ import java.util.*
 class HouseController(
     private val houseService: HouseService
 ) {
-    val logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)
+    val logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)!!
     @PostMapping("/houses")
     fun save(@RequestBody request: HouseSaveRequest) : ResponseEntity<CustomBody> {
         return CustomResponse(

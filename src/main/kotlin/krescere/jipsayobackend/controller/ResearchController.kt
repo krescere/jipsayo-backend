@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController
 class ResearchController(
     private val researchService: ResearchService
 ){
-    val logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)
+    val logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)!!
     @PostMapping("/research")
     fun save(@RequestBody researchSaveRequest: ResearchSaveRequest) : ResponseEntity<CustomBody> {
         return CustomResponse(
