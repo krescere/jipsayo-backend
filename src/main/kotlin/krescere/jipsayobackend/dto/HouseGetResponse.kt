@@ -8,8 +8,8 @@ class HouseGetResponse(
     hangCode: Long,
     danjiName: String,
     postCode: Int,
-    latitude: Double?,
-    longitude: Double?,
+    latitude: Double,
+    longitude: Double,
     createdDate: String,
     modifiedDate: String
 ) {
@@ -27,9 +27,9 @@ class HouseGetResponse(
         private set
     var postCode: Int = postCode
         private set
-    var latitude: Double ?= latitude
+    var latitude: Double = latitude
         private set
-    var longitude: Double ?= longitude
+    var longitude: Double = longitude
         private set
     var createdDate: String = createdDate
         private set

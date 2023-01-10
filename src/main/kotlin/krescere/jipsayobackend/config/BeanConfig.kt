@@ -8,4 +8,7 @@ import org.springframework.context.annotation.Configuration
 class BeanConfig {
     @Bean
     fun gson() = Gson()
+
+    @Bean
+    fun wktReader() = org.locationtech.jts.io.WKTReader()
 }

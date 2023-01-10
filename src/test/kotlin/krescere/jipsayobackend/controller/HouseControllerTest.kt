@@ -9,6 +9,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.locationtech.jts.geom.Point
+import org.locationtech.jts.io.WKTReader
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
@@ -23,6 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.WebApplicationContext
 import org.springframework.web.filter.CharacterEncodingFilter
+import java.math.BigDecimal
 
 @Transactional
 @RunWith(SpringRunner::class)
@@ -31,8 +34,10 @@ class HouseControllerTest {
     @Autowired
     val houseRepository: HouseRepository? = null
     @Autowired
+    val wktReader: WKTReader? = null
+    @Autowired
     val context: WebApplicationContext? = null
-    
+
     @LocalServerPort
     val port: Int = 0
 
@@ -49,6 +54,10 @@ class HouseControllerTest {
             .build()
     }
 
+    fun toPoint(latitude: String, longitude: String) : Point {
+        return wktReader?.read("POINT($longitude $latitude)") as Point
+    }
+
     @Test
     fun 부동산_저장() {
         // given
@@ -59,8 +68,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            latitude = 37.0,
-            longitude = 127.0
+            latitude = "37.0",
+            longitude = "127.0"
         )
         // when
         val url="$localhost$port$apiV1/houses"
@@ -85,8 +94,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            latitude = 37.0,
-            longitude = 127.0
+            latitude = "37.0",
+            longitude = "127.0"
         )
         houseRepository!!.save(House(
             jibunAddress = houseSaveRequest.jibunAddress,
@@ -95,8 +104,7 @@ class HouseControllerTest {
             danjiName = houseSaveRequest.danjiName,
             hangCode = houseSaveRequest.hangCode,
             postCode = houseSaveRequest.postCode,
-            latitude = houseSaveRequest.latitude,
-            longitude = houseSaveRequest.longitude
+            location = toPoint(houseSaveRequest.longitude, houseSaveRequest.latitude)
         ))
         val underRoadAddress="충남_천안시_서북구_성정공원3길_4"
         val underDanjiName="학산리젠다빌_3차"
@@ -121,8 +129,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            latitude = 37.0,
-            longitude = 127.0
+            latitude = "37.0",
+            longitude = "127.0"
         )
         houseRepository!!.save(House(
             jibunAddress = houseSaveRequest.jibunAddress,
@@ -131,8 +139,7 @@ class HouseControllerTest {
             danjiName = houseSaveRequest.danjiName,
             hangCode = houseSaveRequest.hangCode,
             postCode = houseSaveRequest.postCode,
-            latitude = houseSaveRequest.latitude,
-            longitude = houseSaveRequest.longitude
+            location = toPoint(houseSaveRequest.longitude, houseSaveRequest.latitude)
         ))
         val anotherRoadAddress="서울특별시_압구정동"
         val anotherDanjiName="압구정푸르지오"
@@ -157,8 +164,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            latitude = 37.0,
-            longitude = 127.0
+            latitude = "37.0",
+            longitude = "127.0"
         )
         houseRepository!!.save(House(
             jibunAddress = houseSaveRequest.jibunAddress,
@@ -167,8 +174,7 @@ class HouseControllerTest {
             danjiName = houseSaveRequest.danjiName,
             hangCode = houseSaveRequest.hangCode,
             postCode = houseSaveRequest.postCode,
-            latitude = houseSaveRequest.latitude,
-            longitude = houseSaveRequest.longitude
+            location = toPoint(houseSaveRequest.longitude, houseSaveRequest.latitude)
         ))
         val houseUpdateRequest = HouseUpdateRequest(
             jibunAddress = null,
@@ -204,8 +210,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            latitude = 37.0,
-            longitude = 127.0
+            latitude = "37.0",
+            longitude = "127.0"
         )
         houseRepository!!.save(House(
             jibunAddress = houseSaveRequest.jibunAddress,
@@ -214,8 +220,7 @@ class HouseControllerTest {
             danjiName = houseSaveRequest.danjiName,
             hangCode = houseSaveRequest.hangCode,
             postCode = houseSaveRequest.postCode,
-            latitude = houseSaveRequest.latitude,
-            longitude = houseSaveRequest.longitude
+            location = toPoint(houseSaveRequest.longitude, houseSaveRequest.latitude)
         ))
         val houseUpdateRequest = HouseUpdateRequest(
             jibunAddress = null,
@@ -251,8 +256,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            latitude = 37.0,
-            longitude = 127.0
+            latitude = "37.0",
+            longitude = "127.0"
         )
         houseRepository!!.save(House(
             jibunAddress = houseSaveRequest.jibunAddress,
@@ -261,8 +266,7 @@ class HouseControllerTest {
             danjiName = houseSaveRequest.danjiName,
             hangCode = houseSaveRequest.hangCode,
             postCode = houseSaveRequest.postCode,
-            latitude = houseSaveRequest.latitude,
-            longitude = houseSaveRequest.longitude
+            location = toPoint(houseSaveRequest.longitude, houseSaveRequest.latitude)
         ))
         val underRoadAddress="충남_천안시_서북구_성정공원3길_4"
         val underDanjiName="학산리젠다빌_3차"
@@ -286,8 +290,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            latitude = 37.0,
-            longitude = 127.0
+            latitude = "37.0",
+            longitude = "127.0"
         )
         houseRepository!!.save(House(
             jibunAddress = houseSaveRequest.jibunAddress,
@@ -296,8 +300,7 @@ class HouseControllerTest {
             danjiName = houseSaveRequest.danjiName,
             hangCode = houseSaveRequest.hangCode,
             postCode = houseSaveRequest.postCode,
-            latitude = houseSaveRequest.latitude,
-            longitude = houseSaveRequest.longitude
+            location = toPoint(houseSaveRequest.longitude, houseSaveRequest.latitude)
         ))
         val anotherJibunAddress="서울특별시_압구정동"
         val anotherDanjiName="압구정빌라"

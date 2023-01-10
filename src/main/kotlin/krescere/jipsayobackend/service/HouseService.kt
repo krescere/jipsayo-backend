@@ -8,12 +8,16 @@ import krescere.jipsayobackend.dto.HouseSaveRequest
 import krescere.jipsayobackend.dto.HouseUpdateRequest
 import krescere.jipsayobackend.entity.House
 import krescere.jipsayobackend.repository.HouseRepository
+import org.locationtech.jts.geom.Point
+import org.locationtech.jts.io.WKTReader
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.math.BigDecimal
 
 @Service
 class HouseService(
-    private val houseRepository: HouseRepository
+    private val houseRepository: HouseRepository,
+    private val wktReader: WKTReader
 ) {
     @Transactional
     fun save(request: HouseSaveRequest) : Long {
@@ -28,8 +32,7 @@ class HouseService(
             hangCode = request.hangCode,
             danjiName = request.danjiName,
             postCode = request.postCode,
-            latitude = request.latitude,
-            longitude = request.longitude
+            location = toPoint(strToBigDecimal(request.longitude), strToBigDecimal(request.latitude))
         )).id!!
     }
 
@@ -49,8 +52,8 @@ class HouseService(
                 hangCode = house.hangCode,
                 danjiName = house.danjiName,
                 postCode = house.postCode,
-                latitude = house.latitude,
-                longitude = house.longitude,
+                latitude = house.location.y,
+                longitude = house.location.x,
                 createdDate = house.createdDate.toString(),
                 modifiedDate = house.modifiedDate.toString()
             )
@@ -72,8 +75,9 @@ class HouseService(
         request.hangCode?.let { house.updateHangCode(it) }
         request.danjiName?.let { house.updateDanjiName(it) }
         request.postCode?.let { house.updatePostCode(it) }
-        request.latitude?.let { house.updateLatitude(it) }
-        request.longitude?.let { house.updateLongitude(it) }
+        if(request.latitude!=null && request.longitude!=null) {
+            house.updateLocation(toPoint(strToBigDecimal(request.longitude!!), strToBigDecimal(request.latitude!!)))
+        }
     }
 
     @Transactional
@@ -85,5 +89,13 @@ class HouseService(
                 query.id?.let { houseRepository.findById(it).orElse(null) }
         if(house==null) throw CustomException(ErrorCode.HOUSE_NOT_FOUND)
         houseRepository.delete(house)
+    }
+
+    fun toPoint(latitude: BigDecimal, longitude: BigDecimal) : Point {
+        return wktReader.read("POINT($longitude $latitude)") as Point
+    }
+
+    fun strToBigDecimal(str: String) : BigDecimal {
+        return BigDecimal.valueOf(str.toDouble())
     }
 }
