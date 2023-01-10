@@ -5,6 +5,11 @@ import krescere.jipsayobackend.dto.HouseSaveRequest
 import krescere.jipsayobackend.dto.HouseUpdateRequest
 import krescere.jipsayobackend.entity.House
 import krescere.jipsayobackend.repository.HouseRepository
+import org.apache.http.client.HttpClient
+import org.apache.http.client.methods.CloseableHttpResponse
+import org.apache.http.client.methods.HttpGet
+import org.apache.http.client.utils.URIBuilder
+import org.apache.http.impl.client.CloseableHttpClient
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -25,7 +30,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.WebApplicationContext
 import org.springframework.web.filter.CharacterEncodingFilter
-import java.math.BigDecimal
 
 @Transactional
 @RunWith(SpringRunner::class)
@@ -35,6 +39,8 @@ class HouseControllerTest {
     val houseRepository: HouseRepository? = null
     @Autowired
     val wktReader: WKTReader? = null
+    @Autowired
+    val httpClient : CloseableHttpClient? = null
     @Autowired
     val context: WebApplicationContext? = null
 
@@ -312,5 +318,60 @@ class HouseControllerTest {
             .andExpect(status().isBadRequest)
         // then
         assertThat(houseRepository!!.findAll()).isNotEmpty
+    }
+
+    @Test
+    fun 필터링_프론트(){
+        // given
+        val underRoadAddress="충남_천안시_서북구_성정공원3길_4"
+        val underDanjiName="학산리젠다빌_3차"
+        val price=30000
+        val minuteLimit=60
+
+        // when
+        val url="$localhost$port$apiV1/houses/filter"
+        val result=mvc!!.perform(get(url)
+            .param("roadAddress", underRoadAddress)
+            .param("danjiName", underDanjiName)
+            .param("price", price.toString())
+            .param("minuteLimit", minuteLimit.toString()))
+            .andExpect(status().isOk)
+            .andReturn()
+
+        // then
+        // 아파트 리스트 반환
+        assertThat(result.response.contentAsString).contains("\"errors\":null")
+    }
+
+    @Test
+    fun 필터링_데이터(){
+        // given
+        val underRoadAddress="충남_천안시_서북구_성정공원3길_4"
+        val underDanjiName="학산리젠다빌_3차"
+        val price=30000
+        val minuteLimit=60
+
+        // when
+        val url="data_server_url"
+        // call api
+        val get=HttpGet(url)
+        val uri=URIBuilder(get.uri)
+            .addParameter("roadAddress", underRoadAddress)
+            .addParameter("danjiName", underDanjiName)
+            .addParameter("price", price.toString())
+            .addParameter("minuteLimit", minuteLimit.toString())
+            .build()
+        get.uri=uri
+        var response : CloseableHttpResponse ?= null
+        try {
+            response = httpClient?.execute(get)
+            val status=response?.statusLine?.statusCode
+            // then
+            assertThat(status).isEqualTo(200)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            response?.close()
+        }
     }
 }
