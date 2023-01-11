@@ -2,10 +2,7 @@ package krescere.jipsayobackend.service
 
 import krescere.jipsayobackend.common.error.CustomException
 import krescere.jipsayobackend.common.error.ErrorCode
-import krescere.jipsayobackend.dto.HouseGetQuery
-import krescere.jipsayobackend.dto.HouseGetResponse
-import krescere.jipsayobackend.dto.HouseSaveRequest
-import krescere.jipsayobackend.dto.HouseUpdateRequest
+import krescere.jipsayobackend.dto.*
 import krescere.jipsayobackend.entity.House
 import krescere.jipsayobackend.repository.HouseRepository
 import org.locationtech.jts.geom.Point
@@ -19,6 +16,14 @@ class HouseService(
     private val houseRepository: HouseRepository,
     private val wktReader: WKTReader
 ) {
+    fun toPoint(latitude: BigDecimal, longitude: BigDecimal) : Point {
+        return wktReader.read("POINT($longitude $latitude)") as Point
+    }
+
+    fun strToBigDecimal(str: String) : BigDecimal {
+        return BigDecimal.valueOf(str.toDouble())
+    }
+
     @Transactional
     fun save(request: HouseSaveRequest) : Long {
         // check duplicate
@@ -43,21 +48,7 @@ class HouseService(
                 houseRepository.findByRoadAddressAndDanjiName(query.roadAddress!!, query.danjiName!!)
             else
                 query.id?.let { houseRepository.findById(it).orElse(null) }
-        return if (house != null) {
-            HouseGetResponse(
-                id = house.id!!,
-                jibunAddress = house.jibunAddress,
-                roadAddress = house.roadAddress,
-                cost = house.cost,
-                hangCode = house.hangCode,
-                danjiName = house.danjiName,
-                postCode = house.postCode,
-                latitude = house.location.y,
-                longitude = house.location.x,
-                createdDate = house.createdDate.toString(),
-                modifiedDate = house.modifiedDate.toString()
-            )
-        } else null
+        return house?.let { HouseGetResponse(it) }
     }
 
     @Transactional
@@ -91,11 +82,8 @@ class HouseService(
         houseRepository.delete(house)
     }
 
-    fun toPoint(latitude: BigDecimal, longitude: BigDecimal) : Point {
-        return wktReader.read("POINT($longitude $latitude)") as Point
-    }
-
-    fun strToBigDecimal(str: String) : BigDecimal {
-        return BigDecimal.valueOf(str.toDouble())
+    @Transactional(readOnly = true)
+    fun findAll() : List<HouseGetAllResponse> {
+        return houseRepository.findAll().map { HouseGetAllResponse(it) }
     }
 }

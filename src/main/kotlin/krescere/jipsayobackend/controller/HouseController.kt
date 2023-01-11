@@ -24,7 +24,8 @@ class HouseController(
             status = HttpStatus.CREATED,
             CustomBody(
                 message = "부동산 저장 성공",
-                data = EntitySaveResponse(id = houseService.save(request)))
+                data = EntitySaveResponse(id = houseService.save(request))
+            )
         ).toResponseEntity().also {
             logger.info("save house: $request")
         }
@@ -37,9 +38,23 @@ class HouseController(
             CustomBody(
                 message = "부동산 조회 성공",
                 data = houseService.findByQuery(query)
-                    ?: Collections.emptyMap<String, Any>())
+                    ?: Collections.emptyMap<String, Any>()
+            )
         ).toResponseEntity().also {
             logger.info("get house: $query")
+        }
+    }
+
+    @GetMapping("/houses/all")
+    fun findAll() : ResponseEntity<CustomBody> {
+        return CustomResponse(
+            status = HttpStatus.OK,
+            CustomBody(
+                message = "부동산 전체 조회 성공",
+                data = houseService.findAll()
+            )
+        ).toResponseEntity().also {
+            logger.info("get all house")
         }
     }
 
@@ -49,7 +64,8 @@ class HouseController(
         return CustomResponse(
             status = HttpStatus.OK,
             CustomBody(
-                message = "부동산 수정 성공")
+                message = "부동산 수정 성공"
+            )
         ).toResponseEntity().also {
             logger.info("update house: $query, $houseUpdateRequest")
         }
@@ -61,7 +77,8 @@ class HouseController(
         return CustomResponse(
             status = HttpStatus.OK,
             CustomBody(
-                message = "부동산 삭제 성공")
+                message = "부동산 삭제 성공"
+            )
         ).toResponseEntity().also {
             logger.info("delete house: $query")
         }
