@@ -16,12 +16,8 @@ class HouseService(
     private val houseRepository: HouseRepository,
     private val wktReader: WKTReader
 ) {
-    fun toPoint(latitude: BigDecimal, longitude: BigDecimal) : Point {
+    fun toPoint(latitude: String, longitude: String) : Point {
         return wktReader.read("POINT($longitude $latitude)") as Point
-    }
-
-    fun strToBigDecimal(str: String) : BigDecimal {
-        return BigDecimal.valueOf(str.toDouble())
     }
 
     @Transactional
@@ -37,7 +33,7 @@ class HouseService(
             hangCode = request.hangCode,
             danjiName = request.danjiName,
             postCode = request.postCode,
-            location = toPoint(strToBigDecimal(request.longitude), strToBigDecimal(request.latitude))
+            location = toPoint(request.latitude, request.longitude)
         )).id!!
     }
 
@@ -67,7 +63,7 @@ class HouseService(
         request.danjiName?.let { house.updateDanjiName(it) }
         request.postCode?.let { house.updatePostCode(it) }
         if(request.latitude!=null && request.longitude!=null) {
-            house.updateLocation(toPoint(strToBigDecimal(request.longitude!!), strToBigDecimal(request.latitude!!)))
+            house.updateLocation(toPoint(request.latitude!!, request.longitude!!))
         }
     }
 

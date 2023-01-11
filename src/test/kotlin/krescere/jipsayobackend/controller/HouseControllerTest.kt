@@ -67,8 +67,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            latitude = "37.0",
-            longitude = "127.0"
+            latitude = "36.8261598",
+            longitude = "127.1413382"
         )
         // when
         val url="$localhost$port$apiV1/houses"
@@ -93,8 +93,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            latitude = "37.0",
-            longitude = "127.0"
+            latitude = "36.8261598",
+            longitude = "127.1413382"
         )
         houseRepository!!.save(House(
             jibunAddress = houseSaveRequest.jibunAddress,
@@ -128,8 +128,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            latitude = "37.0",
-            longitude = "127.0"
+            latitude = "36.8261598",
+            longitude = "127.1413382"
         )
         houseRepository!!.save(House(
             jibunAddress = houseSaveRequest.jibunAddress,
@@ -163,8 +163,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            latitude = "37.0",
-            longitude = "127.0"
+            latitude = "36.8261598",
+            longitude = "127.1413382"
         )
         houseRepository!!.save(House(
             jibunAddress = houseSaveRequest.jibunAddress,
@@ -209,8 +209,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            latitude = "37.0",
-            longitude = "127.0"
+            latitude = "36.8261598",
+            longitude = "127.1413382"
         )
         houseRepository!!.save(House(
             jibunAddress = houseSaveRequest.jibunAddress,
@@ -255,8 +255,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            latitude = "37.0",
-            longitude = "127.0"
+            latitude = "36.8261598",
+            longitude = "127.1413382"
         )
         houseRepository!!.save(House(
             jibunAddress = houseSaveRequest.jibunAddress,
@@ -289,8 +289,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            latitude = "37.0",
-            longitude = "127.0"
+            latitude = "36.8261598",
+            longitude = "127.1413382"
         )
         houseRepository!!.save(House(
             jibunAddress = houseSaveRequest.jibunAddress,
@@ -324,7 +324,7 @@ class HouseControllerTest {
             danjiName = "학산리젠다빌 3차",
             hangCode = 4413310200,
             postCode = 31110,
-            location = toPoint("127.0", "37.0")
+            location = toPoint("127.1413382", "36.8261598")
         ))
 
         houseRepository?.save(House(
@@ -334,7 +334,7 @@ class HouseControllerTest {
             danjiName = "압구정빌라",
             hangCode = 4413310200,
             postCode = 31110,
-            location = toPoint("127.0", "37.0")
+            location = toPoint("127.1413382", "36.8261598")
         ))
         // when
         val url="$localhost$port$apiV1/houses/all"
