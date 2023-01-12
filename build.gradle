@@ -65,7 +65,7 @@ dependencies {
             "javax.annotation:javax.annotation-api",
             "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
     // hibernate-spatial
-    implementation("org.hibernate:hibernate-spatial:5.4.32.Final")
+    implementation("org.hibernate:hibernate-spatial:5.4.17.Final")
     // apache httpclient
     implementation('org.apache.httpcomponents:httpclient:4.5.14')
     // test security (권한을 필요로하는 api 호출을 위한)
