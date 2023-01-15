@@ -2,10 +2,7 @@ package krescere.jipsayobackend.controller
 
 import krescere.jipsayobackend.common.CustomBody
 import krescere.jipsayobackend.common.CustomResponse
-import krescere.jipsayobackend.dto.EntitySaveResponse
-import krescere.jipsayobackend.dto.HouseGetQuery
-import krescere.jipsayobackend.dto.HouseSaveRequest
-import krescere.jipsayobackend.dto.HouseUpdateRequest
+import krescere.jipsayobackend.dto.*
 import krescere.jipsayobackend.service.HouseService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -45,19 +42,6 @@ class HouseController(
         }
     }
 
-    @GetMapping("/houses/all")
-    fun findAll() : ResponseEntity<CustomBody> {
-        return CustomResponse(
-            status = HttpStatus.OK,
-            CustomBody(
-                message = "부동산 전체 조회 성공",
-                data = houseService.findAll()
-            )
-        ).toResponseEntity().also {
-            logger.info("get all house")
-        }
-    }
-
     @PutMapping("/houses")
     fun updateByQuery(query: HouseGetQuery, @RequestBody houseUpdateRequest: HouseUpdateRequest) : ResponseEntity<CustomBody> {
         houseService.updateByQuery(query, houseUpdateRequest)
@@ -81,6 +65,20 @@ class HouseController(
             )
         ).toResponseEntity().also {
             logger.info("delete house: $query")
+        }
+    }
+
+    // 프론트에서 필터링 요청올 때
+    @GetMapping("/houses/filter")
+    fun filterByQuery(request: HouseFilterGetRequest) : ResponseEntity<CustomBody> {
+        return CustomResponse(
+            status = HttpStatus.OK,
+            CustomBody(
+                message = "부동산 필터링 조회 성공",
+                data = houseService.filter(request)
+            )
+        ).toResponseEntity().also {
+            logger.info("filter house: $request")
         }
     }
 }

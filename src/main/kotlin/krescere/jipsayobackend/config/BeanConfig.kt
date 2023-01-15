@@ -2,6 +2,7 @@ package krescere.jipsayobackend.config
 
 import com.google.gson.Gson
 import org.apache.http.impl.client.HttpClients
+import org.locationtech.jts.io.WKTReader
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -11,7 +12,7 @@ class BeanConfig {
     fun gson() = Gson()
 
     @Bean
-    fun wktReader() = org.locationtech.jts.io.WKTReader()
+    fun wktReader() = WKTReader()
 
     @Bean
     fun httpClient() = HttpClients.createDefault()!!
