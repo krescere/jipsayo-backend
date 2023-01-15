@@ -46,7 +46,7 @@ def house_filter():
     # return as JSON
     return json.dumps(response)
 
-# 부동산 갱신
+# 부동산 갱신 TODO : scheduler 로 주기적으로 실행하게
 @app.route('/api/v1/houses/reload')
 def house_reload():
     resultproxy=db.session.execute(db.select(
