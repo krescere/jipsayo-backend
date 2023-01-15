@@ -1,5 +1,7 @@
 package krescere.jipsayobackend.dto
 
+import krescere.jipsayobackend.entity.House
+
 class HouseGetResponse(
     id: Long,
     jibunAddress: String,
@@ -8,11 +10,26 @@ class HouseGetResponse(
     hangCode: Long,
     danjiName: String,
     postCode: Int,
-    latitude: Double?,
-    longitude: Double?,
+    latitude: String,
+    longitude: String,
     createdDate: String,
     modifiedDate: String
 ) {
+    // constructor
+    constructor(house: House) : this(
+        house.id!!,
+        house.jibunAddress,
+        house.roadAddress,
+        house.cost,
+        house.hangCode,
+        house.danjiName,
+        house.postCode,
+        house.location.x.toString(),
+        house.location.y.toString(),
+        house.createdDate.toString(),
+        house.modifiedDate.toString()
+    )
+
     var id: Long = id
         private set
     var jibunAddress: String = jibunAddress
@@ -27,9 +44,9 @@ class HouseGetResponse(
         private set
     var postCode: Int = postCode
         private set
-    var latitude: Double ?= latitude
+    var latitude: String = latitude
         private set
-    var longitude: Double ?= longitude
+    var longitude: String = longitude
         private set
     var createdDate: String = createdDate
         private set

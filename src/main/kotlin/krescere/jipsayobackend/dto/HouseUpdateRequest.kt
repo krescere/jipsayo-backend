@@ -7,8 +7,8 @@ class HouseUpdateRequest (
     hangCode: Long?,
     danjiName: String?,
     postCode: Int?,
-    latitude: Double?,
-    longitude: Double?
+    latitude: String?,
+    longitude: String?
 ) {
     var jibunAddress: String ?= jibunAddress
         private set
@@ -22,8 +22,8 @@ class HouseUpdateRequest (
         private set
     var postCode: Int ?= postCode
         private set
-    var latitude: Double ?= latitude
+    var latitude: String ?= latitude
         private set
-    var longitude: Double ?= longitude
+    var longitude: String ?= longitude
         private set
 }

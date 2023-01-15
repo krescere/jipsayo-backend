@@ -1,5 +1,7 @@
 package krescere.jipsayobackend.dto
 
+import java.math.BigDecimal
+
 class HouseSaveRequest (
     jibunAddress: String,
     roadAddress: String,
@@ -7,8 +9,8 @@ class HouseSaveRequest (
     hangCode: Long,
     danjiName: String,
     postCode: Int,
-    latitude: Double?,
-    longitude: Double?
+    latitude: String,
+    longitude: String
 ) {
     var jibunAddress: String = jibunAddress
         private set
@@ -22,8 +24,8 @@ class HouseSaveRequest (
         private set
     var postCode: Int = postCode
         private set
-    var latitude: Double ?= latitude
+    var latitude: String = latitude
         private set
-    var longitude: Double ?= longitude
+    var longitude: String = longitude
         private set
 }
