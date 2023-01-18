@@ -1,5 +1,8 @@
 package krescere.jipsayobackend.dto
 
+import krescere.jipsayobackend.common.DecimalPointHandler.Companion.doubleToBigDecimal
+import java.math.BigDecimal
+
 class HouseUpdateRequest (
     jibunAddress: String?,
     roadAddress: String?,
@@ -7,8 +10,8 @@ class HouseUpdateRequest (
     hangCode: Long?,
     danjiName: String?,
     postCode: Int?,
-    latitude: String?,
-    longitude: String?
+    latitude: Double?,
+    longitude: Double?
 ) {
     var jibunAddress: String ?= jibunAddress
         private set
@@ -22,8 +25,8 @@ class HouseUpdateRequest (
         private set
     var postCode: Int ?= postCode
         private set
-    var latitude: String ?= latitude
+    var latitude: BigDecimal ?= latitude?.let { doubleToBigDecimal(it) }
         private set
-    var longitude: String ?= longitude
+    var longitude: BigDecimal ?= longitude?.let { doubleToBigDecimal(it) }
         private set
 }

@@ -12,7 +12,6 @@ import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.util.EntityUtils
-import org.locationtech.jts.geom.Point
 import org.locationtech.jts.io.WKTReader
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -27,9 +26,6 @@ class HouseService(
     private val gson: Gson
 ) {
     val logger=org.slf4j.LoggerFactory.getLogger(HouseService::class.java)
-    fun toPoint(latitude: String, longitude: String) : Point {
-        return wktReader.read("POINT($longitude $latitude)") as Point
-    }
 
     @Transactional
     fun save(request: HouseSaveRequest) : Long {
@@ -44,7 +40,8 @@ class HouseService(
             hangCode = request.hangCode,
             danjiName = request.danjiName,
             postCode = request.postCode,
-            location = toPoint(request.latitude, request.longitude)
+            latitude = request.latitude,
+            longitude = request.longitude,
         )).id!!
     }
 
@@ -73,9 +70,7 @@ class HouseService(
         request.hangCode?.let { house.updateHangCode(it) }
         request.danjiName?.let { house.updateDanjiName(it) }
         request.postCode?.let { house.updatePostCode(it) }
-        if(request.latitude!=null && request.longitude!=null) {
-            house.updateLocation(toPoint(request.latitude!!, request.longitude!!))
-        }
+        request.latitude?.let { house.updateLatitude(it) }
     }
 
     @Transactional
@@ -98,10 +93,10 @@ class HouseService(
         val houses= mutableListOf<HouseGetResponse>()
         return try{
             val candidateHouses=gson.fromJson(candidatesJson, Array<HousePredictResponse>::class.java).toList()
-            for(candidateHouse in candidateHouses){
+            for(candidateHouse in candidateHouses){ // TODO : 몇개가 들어올지 CHECK
                 val house= houseRepository.findById(candidateHouse.id).orElse(null) ?: continue
                 // 시간이 초과되면 패스
-                if(candidateHouse.time>request.time) continue
+                //if(candidateHouse.time>request.time) continue
                 // 가격이 초과되면 패스
                 if(house.cost>request.cost) continue
                 houses.add(HouseGetResponse(house))

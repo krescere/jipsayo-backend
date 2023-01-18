@@ -1,6 +1,7 @@
 package krescere.jipsayobackend.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import krescere.jipsayobackend.common.DecimalPointHandler.Companion.doubleToBigDecimal
 import krescere.jipsayobackend.dto.HouseSaveRequest
 import krescere.jipsayobackend.dto.HouseUpdateRequest
 import krescere.jipsayobackend.entity.House
@@ -63,7 +64,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            location = toPoint("36.8261598", "127.1413382"),
+            latitude = doubleToBigDecimal(36.8261598),
+            longitude = doubleToBigDecimal(127.1413382)
         )
         호암동 = House(
             jibunAddress = "충북 충주시 호암동 152",
@@ -72,7 +74,8 @@ class HouseControllerTest {
             hangCode = 4313010700,
             danjiName = "부강아파트",
             postCode = 27481,
-            location = toPoint("36.9559942", "127.9403276"),
+            latitude = doubleToBigDecimal(36.9559942),
+            longitude = doubleToBigDecimal(127.9403276)
         )
     }
 
@@ -91,8 +94,8 @@ class HouseControllerTest {
             hangCode = 4413310200,
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
-            latitude = "36.8261598",
-            longitude = "127.1413382"
+            latitude = 36.8261598,
+            longitude = 127.1413382
         )
         // when
         val url="$localhost$port$apiV1/houses"

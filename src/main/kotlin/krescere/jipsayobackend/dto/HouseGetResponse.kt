@@ -1,5 +1,6 @@
 package krescere.jipsayobackend.dto
 
+import krescere.jipsayobackend.common.DecimalPointHandler.Companion.bigDecimalToDouble
 import krescere.jipsayobackend.entity.House
 
 class HouseGetResponse(
@@ -10,24 +11,23 @@ class HouseGetResponse(
     hangCode: Long,
     danjiName: String,
     postCode: Int,
-    latitude: String,
-    longitude: String,
+    latitude: Double,
+    longitude: Double,
     createdDate: String,
     modifiedDate: String
 ) {
-    // constructor
     constructor(house: House) : this(
-        house.id!!,
-        house.jibunAddress,
-        house.roadAddress,
-        house.cost,
-        house.hangCode,
-        house.danjiName,
-        house.postCode,
-        house.location.x.toString(),
-        house.location.y.toString(),
-        house.createdDate.toString(),
-        house.modifiedDate.toString()
+        id = house.id!!,
+        jibunAddress = house.jibunAddress,
+        roadAddress = house.roadAddress,
+        cost = house.cost,
+        hangCode = house.hangCode,
+        danjiName = house.danjiName,
+        postCode = house.postCode,
+        latitude = bigDecimalToDouble(house.latitude),
+        longitude = bigDecimalToDouble(house.longitude),
+        createdDate = house.createdDate.toString(),
+        modifiedDate = house.modifiedDate.toString()
     )
 
     var id: Long = id
@@ -44,9 +44,9 @@ class HouseGetResponse(
         private set
     var postCode: Int = postCode
         private set
-    var latitude: String = latitude
+    var latitude: Double = latitude
         private set
-    var longitude: String = longitude
+    var longitude: Double = longitude
         private set
     var createdDate: String = createdDate
         private set
