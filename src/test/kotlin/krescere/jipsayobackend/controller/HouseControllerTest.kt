@@ -1,6 +1,8 @@
 package krescere.jipsayobackend.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import krescere.jipsayobackend.common.DecimalPointHandler.Companion.doubleToBigDecimal
 import krescere.jipsayobackend.dto.HouseSaveRequest
 import krescere.jipsayobackend.dto.HouseUpdateRequest
@@ -26,6 +28,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.WebApplicationContext
 import org.springframework.web.filter.CharacterEncodingFilter
+import java.time.LocalDateTime
+
 
 @Transactional
 @RunWith(SpringRunner::class)
@@ -65,7 +69,9 @@ class HouseControllerTest {
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
             latitude = doubleToBigDecimal(36.8261598),
-            longitude = doubleToBigDecimal(127.1413382)
+            longitude = doubleToBigDecimal(127.1413382),
+            dealDate = LocalDateTime.parse("2023-01-15T14:53:58.333660"),
+            dedicatedArea = 84.0,
         )
         호암동 = House(
             jibunAddress = "충북 충주시 호암동 152",
@@ -75,13 +81,23 @@ class HouseControllerTest {
             danjiName = "부강아파트",
             postCode = 27481,
             latitude = doubleToBigDecimal(36.9559942),
-            longitude = doubleToBigDecimal(127.9403276)
+            longitude = doubleToBigDecimal(127.9403276),
+            dealDate = LocalDateTime.parse("2023-01-15T14:53:58.333660"),
+            dedicatedArea = 84.0,
         )
     }
 
     fun toPoint(latitude: String, longitude: String) : Point {
         if(wktReader==null) throw Exception("wktReader is null")
         return wktReader?.read("POINT($longitude $latitude)") as Point
+    }
+
+    // 시간 포멧을 yyyy-MM-dd'T'HH:mm:ss.SSS'Z'로 변경
+    fun objectMapper(): ObjectMapper {
+        val objectMapper = ObjectMapper()
+        objectMapper.registerModule(JavaTimeModule())
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+        return objectMapper
     }
 
     @Test
@@ -95,13 +111,15 @@ class HouseControllerTest {
             danjiName = "학산리젠다빌 3차",
             postCode = 31110,
             latitude = 36.8261598,
-            longitude = 127.1413382
+            longitude = 127.1413382,
+            dealDate = "2023-01-15T14:53:58",
+            dedicatedArea = 84.0,
         )
         // when
         val url="$localhost$port$apiV1/houses"
         val result = mvc!!.perform(post(url)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(ObjectMapper().writeValueAsString(houseSaveRequest)))
+            .content(objectMapper().writeValueAsString(houseSaveRequest)))
             .andExpect(status().isCreated)
             .andReturn()
         // then
@@ -156,7 +174,9 @@ class HouseControllerTest {
             danjiName = null,
             postCode = null,
             latitude = null,
-            longitude = null
+            longitude = null,
+            dealDate = null,
+            dedicatedArea = null,
         )
         val underRoadAddress="충남_천안시_서북구_성정공원3길_4"
         val underDanjiName="학산리젠다빌_3차"
@@ -184,7 +204,9 @@ class HouseControllerTest {
             danjiName = null,
             postCode = null,
             latitude = null,
-            longitude = null
+            longitude = null,
+            dealDate = null,
+            dedicatedArea = null,
         )
         val anotherRoadAddress="서울특별시_압구정동"
         val anotherDanjiName="압구정빌라"

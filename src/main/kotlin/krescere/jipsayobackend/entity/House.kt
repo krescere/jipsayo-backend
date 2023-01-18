@@ -1,6 +1,5 @@
 package krescere.jipsayobackend.entity
 
-import org.locationtech.jts.geom.Point
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -21,7 +20,9 @@ class House(
     danjiName: String,
     postCode: Int,
     latitude: BigDecimal,
-    longitude: BigDecimal
+    longitude: BigDecimal,
+    dealDate: LocalDateTime,
+    dedicatedArea: Double,
 ) {
     @Column(nullable = false)
     var jibunAddress: String = jibunAddress
@@ -53,6 +54,14 @@ class House(
 
     @Column(nullable = false, scale = 7) // 소수점 7자리까지
     var longitude: BigDecimal = longitude
+        private set
+
+    @Column(nullable = false)
+    var dealDate: LocalDateTime = dealDate
+        private set
+
+    @Column(nullable = false)
+    var dedicatedArea: Double = dedicatedArea
         private set
 
     @Column(nullable = false)
@@ -100,5 +109,13 @@ class House(
 
     fun updateLongitude(longitude: BigDecimal) {
         this.longitude = longitude
+    }
+
+    fun updateDealDate(dealDate: LocalDateTime) {
+        this.dealDate = dealDate
+    }
+
+    fun updateDedicatedArea(dedicatedArea: Double) {
+        this.dedicatedArea = dedicatedArea
     }
 }
