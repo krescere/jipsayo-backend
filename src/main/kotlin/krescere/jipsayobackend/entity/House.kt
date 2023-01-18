@@ -1,9 +1,9 @@
 package krescere.jipsayobackend.entity
 
-import org.locationtech.jts.geom.Point
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.math.BigDecimal
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -19,7 +19,10 @@ class House(
     hangCode: Long,
     danjiName: String,
     postCode: Int,
-    location: Point
+    latitude: BigDecimal,
+    longitude: BigDecimal,
+    dealDate: LocalDateTime,
+    dedicatedArea: Double,
 ) {
     @Column(nullable = false)
     var jibunAddress: String = jibunAddress
@@ -45,8 +48,20 @@ class House(
     var postCode: Int = postCode
         private set
 
+    @Column(nullable = false, scale = 7) // 소수점 7자리까지
+    var latitude: BigDecimal = latitude
+        private set
+
+    @Column(nullable = false, scale = 7) // 소수점 7자리까지
+    var longitude: BigDecimal = longitude
+        private set
+
     @Column(nullable = false)
-    var location: Point = location
+    var dealDate: LocalDateTime = dealDate
+        private set
+
+    @Column(nullable = false)
+    var dedicatedArea: Double = dedicatedArea
         private set
 
     @Column(nullable = false)
@@ -88,7 +103,19 @@ class House(
         this.postCode = postCode
     }
 
-    fun updateLocation(location: Point) {
-        this.location = location
+    fun updateLatitude(latitude: BigDecimal) {
+        this.latitude = latitude
+    }
+
+    fun updateLongitude(longitude: BigDecimal) {
+        this.longitude = longitude
+    }
+
+    fun updateDealDate(dealDate: LocalDateTime) {
+        this.dealDate = dealDate
+    }
+
+    fun updateDedicatedArea(dedicatedArea: Double) {
+        this.dedicatedArea = dedicatedArea
     }
 }

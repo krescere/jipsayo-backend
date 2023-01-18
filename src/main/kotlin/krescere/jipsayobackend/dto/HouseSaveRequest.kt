@@ -1,6 +1,9 @@
 package krescere.jipsayobackend.dto
 
+import krescere.jipsayobackend.common.DecimalPointHandler.Companion.doubleToBigDecimal
+import krescere.jipsayobackend.common.DecimalPointHandler.Companion.roundToPoint
 import java.math.BigDecimal
+import java.time.LocalDateTime
 
 class HouseSaveRequest (
     jibunAddress: String,
@@ -9,8 +12,10 @@ class HouseSaveRequest (
     hangCode: Long,
     danjiName: String,
     postCode: Int,
-    latitude: String,
-    longitude: String
+    latitude: Double,
+    longitude: Double,
+    dealDate: String,
+    dedicatedArea: Double,
 ) {
     var jibunAddress: String = jibunAddress
         private set
@@ -24,8 +29,12 @@ class HouseSaveRequest (
         private set
     var postCode: Int = postCode
         private set
-    var latitude: String = latitude
+    var latitude: BigDecimal = doubleToBigDecimal(latitude)
         private set
-    var longitude: String = longitude
+    var longitude: BigDecimal = doubleToBigDecimal(longitude)
+        private set
+    var dealDate: LocalDateTime = LocalDateTime.parse(dealDate)
+        private set
+    var dedicatedArea: Double = roundToPoint(dedicatedArea,3)
         private set
 }

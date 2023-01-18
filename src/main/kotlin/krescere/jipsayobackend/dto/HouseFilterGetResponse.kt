@@ -1,55 +1,48 @@
 package krescere.jipsayobackend.dto
 
 import krescere.jipsayobackend.common.DecimalPointHandler.Companion.bigDecimalToDouble
+import krescere.jipsayobackend.common.DecimalPointHandler.Companion.roundToPoint
 import krescere.jipsayobackend.entity.House
+import java.time.LocalDateTime
 
-class HouseGetResponse(
+class HouseFilterGetResponse(
     id: Long,
     jibunAddress: String,
-    roadAddress: String,
-    cost: Long,
-    hangCode: Long,
     danjiName: String,
-    postCode: Int,
+    cost: Long,
     latitude: Double,
     longitude: Double,
-    createdDate: String,
-    modifiedDate: String
-) {
-    constructor(house: House) : this(
+    time: Long,
+    dealDate: LocalDateTime,
+    dedicatedArea: Double,
+){
+    constructor(house : House,time: Long) : this(
         id = house.id!!,
         jibunAddress = house.jibunAddress,
-        roadAddress = house.roadAddress,
-        cost = house.cost,
-        hangCode = house.hangCode,
         danjiName = house.danjiName,
-        postCode = house.postCode,
+        cost = house.cost,
         latitude = bigDecimalToDouble(house.latitude),
         longitude = bigDecimalToDouble(house.longitude),
-        createdDate = house.createdDate.toString(),
-        modifiedDate = house.modifiedDate.toString()
+        time = time,
+        dealDate = house.dealDate,
+        dedicatedArea = roundToPoint(house.dedicatedArea,3),
     )
-
     var id: Long = id
         private set
     var jibunAddress: String = jibunAddress
         private set
-    var roadAddress: String = roadAddress
-        private set
-    var cost: Long = cost
-        private set
-    var hangCode: Long = hangCode
-        private set
     var danjiName: String = danjiName
         private set
-    var postCode: Int = postCode
+    var cost: Long = cost
         private set
     var latitude: Double = latitude
         private set
     var longitude: Double = longitude
         private set
-    var createdDate: String = createdDate
+    var time: Long = time
         private set
-    var modifiedDate: String = modifiedDate
+    var dealDate: LocalDateTime = dealDate
+        private set
+    var dedicatedArea: Double = dedicatedArea
         private set
 }

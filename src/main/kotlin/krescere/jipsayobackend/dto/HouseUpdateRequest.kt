@@ -1,5 +1,9 @@
 package krescere.jipsayobackend.dto
 
+import krescere.jipsayobackend.common.DecimalPointHandler.Companion.doubleToBigDecimal
+import java.math.BigDecimal
+import java.time.LocalDateTime
+
 class HouseUpdateRequest (
     jibunAddress: String?,
     roadAddress: String?,
@@ -7,8 +11,10 @@ class HouseUpdateRequest (
     hangCode: Long?,
     danjiName: String?,
     postCode: Int?,
-    latitude: String?,
-    longitude: String?
+    latitude: Double?,
+    longitude: Double?,
+    dealDate: String?,
+    dedicatedArea: Double?,
 ) {
     var jibunAddress: String ?= jibunAddress
         private set
@@ -22,8 +28,12 @@ class HouseUpdateRequest (
         private set
     var postCode: Int ?= postCode
         private set
-    var latitude: String ?= latitude
+    var latitude: BigDecimal ?= latitude?.let { doubleToBigDecimal(it) }
         private set
-    var longitude: String ?= longitude
+    var longitude: BigDecimal ?= longitude?.let { doubleToBigDecimal(it) }
+        private set
+    var dealDate: LocalDateTime ?= dealDate?.let { LocalDateTime.parse(it) }
+        private set
+    var dedicatedArea: Double ?= dedicatedArea
         private set
 }

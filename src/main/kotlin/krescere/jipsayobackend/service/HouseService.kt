@@ -12,8 +12,6 @@ import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.util.EntityUtils
-import org.locationtech.jts.geom.Point
-import org.locationtech.jts.io.WKTReader
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.nio.charset.StandardCharsets
@@ -22,15 +20,9 @@ import java.nio.charset.StandardCharsets
 @Service
 class HouseService(
     private val houseRepository: HouseRepository,
-    private val wktReader: WKTReader,
     private val httpClient: CloseableHttpClient,
     private val gson: Gson
 ) {
-    val logger=org.slf4j.LoggerFactory.getLogger(HouseService::class.java)
-    fun toPoint(latitude: String, longitude: String) : Point {
-        return wktReader.read("POINT($longitude $latitude)") as Point
-    }
-
     @Transactional
     fun save(request: HouseSaveRequest) : Long {
         // check duplicate
@@ -44,7 +36,10 @@ class HouseService(
             hangCode = request.hangCode,
             danjiName = request.danjiName,
             postCode = request.postCode,
-            location = toPoint(request.latitude, request.longitude)
+            latitude = request.latitude,
+            longitude = request.longitude,
+            dealDate = request.dealDate,
+            dedicatedArea = request.dedicatedArea,
         )).id!!
     }
 
@@ -73,9 +68,11 @@ class HouseService(
         request.hangCode?.let { house.updateHangCode(it) }
         request.danjiName?.let { house.updateDanjiName(it) }
         request.postCode?.let { house.updatePostCode(it) }
-        if(request.latitude!=null && request.longitude!=null) {
-            house.updateLocation(toPoint(request.latitude!!, request.longitude!!))
-        }
+        request.latitude?.let { house.updateLatitude(it) }
+        request.longitude?.let { house.updateLongitude(it) }
+        request.dealDate?.let { house.updateDealDate(it) }
+        request.dedicatedArea?.let { house.updateDedicatedArea(it) }
+
     }
 
     @Transactional
@@ -91,20 +88,18 @@ class HouseService(
 
     // 프론트에서 필터링 요청올 때
     @Transactional(readOnly = true)
-    fun filter(request: HouseFilterGetRequest): List<HouseGetResponse> {
+    fun filter(request: HouseFilterGetRequest): List<HouseFilterGetResponse> {
         // 예측 모델에 요청
         val candidatesJson=predict(request)
         // responseBody to House
-        val houses= mutableListOf<HouseGetResponse>()
+        val houses= mutableListOf<HouseFilterGetResponse>()
         return try{
             val candidateHouses=gson.fromJson(candidatesJson, Array<HousePredictResponse>::class.java).toList()
-            for(candidateHouse in candidateHouses){
+            for(candidateHouse in candidateHouses){ // TODO : 몇개가 들어올지 CHECK
                 val house= houseRepository.findById(candidateHouse.id).orElse(null) ?: continue
-                // 시간이 초과되면 패스
-                if(candidateHouse.time>request.time) continue
                 // 가격이 초과되면 패스
                 if(house.cost>request.cost) continue
-                houses.add(HouseGetResponse(house))
+                houses.add(HouseFilterGetResponse(house, candidateHouse.time))
             }
             // 최대 10개까지만 보냄
             houses.take(10)
