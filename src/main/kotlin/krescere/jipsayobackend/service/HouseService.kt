@@ -15,6 +15,9 @@ import org.apache.http.util.EntityUtils
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.nio.charset.StandardCharsets
+import java.util.*
+import javax.persistence.EntityManager
+import javax.persistence.PersistenceContext
 
 
 @Service
@@ -23,6 +26,8 @@ class HouseService(
     private val httpClient: CloseableHttpClient,
     private val gson: Gson
 ) {
+    @PersistenceContext
+    private val entityManager: EntityManager? = null
     @Transactional
     fun save(request: HouseSaveRequest) : Long {
         // check duplicate
@@ -91,21 +96,29 @@ class HouseService(
     fun filter(request: HouseFilterGetRequest): List<HouseFilterGetResponse> {
         // 예측 모델에 요청
         val candidatesJson=predict(request)
-        // responseBody to House
-        val houses= mutableListOf<HouseFilterGetResponse>()
+        // 후보들중 예상 이동시간이 오래걸리고 비싼 집들로 반환
+        // order[이동시간 오래걸리는 순, 비싼 순]
+        val pq = PriorityQueue<HouseFilterGetResponse> label@{ o1, o2 ->
+            if (o1.time == o2.time) return@label (o2.cost - o1.cost).toInt()
+            (o2.time - o1.time).toInt()
+        }
         return try{
-            val candidateHouses=gson.fromJson(candidatesJson, Array<HousePredictResponse>::class.java).toList()
-            for(candidateHouse in candidateHouses){ // TODO : 몇개가 들어올지 CHECK
-                val house= houseRepository.findById(candidateHouse.id).orElse(null) ?: continue
-                // 가격이 초과되면 패스
-                if(house.cost>request.cost) continue
-                houses.add(HouseFilterGetResponse(house, candidateHouse.time))
+            val candidateList=gson.fromJson(candidatesJson, Array<HousePredictResponse>::class.java).toList()
+            val candidateMap= candidateList.associateBy { it.id }
+
+            val streamHouses=houseRepository.streamByCostBefore(request.cost)
+            streamHouses.forEach { house ->
+                candidateMap[house.id]?.let {
+                    pq.add(HouseFilterGetResponse(house, it.time))
+                }
+                // 메모리에 올라간 Entity를 GC에게 반환
+                entityManager?.detach(house)
             }
             // 최대 10개까지만 보냄
-            houses.take(10)
+            pq.take(10).toList()
         } catch (e: Exception) {
             e.printStackTrace()
-            houses
+            listOf()
         }
     }
 
