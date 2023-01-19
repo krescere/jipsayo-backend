@@ -24,12 +24,20 @@
 가격
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="latitude" type="Double" %}
+{% swagger-parameter in="body" name="latitude" type="Double" required="true" %}
 위도
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="longitude" type="Doube" %}
+{% swagger-parameter in="body" name="longitude" type="Doube" required="true" %}
 경도
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" name="dealDate" required="true" %}
+거래 일자
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" name="dedicatedArea" required="true" type="Long" %}
+전용 면적
 {% endswagger-parameter %}
 
 {% swagger-response status="201: Created" description="부동산 삽입 성공" %}
@@ -55,9 +63,11 @@ curl --location --request POST 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaw
     "hangCode":4413310200,
     "danjiName":"학산리젠다빌 3차",
     "postCode":31110,
-    "cost":100000,
-    "latitude":37.0,
-    "longitude":127.0
+    "cost":5500,
+    "latitude":"36.8261598",
+    "longitude":"127.1413382",
+    "dealDate":"2023-01-15T14:53:58.333660",
+    "dedicatedArea":84.0
 }'
 ```
 {% endtab %}
@@ -67,7 +77,7 @@ curl --location --request POST 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaw
 POST /api/v1/houses HTTP/1.1
 Host: ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com
 Content-Type: application/json
-Content-Length: 235
+Content-Length: 322
 
 {
     "jibunAddress":"충남 천안시 서북구 성정동 1438",
@@ -75,9 +85,11 @@ Content-Length: 235
     "hangCode":4413310200,
     "danjiName":"학산리젠다빌 3차",
     "postCode":31110,
-    "cost":100000,
-    "latitude":37.0,
-    "longitude":127.0
+    "cost":5500,
+    "latitude":"36.8261598",
+    "longitude":"127.1413382",
+    "dealDate":"2023-01-15T14:53:58.333660",
+    "dedicatedArea":84.0
 }
 ```
 {% endtab %}
@@ -93,9 +105,11 @@ var raw = JSON.stringify({
   "hangCode": 4413310200,
   "danjiName": "학산리젠다빌 3차",
   "postCode": 31110,
-  "cost": 100000,
-  "latitude": 37,
-  "longitude": 127
+  "cost": 5500,
+  "latitude": "36.8261598",
+  "longitude": "127.1413382",
+  "dealDate": "2023-01-15T14:53:58.333660",
+  "dedicatedArea": 84
 });
 
 var requestOptions = {
@@ -121,9 +135,11 @@ var data = JSON.stringify({
   "hangCode": 4413310200,
   "danjiName": "학산리젠다빌 3차",
   "postCode": 31110,
-  "cost": 100000,
-  "latitude": 37,
-  "longitude": 127
+  "cost": 5500,
+  "latitude": "36.8261598",
+  "longitude": "127.1413382",
+  "dealDate": "2023-01-15T14:53:58.333660",
+  "dedicatedArea": 84
 });
 
 var config = {
@@ -142,7 +158,6 @@ axios(config)
 .catch(function (error) {
   console.log(error);
 });
-
 ```
 {% endtab %}
 {% endtabs %}

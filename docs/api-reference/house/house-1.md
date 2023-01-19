@@ -99,20 +99,22 @@ axios(config)
 ```json
 {
     "data": {
-        "id": 1,
+        "id": 42431,
         "jibunAddress": "충남 천안시 서북구 성정동 1438",
         "roadAddress": "충남 천안시 서북구 성정공원3길 4",
         "cost": 5500,
         "hangCode": 4413310200,
         "danjiName": "학산리젠다빌 3차",
         "postCode": 31110,
-        "latitude": 36.8261598433825,
-        "longitude": 127.141338247074,
-        "createdDate": "2022-12-31T00:47:58",
-        "modifiedDate": "2022-12-31T00:47:58"
+        "latitude": 36.8261598,
+        "longitude": 127.1413382,
+        "dealDate": "2023-01-15T14:53:58",
+        "dedicatedArea": 84.0,
+        "createdDate": "2023-01-19T02:30:42",
+        "modifiedDate": "2023-01-19T02:30:42"
     },
     "message": "부동산 조회 성공",
-    "timestamp": "2022-12-31T00:50:11.540945",
+    "timestamp": "2023-01-19T15:32:04.514753",
     "errors": null
 }
 ```
