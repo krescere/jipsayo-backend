@@ -13,6 +13,8 @@ class HouseGetResponse(
     postCode: Int,
     latitude: Double,
     longitude: Double,
+    dealDate: String,
+    dedicatedArea: Double,
     createdDate: String,
     modifiedDate: String
 ) {
@@ -26,6 +28,8 @@ class HouseGetResponse(
         postCode = house.postCode,
         latitude = bigDecimalToDouble(house.latitude),
         longitude = bigDecimalToDouble(house.longitude),
+        dealDate = house.dealDate.toString(),
+        dedicatedArea = house.dedicatedArea,
         createdDate = house.createdDate.toString(),
         modifiedDate = house.modifiedDate.toString()
     )
@@ -47,6 +51,10 @@ class HouseGetResponse(
     var latitude: Double = latitude
         private set
     var longitude: Double = longitude
+        private set
+    var dealDate: String = dealDate
+        private set
+    var dedicatedArea: Double = dedicatedArea
         private set
     var createdDate: String = createdDate
         private set

@@ -12,8 +12,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.locationtech.jts.geom.Point
-import org.locationtech.jts.io.WKTReader
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
@@ -37,8 +35,6 @@ import java.time.LocalDateTime
 class HouseControllerTest {
     @Autowired
     val houseRepository: HouseRepository? = null
-    @Autowired
-    val wktReader: WKTReader? = null
     @Autowired
     val context: WebApplicationContext? = null
 
@@ -85,11 +81,6 @@ class HouseControllerTest {
             dealDate = LocalDateTime.parse("2023-01-15T14:53:58.333660"),
             dedicatedArea = 84.0,
         )
-    }
-
-    fun toPoint(latitude: String, longitude: String) : Point {
-        if(wktReader==null) throw Exception("wktReader is null")
-        return wktReader?.read("POINT($longitude $latitude)") as Point
     }
 
     // 시간 포멧을 yyyy-MM-dd'T'HH:mm:ss.SSS'Z'로 변경
