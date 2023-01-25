@@ -44,6 +44,14 @@
 경도
 {% endswagger-parameter %}
 
+{% swagger-parameter in="body" name="dealDate" type="String" %}
+거래 일자
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" name="dedicatedArea" type="Long" %}
+전용 면적
+{% endswagger-parameter %}
+
 {% swagger-response status="200: OK" description="부동산 수정 성공" %}
 ```json
 {
