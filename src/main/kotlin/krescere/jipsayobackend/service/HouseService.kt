@@ -114,8 +114,11 @@ class HouseService(
                 // 메모리에 올라간 Entity를 GC에게 반환
                 entityManager?.detach(house)
             }
-            // 최대 10개까지만 보냄
-            pq.take(10).toList()
+            // Default 30개 반환
+            var count=request.count?:30
+            // 최대 갯수 100개
+            if(count>100) count=100
+            pq.take(count).toList()
         } catch (e: Exception) {
             e.printStackTrace()
             listOf()

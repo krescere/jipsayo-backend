@@ -5,4 +5,5 @@ data class HouseFilterGetRequest(
     val longitude: String,
     val cost: Long,
     val time: Long,
+    val count: Int?,
 )
