@@ -24,7 +24,7 @@
 {% endswagger-parameter %}
 
 {% swagger-parameter in="query" name="count" type="Int" %}
-반환받을 갯수(디폴트:30)
+반환받을 갯수(디폴트:500)
 {% endswagger-parameter %}
 
 {% swagger-response status="200: OK" description="부동산 필터링 성공" %}
