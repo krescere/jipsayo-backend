@@ -28,6 +28,10 @@ class HouseService(
 ) {
     @PersistenceContext
     private val entityManager: EntityManager? = null
+
+    // filter 환경변수
+    private val DEFAULT_FILTER_COUNT = 500
+    private val MAX_FILTER_COUNT = 500
     @Transactional
     fun save(request: HouseSaveRequest) : Long {
         // check duplicate
@@ -115,9 +119,9 @@ class HouseService(
                 entityManager?.detach(house)
             }
             // Default 30개 반환
-            var count=request.count?:30
+            var count=request.count?:DEFAULT_FILTER_COUNT
             // 최대 갯수 100개
-            if(count>100) count=100
+            if(count>MAX_FILTER_COUNT) count=MAX_FILTER_COUNT
             pq.take(count).toList()
         } catch (e: Exception) {
             e.printStackTrace()
