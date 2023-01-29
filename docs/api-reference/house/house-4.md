@@ -15,8 +15,12 @@
 경도
 {% endswagger-parameter %}
 
-{% swagger-parameter in="query" name="cost" type="Long" required="true" %}
-가격
+{% swagger-parameter in="query" name="lowCost" type="Long" required="true" %}
+최소가격(이상)
+{% endswagger-parameter %}
+
+{% swagger-parameter in="query" name="highCost" type="Long" required="true" %}
+최대가격(이하)
 {% endswagger-parameter %}
 
 {% swagger-parameter in="query" name="time" type="Long" required="true" %}
@@ -48,35 +52,28 @@
 {% tabs %}
 {% tab title="curl" %}
 ```powershell
-curl --location --request GET 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses/filter?latitude=36.8261598&longitude=127.1613382&cost=8000&time=60'
+curl --location --request GET 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses/filter?latitude=36.8261598&longitude=127.1613382&lowCost=5000&highCost=10000&time=60&count=20'
 ```
 {% endtab %}
 
 {% tab title="HTTP" %}
 ```
-GET /api/v1/houses/filter?latitude=36.8261598&longitude=127.1613382&cost=8000&time=60 HTTP/1.1
+GET /api/v1/houses/filter?latitude=36.8261598&longitude=127.1613382&lowCost=5000&highCost=10000&time=60&count=20 HTTP/1.1
 Host: ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com
 ```
 {% endtab %}
 
 {% tab title="JavaScript(Fetch)" %}
 ```javascript
-var axios = require('axios');
-
-var config = {
-  method: 'get',
-  url: 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses/filter?latitude=36.8261598&longitude=127.1613382&cost=8000&time=60',
-  headers: { }
+var requestOptions = {
+  method: 'GET',
+  redirect: 'follow'
 };
 
-axios(config)
-.then(function (response) {
-  console.log(JSON.stringify(response.data));
-})
-.catch(function (error) {
-  console.log(error);
-});
-
+fetch("ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses/filter?latitude=36.8261598&longitude=127.1613382&lowCost=5000&highCost=10000&time=60&count=20", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
 ```
 {% endtab %}
 
@@ -86,7 +83,7 @@ var axios = require('axios');
 
 var config = {
   method: 'get',
-  url: 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses/filter?latitude=36.8261598&longitude=127.1613382&cost=8000&time=60',
+  url: 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/houses/filter?latitude=36.8261598&longitude=127.1613382&lowCost=5000&highCost=10000&time=60&count=20',
   headers: { }
 };
 
@@ -105,15 +102,15 @@ axios(config)
 ### Response 예시
 
 {% hint style="info" %}
-프론트로는 10개가 동일하게 반환되는데 우선순위 큐를 사용하여 \[이동시간 오래걸리는 순, 비싼 순] 으로 정렬하여 상위 10개가 반환됩니다.
+반환값들이 특정 지역에만 몰려있지 않도록
 
-ex) GET 강남역 1시간 3억 요청시&#x20;
-
-강남부근 59분 3억 \
-강남부근 59분 2억 \
-강남부근 55분 3억\
-...
+랜덤하게 반환됩니다.\
+\
+이후 아파트마다 추천도를 추가하여\
+추천도가 높은 아파트를 우선으로 보여줄 수도 있습니다.
 {% endhint %}
+
+
 
 {% tabs %}
 {% tab title="JSON" %}
