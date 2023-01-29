@@ -102,18 +102,15 @@ class HouseService(
         val candidatesJson=predict(request)
         // 후보들중 예상 이동시간이 오래걸리고 비싼 집들로 반환
         // order[이동시간 오래걸리는 순, 비싼 순]
-        val pq = PriorityQueue<HouseFilterGetResponse> label@{ o1, o2 ->
-            if (o1.time == o2.time) return@label (o2.cost - o1.cost).toInt()
-            (o2.time - o1.time).toInt()
-        }
+        val ret=ArrayList<HouseFilterGetResponse>()
         return try{
             val candidateList=gson.fromJson(candidatesJson, Array<HousePredictResponse>::class.java).toList()
             val candidateMap= candidateList.associateBy { it.id }
 
-            val streamHouses=houseRepository.streamByCostBefore(request.cost)
+            val streamHouses=houseRepository.streamByCostBeforeAndCostAfter(request.lowCost, request.highCost)
             streamHouses.forEach { house ->
                 candidateMap[house.id]?.let {
-                    pq.add(HouseFilterGetResponse(house, it.time))
+                    ret.add(HouseFilterGetResponse(house, it.time))
                 }
                 // 메모리에 올라간 Entity를 GC에게 반환
                 entityManager?.detach(house)
@@ -122,7 +119,9 @@ class HouseService(
             var count=request.count?:DEFAULT_FILTER_COUNT
             // 최대 갯수 100개
             if(count>MAX_FILTER_COUNT) count=MAX_FILTER_COUNT
-            pq.take(count).toList()
+            // 시간대 별로 random 하게 셔플
+            ret.shuffle()
+            ret.take(count).toList()
         } catch (e: Exception) {
             e.printStackTrace()
             listOf()

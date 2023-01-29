@@ -3,7 +3,8 @@ package krescere.jipsayobackend.dto
 data class HouseFilterGetRequest(
     val latitude: String,
     val longitude: String,
-    val cost: Long,
+    val lowCost: Long,
+    val highCost: Long,
     val time: Long,
     val count: Int?,
 )
