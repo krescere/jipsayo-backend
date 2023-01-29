@@ -3,6 +3,7 @@ spring:
     include:
       - rds
       - file-logging
+      - s3
   jpa:
     hibernate:
       ddl-auto: none
