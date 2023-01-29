@@ -14,3 +14,5 @@
       * [House 수정](docs/api-reference/house/house-2.md)
       * [House 삭제](docs/api-reference/house/house-3.md)
       * [House 필터링](docs/api-reference/house/house-4.md)
+    * [Image](docs/api-reference/image/README.md)
+      * [Age Image Url 반환](docs/api-reference/image/age-image-url.md)
