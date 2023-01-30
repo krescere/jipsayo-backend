@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service
 class ImageService(
     private val s3Handler: S3Handler
 ){
-    fun getAgeImages() : List<String> {
-        val images = s3Handler.getObjects()
+    fun getAgeImages(): List<String> {
+        // filter img & sort
+        return s3Handler.getObjects()
+            .filter { it.contains(".jpg") }
+            .sortedBy { it.substringBefore(".").substringAfter("/").toInt() }
             .map { s3Handler.getObjectUrl(it) }
-        return images.subList(1, images.size)
     }
 }
