@@ -101,23 +101,36 @@ axios(config)
 
 ### Response 예시
 
+{% hint style="info" %}
+반환시 저장된 이미지의 이름 순서대로 정렬되어 반환됩니다.
+{% endhint %}
+
 {% tabs %}
 {% tab title="JSON" %}
-```json
+```
 {
     "data": [
         "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/0.jpg",
         "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/1.jpg",
+        "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/2.jpg",
+        "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/3.jpg",
+        "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/5.jpg",
+        "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/6.jpg",
         "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/10.jpg",
-        "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/100.jpg",
         "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/12.jpg",
+        "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/14.jpg",
         ...
         "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/91.jpg",
         "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/95.jpg",
-        "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/97.jpg"
+        "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/97.jpg",
+        "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/100.jpg",
+        "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/120.jpg",
+        "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/130.jpg",
+        "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/150.jpg",
+        "https://jipsayo-age.s3.ap-northeast-2.amazonaws.com/age/160.jpg"
     ],
     "message": "연령대 이미지 조회 성공",
-    "timestamp": "2023-01-30T02:03:38.2124297",
+    "timestamp": "2023-01-30T10:40:15.9514205",
     "errors": null
 }
 ```
