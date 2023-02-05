@@ -29,6 +29,8 @@ class HouseService(
     @PersistenceContext
     private val entityManager: EntityManager? = null
 
+    var logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)!!
+
     // filter 환경변수
     private val DEFAULT_FILTER_COUNT = 500
     private val MAX_FILTER_COUNT = 500
@@ -99,33 +101,33 @@ class HouseService(
     @Transactional(readOnly = true)
     fun filter(request: HouseFilterGetRequest): List<HouseFilterGetResponse> {
         // 예측 모델에 요청
-        val candidatesJson=predict(request)
-        // 후보들중 예상 이동시간이 오래걸리고 비싼 집들로 반환
-        // order[이동시간 오래걸리는 순, 비싼 순]
+        val candidatesJson = predict(request) ?: return emptyList()
+        // 후보군 리스트
         val ret=ArrayList<HouseFilterGetResponse>()
-        return try{
-            val candidateList=gson.fromJson(candidatesJson, Array<HousePredictResponse>::class.java).toList()
-            val candidateMap= candidateList.associateBy { it.id }
-
-            val streamHouses=houseRepository.streamByCostBeforeAndCostAfter(request.lowCost, request.highCost)
-            streamHouses.forEach { house ->
-                candidateMap[house.id]?.let {
-                    ret.add(HouseFilterGetResponse(house, it.time))
-                }
-                // 메모리에 올라간 Entity를 GC에게 반환
-                entityManager?.detach(house)
-            }
-            // Default 30개 반환
-            var count=request.count?:DEFAULT_FILTER_COUNT
-            // 최대 갯수 100개
-            if(count>MAX_FILTER_COUNT) count=MAX_FILTER_COUNT
-            // 시간대 별로 random 하게 셔플
-            ret.shuffle()
-            ret.take(count).toList()
+        val candidateList : List<HousePredictResponse>
+        try {
+            candidateList=gson.fromJson(candidatesJson, Array<HousePredictResponse>::class.java).toList()
         } catch (e: Exception) {
-            e.printStackTrace()
-            listOf()
+            logger.error("error in parsing json", e)
+            return emptyList()
         }
+        val candidateMap= candidateList.associateBy { it.id }
+
+        val streamHouses=houseRepository.streamByCostBeforeAndCostAfter(request.lowCost, request.highCost)
+        streamHouses.forEach { house ->
+            candidateMap[house.id]?.let {
+                ret.add(HouseFilterGetResponse(house, it.time))
+            }
+            // 메모리에 올라간 Entity를 GC에게 반환
+            entityManager?.detach(house)
+        }
+        // Default 30개 반환
+        var count=request.count?:DEFAULT_FILTER_COUNT
+        // 최대 갯수 100개
+        if(count>MAX_FILTER_COUNT) count=MAX_FILTER_COUNT
+        // 시간대 별로 random 하게 셔플
+        ret.shuffle()
+        return ret.take(count).toList()
     }
 
     fun predict(request: HouseFilterGetRequest) : String?{
@@ -153,7 +155,7 @@ class HouseService(
             entity=response.entity
             responseBody=EntityUtils.toString(entity, StandardCharsets.UTF_8)
         } catch (e: Exception) {
-            e.printStackTrace()
+            logger.error("Error while requesting to predict server", e)
         } finally {
             response?.close()
             get.releaseConnection()
