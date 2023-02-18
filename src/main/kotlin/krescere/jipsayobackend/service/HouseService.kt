@@ -121,9 +121,9 @@ class HouseService(
             // 메모리에 올라간 Entity를 GC에게 반환
             entityManager?.detach(house)
         }
-        // Default 30개 반환
+        // Default 500개 반환
         var count=request.count?:DEFAULT_FILTER_COUNT
-        // 최대 갯수 100개
+        // 최대 갯수 500개
         if(count>MAX_FILTER_COUNT) count=MAX_FILTER_COUNT
         // 시간대 별로 random 하게 셔플
         ret.shuffle()
