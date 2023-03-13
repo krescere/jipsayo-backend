@@ -74,6 +74,10 @@ dependencies {
     testImplementation('org.springframework.security:spring-security-test')
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // jupiter
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter:5.8.1'
+    // mockito kotlin
+    testImplementation 'org.mockito.kotlin:mockito-kotlin:4.1.0'
 }
 // QueryDSL
 sourceSets {
