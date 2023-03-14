@@ -8,6 +8,8 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager
 import org.locationtech.jts.io.WKTReader
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import javax.xml.parsers.SAXParser
+import javax.xml.parsers.SAXParserFactory
 
 @Configuration
 class BeanConfig {
@@ -33,5 +35,15 @@ class BeanConfig {
                 .setConnectTimeout(2000)
                 .build())
             .build()
+    }
+
+    @Bean
+    fun saxParserFactory() : SAXParserFactory {
+        return SAXParserFactory.newInstance()
+    }
+
+    @Bean
+    fun saxParser() : SAXParser {
+        return saxParserFactory().newSAXParser()
     }
 }

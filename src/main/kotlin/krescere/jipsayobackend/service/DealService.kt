@@ -1,5 +1,6 @@
 package krescere.jipsayobackend.service
 
+import krescere.jipsayobackend.dto.DealDto
 import org.apache.http.HttpEntity
 import org.apache.http.client.config.RequestConfig
 import org.apache.http.client.methods.CloseableHttpResponse
@@ -7,13 +8,18 @@ import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.util.EntityUtils
 import org.springframework.stereotype.Service
+import java.io.File
+import javax.xml.parsers.SAXParser
+import javax.xml.parsers.SAXParserFactory
 
 @Service
 class DealService(
-    private val httpClient: CloseableHttpClient
+    private val httpHandler: ApacheHttpHandler,
+    private val xmlHandler: DealSaxHandler,
+    private val saxParser: SAXParser
 ) {
     val logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)!!
-    fun getDeals() : String? {
+    fun getXml() : File {
         val url="http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?"
         // params
         val serviceKey="1JBdQZMCAkRsMQpdbldQ0lc3NU%2BRweuoWT4V2bJQrYrBM6TM%2Fpm3c9R8U878%2FoFoV8c521rVU1xQMqS4kKQs7w%3D%3D"
@@ -30,43 +36,31 @@ class DealService(
         val pageNo=1
         val numOfRows=10
         val LAWD_CD=11110
-        val DEAL_YMD=201512
+        val DEAL_YMD=202302
 
-        val get= HttpGet(url+
-        "serviceKey=$serviceKey"+
-                "&pageNo=$pageNo"+
-                "&numOfRows=$numOfRows"+
-                "&LAWD_CD=$LAWD_CD"+
-                "&DEAL_YMD=$DEAL_YMD")
-        get.setHeader("Content-type", "application/json; charset=utf-8")
+        val urlBuilder = StringBuilder(url)
+        urlBuilder.append("serviceKey=${serviceKey}")
+        urlBuilder.append("&pageNo=${pageNo}")
+        urlBuilder.append("&numOfRows=${numOfRows}")
+        urlBuilder.append("&LAWD_CD=${LAWD_CD}")
+        urlBuilder.append("&DEAL_YMD=${DEAL_YMD}")
 
-        // timeout 10 seconds
-        val TEN_SEC=10000
-        val config= RequestConfig.custom()
-            .setConnectTimeout(TEN_SEC)
-            .setConnectionRequestTimeout(TEN_SEC)
-            .setSocketTimeout(TEN_SEC)
-            .build()
-        get.config=config
-
-        var response: CloseableHttpResponse? = null
-        var entity: HttpEntity? = null
-        var responseBody: String? = null
-        try {
-            response = httpClient.execute(get)
-            entity = response.entity
-            responseBody = EntityUtils.toString(entity, "UTF-8")
-            logger.info(responseBody)
-        } catch (e: Exception) {
-            logger.error(e.message)
-        } finally {
-            response?.close()
-            get.releaseConnection()
-        }
-        return responseBody
+        val response = httpHandler.get(urlBuilder.toString())
+        // string to xml
+        val xml = File.createTempFile("deal", ".xml")
+        if(response != null) xml.writeText(response)
+        return xml
     }
 
-    fun hello() : String{
-        return "hello hyunho"
+    fun getDeals() : List<DealDto> {
+        val xml = getXml()
+        // parse xml
+        saxParser.parse(xml, xmlHandler)
+        // delete temp file
+        xml.deleteOnExit()
+
+        val deals=xmlHandler.deals
+        // kakao api를 통해 지번주소와 도로명주소를 가져온다.
+        return deals
     }
 }
