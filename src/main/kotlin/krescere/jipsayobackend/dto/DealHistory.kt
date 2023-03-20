@@ -1,6 +1,6 @@
 package krescere.jipsayobackend.dto
 
-data class DealDto(
+data class DealHistory(
     var cost: String?,
     var dealType: String?,
     var buildYear: String?,

@@ -1,6 +1,6 @@
 package krescere.jipsayobackend.service
 
-import krescere.jipsayobackend.dto.DealDto
+import krescere.jipsayobackend.dto.DealHistory
 import org.springframework.stereotype.Service
 import org.xml.sax.Attributes
 import org.xml.sax.helpers.DefaultHandler
@@ -9,8 +9,8 @@ import org.xml.sax.helpers.DefaultHandler
 class DealSaxHandler : DefaultHandler() {
     val logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)!!
 
-    val deals = ArrayList<DealDto>()
-    var deal : DealDto? = null
+    val deals = ArrayList<DealHistory>()
+    var deal : DealHistory? = null
     var value : String? = null
     override fun startDocument() {
     }
@@ -20,7 +20,7 @@ class DealSaxHandler : DefaultHandler() {
 
     override fun startElement(uri: String?, localName: String?, qName: String?, attributes: Attributes?) {
         if(qName == "item") {
-            deal = DealDto()
+            deal = DealHistory()
             deals.add(deal!!)
         }
     }

@@ -1,16 +1,11 @@
 package krescere.jipsayobackend.service
 
-import krescere.jipsayobackend.dto.DealDto
-import org.apache.http.HttpEntity
-import org.apache.http.client.config.RequestConfig
-import org.apache.http.client.methods.CloseableHttpResponse
-import org.apache.http.client.methods.HttpGet
-import org.apache.http.impl.client.CloseableHttpClient
-import org.apache.http.util.EntityUtils
+import krescere.jipsayobackend.dto.DealHistory
+import krescere.jipsayobackend.dto.DealGetByAddressResponse
+import krescere.jipsayobackend.dto.HouseGetQuery
 import org.springframework.stereotype.Service
 import java.io.File
 import javax.xml.parsers.SAXParser
-import javax.xml.parsers.SAXParserFactory
 
 @Service
 class DealService(
@@ -52,15 +47,24 @@ class DealService(
         return xml
     }
 
-    fun getDeals() : List<DealDto> {
+    fun getDealHistories() : List<DealHistory> {
         val xml = getXml()
         // parse xml
         saxParser.parse(xml, xmlHandler)
         // delete temp file
         xml.deleteOnExit()
 
-        val deals=xmlHandler.deals
+        val dealHistories=xmlHandler.deals
         // kakao api를 통해 지번주소와 도로명주소를 가져온다.
-        return deals
+        return dealHistories
+    }
+
+    fun saveDeal(){
+        val dealHistories = getDealHistories()
+        // db에 저장한다.
+    }
+
+    fun findByQuery(query: HouseGetQuery) : DealGetByAddressResponse? {
+        return null
     }
 }

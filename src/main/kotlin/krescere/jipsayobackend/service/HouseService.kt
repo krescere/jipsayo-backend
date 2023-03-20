@@ -4,7 +4,6 @@ import com.google.gson.Gson
 import krescere.jipsayobackend.common.error.CustomException
 import krescere.jipsayobackend.common.error.ErrorCode
 import krescere.jipsayobackend.dto.*
-import krescere.jipsayobackend.entity.House
 import krescere.jipsayobackend.repository.HouseRepository
 import org.apache.http.HttpEntity
 import org.apache.http.client.config.RequestConfig

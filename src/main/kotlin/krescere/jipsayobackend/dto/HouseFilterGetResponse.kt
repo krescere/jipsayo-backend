@@ -2,7 +2,6 @@ package krescere.jipsayobackend.dto
 
 import krescere.jipsayobackend.common.DecimalPointHandler.Companion.bigDecimalToDouble
 import krescere.jipsayobackend.common.DecimalPointHandler.Companion.roundToPoint
-import krescere.jipsayobackend.entity.House
 import java.time.LocalDateTime
 
 class HouseFilterGetResponse(
