@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import krescere.jipsayobackend.common.error.CustomException
 import krescere.jipsayobackend.common.error.ErrorCode
 import krescere.jipsayobackend.dto.*
+import krescere.jipsayobackend.entity.House
 import krescere.jipsayobackend.repository.HouseRepository
 import org.apache.http.HttpEntity
 import org.apache.http.client.config.RequestConfig
@@ -23,7 +24,7 @@ import javax.persistence.PersistenceContext
 class HouseService(
     private val houseRepository: HouseRepository,
     private val httpClient: CloseableHttpClient,
-    private val gson: Gson
+    private val gson: Gson,
 ) {
     @PersistenceContext
     private val entityManager: EntityManager? = null
@@ -42,15 +43,13 @@ class HouseService(
         return houseRepository.save(House(
             jibunAddress = request.jibunAddress,
             roadAddress = request.roadAddress,
-            cost = request.cost,
             hangCode = request.hangCode,
             danjiName = request.danjiName,
             postCode = request.postCode,
             latitude = request.latitude,
             longitude = request.longitude,
-            dealDate = request.dealDate,
-            dedicatedArea = request.dedicatedArea,
-        )).id!!
+            )
+        ).id!!
     }
 
     @Transactional(readOnly = true)
@@ -61,28 +60,6 @@ class HouseService(
             else
                 query.id?.let { houseRepository.findById(it).orElse(null) }
         return house?.let { HouseGetResponse(it) }
-    }
-
-    @Transactional
-    fun updateByQuery(query : HouseGetQuery, request: HouseUpdateRequest) {
-        val house =
-            if(query.roadAddress!=null && query.danjiName!=null)
-                houseRepository.findByRoadAddressAndDanjiName(query.roadAddress!!, query.danjiName!!)
-            else
-                query.id?.let { houseRepository.findById(it).orElse(null) }
-        if(house==null) throw CustomException(ErrorCode.HOUSE_NOT_FOUND)
-
-        request.jibunAddress?.let { house.updateJibunAddress(it) }
-        request.roadAddress?.let { house.updateRoadAddress(it) }
-        request.cost?.let { house.updateCost(it) }
-        request.hangCode?.let { house.updateHangCode(it) }
-        request.danjiName?.let { house.updateDanjiName(it) }
-        request.postCode?.let { house.updatePostCode(it) }
-        request.latitude?.let { house.updateLatitude(it) }
-        request.longitude?.let { house.updateLongitude(it) }
-        request.dealDate?.let { house.updateDealDate(it) }
-        request.dedicatedArea?.let { house.updateDedicatedArea(it) }
-
     }
 
     @Transactional
@@ -160,5 +137,11 @@ class HouseService(
             get.releaseConnection()
         }
         return responseBody
+    }
+
+    fun getHouseByDealHistory(dealHistory: DealHistory): House {
+        // TODO : 구현
+        // temporary return
+        return houseRepository.findById(1).orElseThrow { CustomException(ErrorCode.HOUSE_NOT_FOUND) }
     }
 }

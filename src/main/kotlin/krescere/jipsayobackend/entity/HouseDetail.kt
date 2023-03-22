@@ -11,9 +11,28 @@ import javax.persistence.*
 @Entity
 class HouseDetail(
     dedicatedArea: Double,
-    count: Int,
+    house: House,
 ) {
+    @Column(nullable = false)
+    var dedicatedArea: Double = dedicatedArea
+        private set
+
+    @Column(nullable = false)
+    var count: Int = 0
+        private set
+
+    @ManyToOne
+    @JoinColumn(name = "HOUSE_ID", nullable = false)
+    var house: House = house
+        private set
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
+
+    @PrePersist
+    fun prePersist() {
+        // count==null 이면  0으로 초기화
+        this.count = this.count ?: 0
+    }
 }

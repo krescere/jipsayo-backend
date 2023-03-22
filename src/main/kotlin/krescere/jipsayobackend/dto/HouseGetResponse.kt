@@ -1,6 +1,7 @@
 package krescere.jipsayobackend.dto
 
 import krescere.jipsayobackend.common.DecimalPointHandler.Companion.bigDecimalToDouble
+import krescere.jipsayobackend.entity.House
 
 class HouseGetResponse(
     id: Long,

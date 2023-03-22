@@ -1,6 +1,6 @@
 package krescere.jipsayobackend.dto
 
-data class DealGetByAddressResponse(
+data class DealGetResponse(
     val id: Long,
     val jibunAddress: String,
     val roadAddress: String,

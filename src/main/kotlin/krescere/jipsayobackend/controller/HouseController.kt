@@ -42,7 +42,7 @@ class HouseController(
         }
     }
 
-    @PutMapping("/houses")
+    /*@PutMapping("/houses")
     fun updateByQuery(query: HouseGetQuery, @RequestBody houseUpdateRequest: HouseUpdateRequest) : ResponseEntity<CustomBody> {
         houseService.updateByQuery(query, houseUpdateRequest)
         return CustomResponse(
@@ -53,7 +53,7 @@ class HouseController(
         ).toResponseEntity().also {
             logger.info("update house: $query, $houseUpdateRequest")
         }
-    }
+    }*/
 
     @DeleteMapping("/houses")
     fun deleteByQuery(query: HouseGetQuery) : ResponseEntity<CustomBody> {

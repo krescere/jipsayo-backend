@@ -6,6 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import krescere.jipsayobackend.common.DecimalPointHandler.Companion.doubleToBigDecimal
 import krescere.jipsayobackend.dto.HouseSaveRequest
 import krescere.jipsayobackend.dto.HouseUpdateRequest
+import krescere.jipsayobackend.entity.House
 import krescere.jipsayobackend.repository.HouseRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
