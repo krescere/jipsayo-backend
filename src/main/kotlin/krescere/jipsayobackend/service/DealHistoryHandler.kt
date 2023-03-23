@@ -2,6 +2,7 @@ package krescere.jipsayobackend.service
 
 import krescere.jipsayobackend.dto.DealDto
 import krescere.jipsayobackend.dto.DealHistory
+import krescere.jipsayobackend.dto.DealHistorySaveRequest
 import krescere.jipsayobackend.dto.HouseDetailDto
 import org.springframework.stereotype.Service
 import java.io.File
@@ -17,12 +18,12 @@ class DealHistoryHandler(
     private val houseDetailService: HouseDetailService
 ) {
     // save
-    fun save() {
-        val dealHistories = getDealHistories()
+    fun save(request: DealHistorySaveRequest) {
+        val dealHistories = getDealHistories(request)
 
         for(dealHistory in dealHistories) {
             // check if dealDto is not null
-            if(!isDealDtoNotNull(dealHistory.cost, dealHistory.dealYear, dealHistory.dealMonth, dealHistory.dealDay)) {
+            if(!isDealDtoNotNull(dealHistory)) {
                 continue
             }
             // dealHistory to house
@@ -42,12 +43,17 @@ class DealHistoryHandler(
             ))
         }
     }
+    private fun isDealDtoNotNull(dealHistory: DealHistory) : Boolean {
+        return dealHistory.cost != null &&
+                dealHistory.dealYear != null &&
+                dealHistory.dealMonth != null &&
+                dealHistory.dealDay != null &&
+                dealHistory.dedicatedArea != null &&
+                dealHistory.roadNameCityCode != null
 
-    private fun isDealDtoNotNull(cost: String?, dealYear: String?, dealMonth: String?, dealDay: String?) : Boolean {
-        return cost != null && dealYear != null && dealMonth != null && dealDay != null
     }
 
-    fun getXml() : File {
+    fun getXml(request: DealHistorySaveRequest) : File {
         val url="http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?"
         // params
         val serviceKey="1JBdQZMCAkRsMQpdbldQ0lc3NU%2BRweuoWT4V2bJQrYrBM6TM%2Fpm3c9R8U878%2FoFoV8c521rVU1xQMqS4kKQs7w%3D%3D"
@@ -61,17 +67,13 @@ class DealHistoryHandler(
                 # 서진환
                 #service_key = "4ddPArOMJR8f2%2B%2BmviXWRHcFztq4H6wAO5mKUD5vnxOMIyqycRRKSOl%2F0S%2BzNkRzFRS41X6F5rktbmFOQSvLIQ%3D%3D"
         */
-        val pageNo=1
-        val numOfRows=10
-        val LAWD_CD=11110
-        val DEAL_YMD=202302
 
         val urlBuilder = StringBuilder(url)
         urlBuilder.append("serviceKey=${serviceKey}")
-        urlBuilder.append("&pageNo=${pageNo}")
-        urlBuilder.append("&numOfRows=${numOfRows}")
-        urlBuilder.append("&LAWD_CD=${LAWD_CD}")
-        urlBuilder.append("&DEAL_YMD=${DEAL_YMD}")
+        urlBuilder.append("&pageNo=${request.pageNo}")
+        urlBuilder.append("&numOfRows=${request.numOfRows}")
+        urlBuilder.append("&LAWD_CD=${request.LAWD_CD}")
+        urlBuilder.append("&DEAL_YMD=${request.DEAL_YMD}")
 
         val response = httpHandler.get(urlBuilder.toString())
         // string to xml
@@ -80,15 +82,13 @@ class DealHistoryHandler(
         return xml
     }
 
-    fun getDealHistories() : List<DealHistory> {
-        val xml = getXml()
+    fun getDealHistories(request: DealHistorySaveRequest) : List<DealHistory> {
+        val xml = getXml(request)
         // parse xml
         saxParser.parse(xml, xmlHandler)
         // delete temp file
         xml.deleteOnExit()
 
-        val dealHistories=xmlHandler.deals
-        // kakao api를 통해 지번주소와 도로명주소를 가져온다.
-        return dealHistories
+        return xmlHandler.deals
     }
 }

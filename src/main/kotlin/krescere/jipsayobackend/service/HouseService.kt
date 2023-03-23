@@ -25,6 +25,7 @@ class HouseService(
     private val houseRepository: HouseRepository,
     private val httpClient: CloseableHttpClient,
     private val gson: Gson,
+    private val addressHandler: AddressHandler,
 ) {
     @PersistenceContext
     private val entityManager: EntityManager? = null
@@ -140,8 +141,14 @@ class HouseService(
     }
 
     fun getHouseByDealHistory(dealHistory: DealHistory): House {
-        // TODO : 구현
-        // temporary return
-        return houseRepository.findById(1).orElseThrow { CustomException(ErrorCode.HOUSE_NOT_FOUND) }
+        // get house save request
+        val houseSaveRequest = addressHandler.getHouseSaveRequest(dealHistory)
+        // check if exists
+        var house=houseRepository.findByRoadAddressAndDanjiName(houseSaveRequest.roadAddress, houseSaveRequest.danjiName)
+        // if not exists, save
+        if(house==null) {
+            house=houseRepository.findById(save(houseSaveRequest)).get()
+        }
+        return house
     }
 }

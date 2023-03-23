@@ -14,7 +14,7 @@ class HouseSaveRequest (
     postCode: Int,
     latitude: Double,
     longitude: Double,
-    dealDate: String,
+    dealDate: LocalDateTime,
     dedicatedArea: Double,
 ) {
     var jibunAddress: String = jibunAddress
@@ -33,7 +33,7 @@ class HouseSaveRequest (
         private set
     var longitude: BigDecimal = doubleToBigDecimal(longitude)
         private set
-    var dealDate: LocalDateTime = LocalDateTime.parse(dealDate)
+    var dealDate: LocalDateTime = dealDate
         private set
     var dedicatedArea: Double = roundToPoint(dedicatedArea,3)
         private set
