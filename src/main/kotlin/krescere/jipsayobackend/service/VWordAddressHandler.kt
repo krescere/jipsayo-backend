@@ -10,6 +10,7 @@ class VWordAddressHandler(
     private val httpHandler: ApacheHttpHandler,
     private val gson: Gson
 ) {
+    private val logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)!!
     fun getRoadAddress(dealHistory: DealHistory): String {
         // roadNameCityCode to roadNameCityName
         // if return "" then return ""
@@ -53,7 +54,7 @@ class VWordAddressHandler(
                 .asJsonObject.get("properties")
                 .asJsonObject.get("full_nm").asString
         } catch (e: Exception) {
-            e.printStackTrace()
+            logger.error("getRoadNameCityName error: $e")
         }
         return ""
     }

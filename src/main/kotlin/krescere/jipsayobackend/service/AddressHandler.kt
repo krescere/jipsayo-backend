@@ -17,14 +17,14 @@ class AddressHandler(
         val kakaoAddressResponse = kakaoAddressHandler.search(roadAddress)
         // dealHistory to houseSaveRequest
         return HouseSaveRequest(
-            jibunAddress = kakaoAddressResponse.jibunAddress, // kakao
-            roadAddress = kakaoAddressResponse.roadAddress, // kakao
+            jibunAddress = kakaoAddressResponse.jibunAddress,
+            roadAddress = kakaoAddressResponse.roadAddress,
             cost = dealHistory.cost?.toLong()?:0,
-            hangCode = kakaoAddressResponse.hangCode, // kakao 법정동코드
-            danjiName = kakaoAddressResponse.danjiName, // kakao 빌딩
-            postCode = kakaoAddressResponse.postCode, // kakao zone_no
-            latitude = kakaoAddressResponse.latitude, // kakao
-            longitude = kakaoAddressResponse.longitude, // kakao
+            hangCode = kakaoAddressResponse.hangCode,
+            danjiName = kakaoAddressResponse.danjiName,
+            postCode = kakaoAddressResponse.postCode,
+            latitude = kakaoAddressResponse.latitude,
+            longitude = kakaoAddressResponse.longitude,
             dealDate = LocalDateTime.of(
                 dealHistory.dealYear?.toInt()?:0,
                 dealHistory.dealMonth?.toInt()?:0,

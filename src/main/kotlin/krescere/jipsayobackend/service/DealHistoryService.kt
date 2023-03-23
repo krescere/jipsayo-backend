@@ -5,11 +5,12 @@ import krescere.jipsayobackend.dto.DealHistory
 import krescere.jipsayobackend.dto.DealHistorySaveRequest
 import krescere.jipsayobackend.dto.HouseDetailDto
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.io.File
 import javax.xml.parsers.SAXParser
 
 @Service
-class DealHistoryHandler(
+class DealHistoryService(
     private val httpHandler: ApacheHttpHandler,
     private val saxParser: SAXParser,
     private val xmlHandler: DealSaxHandler,
@@ -18,6 +19,7 @@ class DealHistoryHandler(
     private val houseDetailService: HouseDetailService
 ) {
     // save
+    @Transactional
     fun save(request: DealHistorySaveRequest) {
         val dealHistories = getDealHistories(request)
 
@@ -53,7 +55,7 @@ class DealHistoryHandler(
 
     }
 
-    fun getXml(request: DealHistorySaveRequest) : File {
+    private fun getXml(request: DealHistorySaveRequest) : File {
         val url="http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?"
         // params
         val serviceKey="1JBdQZMCAkRsMQpdbldQ0lc3NU%2BRweuoWT4V2bJQrYrBM6TM%2Fpm3c9R8U878%2FoFoV8c521rVU1xQMqS4kKQs7w%3D%3D"
@@ -82,7 +84,7 @@ class DealHistoryHandler(
         return xml
     }
 
-    fun getDealHistories(request: DealHistorySaveRequest) : List<DealHistory> {
+    private fun getDealHistories(request: DealHistorySaveRequest) : List<DealHistory> {
         val xml = getXml(request)
         // parse xml
         saxParser.parse(xml, xmlHandler)

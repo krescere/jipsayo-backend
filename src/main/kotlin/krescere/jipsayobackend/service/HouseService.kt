@@ -125,7 +125,7 @@ class HouseService(
         get.config=config
 
         var response: CloseableHttpResponse? = null
-        var entity: HttpEntity? = null
+        val entity: HttpEntity
         var responseBody: String? = null
         try{
             response= httpClient.execute(get)
@@ -140,6 +140,7 @@ class HouseService(
         return responseBody
     }
 
+    @Transactional
     fun getHouseByDealHistory(dealHistory: DealHistory): House {
         // get house save request
         val houseSaveRequest = addressHandler.getHouseSaveRequest(dealHistory)

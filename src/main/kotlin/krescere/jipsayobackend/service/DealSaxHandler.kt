@@ -1,11 +1,11 @@
 package krescere.jipsayobackend.service
 
 import krescere.jipsayobackend.dto.DealHistory
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import org.xml.sax.Attributes
 import org.xml.sax.helpers.DefaultHandler
 
-@Service
+@Component
 class DealSaxHandler : DefaultHandler() {
     val logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)!!
 

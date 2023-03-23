@@ -6,6 +6,7 @@ import krescere.jipsayobackend.dto.HouseGetQuery
 import krescere.jipsayobackend.entity.Deal
 import krescere.jipsayobackend.repository.DealRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class DealService(
@@ -13,6 +14,7 @@ class DealService(
 ) {
     val logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)!!
 
+    @Transactional
     fun save(dealDto: DealDto) {
         // db에 저장한다.
         dealRepository.save(Deal(

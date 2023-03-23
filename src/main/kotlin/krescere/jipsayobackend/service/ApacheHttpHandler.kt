@@ -4,9 +4,9 @@ import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.util.EntityUtils
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class ApacheHttpHandler(
     private var httpClient: CloseableHttpClient
 ) {
