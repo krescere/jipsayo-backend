@@ -3,6 +3,9 @@ package krescere.jipsayobackend.controller
 import krescere.jipsayobackend.common.CustomBody
 import krescere.jipsayobackend.common.CustomResponse
 import krescere.jipsayobackend.dto.*
+import krescere.jipsayobackend.dto.common.EntitySaveResponse
+import krescere.jipsayobackend.dto.house.HouseGetRequest
+import krescere.jipsayobackend.dto.house.HouseSaveRequest
 import krescere.jipsayobackend.service.HouseService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -29,12 +32,12 @@ class HouseController(
     }
 
     @GetMapping("/houses")
-    fun findByQuery(query: HouseGetQuery) : ResponseEntity<CustomBody> {
+    fun findByQuery(query: HouseGetRequest) : ResponseEntity<CustomBody> {
         return CustomResponse(
             status = HttpStatus.OK,
             CustomBody(
                 message = "부동산 조회 성공",
-                data = houseService.findByQuery(query)
+                data = houseService.find(query)
                     ?: Collections.emptyMap<String, Any>()
             )
         ).toResponseEntity().also {
@@ -56,7 +59,7 @@ class HouseController(
     }*/
 
     @DeleteMapping("/houses")
-    fun deleteByQuery(query: HouseGetQuery) : ResponseEntity<CustomBody> {
+    fun deleteByQuery(query: HouseGetRequest) : ResponseEntity<CustomBody> {
         houseService.deleteByQuery(query)
         return CustomResponse(
             status = HttpStatus.OK,

@@ -2,6 +2,7 @@ package krescere.jipsayobackend.dto
 
 import krescere.jipsayobackend.common.DecimalPointHandler.Companion.bigDecimalToDouble
 import krescere.jipsayobackend.common.DecimalPointHandler.Companion.roundToPoint
+import krescere.jipsayobackend.entity.House
 import java.time.LocalDateTime
 
 class HouseFilterGetResponse(
@@ -15,11 +16,11 @@ class HouseFilterGetResponse(
     dealDate: LocalDateTime,
     dedicatedArea: Double,
 ){
-    constructor(house : House,time: Long) : this(
+    constructor(house : House, time: Long) : this(
         id = house.id!!,
         jibunAddress = house.jibunAddress,
         danjiName = house.danjiName,
-        cost = house.cost,
+        cost = house.houseDetails.sumOf { it.cost },
         latitude = bigDecimalToDouble(house.latitude),
         longitude = bigDecimalToDouble(house.longitude),
         time = time,

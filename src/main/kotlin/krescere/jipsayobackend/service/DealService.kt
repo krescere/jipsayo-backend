@@ -1,12 +1,14 @@
 package krescere.jipsayobackend.service
 
-import krescere.jipsayobackend.dto.DealDto
-import krescere.jipsayobackend.dto.DealGetResponse
-import krescere.jipsayobackend.dto.HouseGetQuery
+import krescere.jipsayobackend.dto.deal.DealFilterResponse
+import krescere.jipsayobackend.dto.deal.DealGetRequest
+import krescere.jipsayobackend.dto.deal.DealGetResponse
+import krescere.jipsayobackend.dto.deal.DealSaveRequest
 import krescere.jipsayobackend.entity.Deal
 import krescere.jipsayobackend.repository.DealRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.stream.Stream
 
 @Service
 class DealService(
@@ -15,16 +17,25 @@ class DealService(
     val logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)!!
 
     @Transactional
-    fun save(dealDto: DealDto) {
+    fun save(dealSaveRequest: DealSaveRequest) : Long {
         // db에 저장한다.
-        dealRepository.save(Deal(
-            cost = dealDto.cost,
-            dealDate = dealDto.dealDate,
-            house = dealDto.house
-        ))
+        return dealRepository.save(Deal(
+            cost = dealSaveRequest.cost,
+            dealDate = dealSaveRequest.dealDate,
+            houseDetail = dealSaveRequest.houseDetail,
+        )).id!!
     }
 
-    fun findByQuery(query: HouseGetQuery) : DealGetResponse? {
-        return null
+    fun find(request: DealGetRequest) : DealGetResponse? {
+        return dealRepository.findByCostAndDealDateAndHouseDetail(
+            request.cost,
+            request.dealDate,
+            request.houseDetail
+        )?.let { DealGetResponse(it) }
+    }
+
+    @Transactional(readOnly = true)
+    fun findDealsByCostRange(lowCost: Long, highCost: Long): Stream<DealFilterResponse>{
+        return dealRepository.findDealsByCostRange(highCost, lowCost)
     }
 }

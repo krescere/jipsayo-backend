@@ -2,7 +2,7 @@ package krescere.jipsayobackend.controller
 
 import krescere.jipsayobackend.common.CustomBody
 import krescere.jipsayobackend.common.CustomResponse
-import krescere.jipsayobackend.dto.HouseGetQuery
+import krescere.jipsayobackend.dto.house.HouseGetRequest
 import krescere.jipsayobackend.service.DealService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -25,12 +25,12 @@ class DealController(
      * 조회수
      */
     @GetMapping("/deals")
-    fun findByQuery(query: HouseGetQuery) : ResponseEntity<CustomBody> {
+    fun findByQuery(query: HouseGetRequest) : ResponseEntity<CustomBody> {
         return CustomResponse(
             status = HttpStatus.OK,
             CustomBody(
                 message = "거래 내역 조회 성공",
-                data = dealService.findByQuery(query)
+                data = dealService.find(query)
                     ?: Collections.emptyMap<String, Any>()
             )
         ).toResponseEntity().also {

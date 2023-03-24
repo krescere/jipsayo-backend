@@ -1,6 +1,7 @@
 package krescere.jipsayobackend.service
 
-import krescere.jipsayobackend.dto.HouseDetailDto
+import krescere.jipsayobackend.dto.houseDetail.HouseDetailGetRequest
+import krescere.jipsayobackend.dto.houseDetail.HouseDetailSaveRequest
 import krescere.jipsayobackend.entity.HouseDetail
 import krescere.jipsayobackend.repository.HouseDetailRepository
 import org.springframework.stereotype.Service
@@ -12,11 +13,24 @@ class HouseDetailService(
 ) {
     // save
     @Transactional
-    fun save(houseDetailDto: HouseDetailDto) {
+    fun save(request: HouseDetailSaveRequest) : Long {
         // db에 저장한다.
-        houseDetailRepository.save(HouseDetail(
-            dedicatedArea = houseDetailDto.dedicatedArea,
-            house = houseDetailDto.house
-        ))
+        return houseDetailRepository.save(HouseDetail(
+            dedicatedArea = request.dedicatedArea,
+            house = request.house
+        )).id!!
+    }
+
+    @Transactional
+    fun findHouseDetailOrSave(request: HouseDetailGetRequest): HouseDetail {
+        return houseDetailRepository.findByDedicatedAreaAndHouse(
+            request.dedicatedArea,
+            request.house
+        ) ?: houseDetailRepository.save(
+            HouseDetail(
+                dedicatedArea = request.dedicatedArea,
+                house = request.house
+            )
+        )
     }
 }

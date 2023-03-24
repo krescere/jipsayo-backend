@@ -1,8 +1,7 @@
 package krescere.jipsayobackend.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import krescere.jipsayobackend.dto.ResearchSaveRequest
-import krescere.jipsayobackend.repository.HouseRepository
+import krescere.jipsayobackend.dto.research.ResearchSaveRequest
 import krescere.jipsayobackend.repository.ResearchRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before

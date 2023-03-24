@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import krescere.jipsayobackend.common.DecimalPointHandler.Companion.doubleToBigDecimal
-import krescere.jipsayobackend.dto.HouseSaveRequest
-import krescere.jipsayobackend.dto.HouseUpdateRequest
+import krescere.jipsayobackend.dto.house.HouseSaveRequest
+import krescere.jipsayobackend.dto.house.HouseUpdateRequest
 import krescere.jipsayobackend.entity.House
 import krescere.jipsayobackend.repository.HouseRepository
 import org.assertj.core.api.Assertions.assertThat

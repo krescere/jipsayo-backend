@@ -1,6 +1,6 @@
-package krescere.jipsayobackend.dto
+package krescere.jipsayobackend.dto.dealHistory
 
-class HouseFilterGetRequest(
+class DealHistoryFilterRequest(
     val latitude: String,
     val longitude: String,
     val lowCost: Long,

@@ -44,6 +44,9 @@ class House(
     var longitude: BigDecimal = longitude
         private set
 
+    @OneToMany(mappedBy = "house")
+    val houseDetails: List<HouseDetail> = mutableListOf()
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null

@@ -4,8 +4,13 @@ import com.google.gson.Gson
 import krescere.jipsayobackend.common.error.CustomException
 import krescere.jipsayobackend.common.error.ErrorCode
 import krescere.jipsayobackend.dto.*
+import krescere.jipsayobackend.dto.house.HouseGetRequest
+import krescere.jipsayobackend.dto.house.HouseGetResponse
+import krescere.jipsayobackend.dto.house.HouseSaveRequest
+import krescere.jipsayobackend.dto.dealHistory.LawDealHistory
 import krescere.jipsayobackend.entity.House
 import krescere.jipsayobackend.repository.HouseRepository
+import krescere.jipsayobackend.service.handler.AddressHandler
 import org.apache.http.HttpEntity
 import org.apache.http.client.config.RequestConfig
 import org.apache.http.client.methods.CloseableHttpResponse
@@ -48,28 +53,27 @@ class HouseService(
             danjiName = request.danjiName,
             postCode = request.postCode,
             latitude = request.latitude,
-            longitude = request.longitude,
-            )
-        ).id!!
+            longitude = request.longitude
+        )).id!!
     }
 
     @Transactional(readOnly = true)
-    fun findByQuery(query: HouseGetQuery) : HouseGetResponse? {
+    fun find(request: HouseGetRequest) : HouseGetResponse? {
         val house =
-            if(query.roadAddress!=null && query.danjiName!=null)
-                houseRepository.findByRoadAddressAndDanjiName(query.roadAddress!!, query.danjiName!!)
+            if(request.roadAddress!=null && request.danjiName!=null)
+                houseRepository.findByRoadAddressAndDanjiName(request.roadAddress!!, request.danjiName!!)
             else
-                query.id?.let { houseRepository.findById(it).orElse(null) }
+                request.id?.let { houseRepository.findById(it).orElse(null) }
         return house?.let { HouseGetResponse(it) }
     }
 
     @Transactional
-    fun deleteByQuery(query : HouseGetQuery) {
+    fun deleteByQuery(request : HouseGetRequest) {
         val house =
-            if(query.roadAddress!=null && query.danjiName!=null)
-                houseRepository.findByRoadAddressAndDanjiName(query.roadAddress!!, query.danjiName!!)
+            if(request.roadAddress!=null && request.danjiName!=null)
+                houseRepository.findByRoadAddressAndDanjiName(request.roadAddress!!, request.danjiName!!)
             else
-                query.id?.let { houseRepository.findById(it).orElse(null) }
+                request.id?.let { houseRepository.findById(it).orElse(null) }
         if(house==null) throw CustomException(ErrorCode.HOUSE_NOT_FOUND)
         houseRepository.delete(house)
     }
@@ -104,7 +108,7 @@ class HouseService(
         if(count>MAX_FILTER_COUNT) count=MAX_FILTER_COUNT
         // 시간대 별로 random 하게 셔플
         ret.shuffle()
-        return ret.take(count).toList()
+        return ret.take(count)
     }
 
     fun predict(request: HouseFilterGetRequest) : String?{
@@ -141,15 +145,19 @@ class HouseService(
     }
 
     @Transactional
-    fun getHouseByDealHistory(dealHistory: DealHistory): House {
+    fun findHouseOrSave(lawDealHistory: LawDealHistory): House {
         // get house save request
-        val houseSaveRequest = addressHandler.getHouseSaveRequest(dealHistory)
-        // check if exists
-        var house=houseRepository.findByRoadAddressAndDanjiName(houseSaveRequest.roadAddress, houseSaveRequest.danjiName)
-        // if not exists, save
-        if(house==null) {
-            house=houseRepository.findById(save(houseSaveRequest)).get()
-        }
-        return house
+        val houseSaveRequest = addressHandler.getHouseSaveRequest(lawDealHistory)
+
+        return houseRepository.findByRoadAddressAndDanjiName(houseSaveRequest.roadAddress, houseSaveRequest.danjiName)
+            ?: houseRepository.save(House(
+                jibunAddress = houseSaveRequest.jibunAddress,
+                roadAddress = houseSaveRequest.roadAddress,
+                hangCode = houseSaveRequest.hangCode,
+                danjiName = houseSaveRequest.danjiName,
+                postCode = houseSaveRequest.postCode,
+                latitude = houseSaveRequest.latitude,
+                longitude = houseSaveRequest.longitude,
+            ))
     }
 }

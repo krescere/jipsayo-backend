@@ -1,6 +1,7 @@
 package krescere.jipsayobackend.entity
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.math.BigDecimal
 import javax.persistence.*
 
 /**
@@ -10,11 +11,11 @@ import javax.persistence.*
 @Table(name = "house_detail")
 @Entity
 class HouseDetail(
-    dedicatedArea: Double,
+    dedicatedArea: BigDecimal,
     house: House,
 ) {
     @Column(nullable = false)
-    var dedicatedArea: Double = dedicatedArea
+    var dedicatedArea: BigDecimal = dedicatedArea
         private set
 
     @Column(nullable = false)
@@ -25,6 +26,9 @@ class HouseDetail(
     @JoinColumn(name = "HOUSE_ID", nullable = false)
     var house: House = house
         private set
+
+    @OneToMany(mappedBy = "houseDetail")
+    val deals : List<Deal> = mutableListOf()
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

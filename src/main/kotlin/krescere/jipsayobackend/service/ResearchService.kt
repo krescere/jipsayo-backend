@@ -1,6 +1,6 @@
 package krescere.jipsayobackend.service
 
-import krescere.jipsayobackend.dto.ResearchSaveRequest
+import krescere.jipsayobackend.dto.research.ResearchSaveRequest
 import krescere.jipsayobackend.entity.Research
 import krescere.jipsayobackend.repository.HouseRepository
 import krescere.jipsayobackend.repository.ResearchRepository

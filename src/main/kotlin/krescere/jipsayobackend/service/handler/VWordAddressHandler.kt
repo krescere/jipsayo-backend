@@ -1,8 +1,8 @@
-package krescere.jipsayobackend.service
+package krescere.jipsayobackend.service.handler
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import krescere.jipsayobackend.dto.DealHistory
+import krescere.jipsayobackend.dto.dealHistory.LawDealHistory
 import org.springframework.stereotype.Service
 
 @Service
@@ -11,16 +11,16 @@ class VWordAddressHandler(
     private val gson: Gson
 ) {
     private val logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)!!
-    fun getRoadAddress(dealHistory: DealHistory): String {
+    fun getRoadAddress(lawDealHistory: LawDealHistory): String {
         // roadNameCityCode to roadNameCityName
         // if return "" then return ""
-        val roadNameCityName = getRoadNameCityName(dealHistory.roadNameCityCode!!)
+        val roadNameCityName = getRoadNameCityName(lawDealHistory.roadNameCityCode!!)
         if(roadNameCityName == "") return ""
         // roadNameCityName +" "+ roadNameBuildingMainCode +"_"+ roadNameBuildingSubCode
-        return if(dealHistory.roadNameBuildingSubCode == "0") {
-            roadNameCityName + " " + dealHistory.roadNameBuildingMainCode
+        return if(lawDealHistory.roadNameBuildingSubCode == "0") {
+            roadNameCityName + " " + lawDealHistory.roadNameBuildingMainCode
         } else {
-            roadNameCityName + " " + dealHistory.roadNameBuildingMainCode + "_" + dealHistory.roadNameBuildingSubCode
+            roadNameCityName + " " + lawDealHistory.roadNameBuildingMainCode + "_" + lawDealHistory.roadNameBuildingSubCode
         }
     }
 

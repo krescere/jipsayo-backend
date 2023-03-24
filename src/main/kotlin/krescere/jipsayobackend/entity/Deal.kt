@@ -13,7 +13,7 @@ import javax.persistence.*
 class Deal(
     cost: Long,
     dealDate: LocalDateTime,
-    house: House,
+    houseDetail: HouseDetail,
 ) {
     @Column(nullable = false)
     var cost: Long = cost
@@ -24,8 +24,8 @@ class Deal(
         private set
 
     @ManyToOne
-    @JoinColumn(name = "HOUSE_ID", nullable = false)
-    var house: House = house
+    @JoinColumn(name = "house_detail_id")
+    var houseDetail: HouseDetail = houseDetail
         private set
 
     @Id

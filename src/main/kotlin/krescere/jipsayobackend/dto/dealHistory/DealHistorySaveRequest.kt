@@ -1,6 +1,6 @@
-package krescere.jipsayobackend.dto
+package krescere.jipsayobackend.dto.dealHistory
 
-data class DealHistorySaveRequest(
+class DealHistorySaveRequest(
     val pageNo: Int,
     val numOfRows: Int,
     val LAWD_CD: Int,

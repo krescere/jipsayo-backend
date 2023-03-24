@@ -1,9 +1,9 @@
-package krescere.jipsayobackend.service
+package krescere.jipsayobackend.service.handler
 
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import krescere.jipsayobackend.dto.KakaoAddressResponse
+import krescere.jipsayobackend.dto.common.KakaoAddressResponse
 import org.springframework.stereotype.Component
 
 @Component

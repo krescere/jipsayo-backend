@@ -1,6 +1,6 @@
-package krescere.jipsayobackend.dto
+package krescere.jipsayobackend.dto.common
 
-data class KakaoAddressResponse(
+class KakaoAddressResponse(
     val jibunAddress: String,
     val roadAddress: String,
     val hangCode: Long,
