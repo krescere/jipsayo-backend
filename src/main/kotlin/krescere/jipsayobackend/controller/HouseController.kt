@@ -32,56 +32,29 @@ class HouseController(
     }
 
     @GetMapping("/houses")
-    fun findByQuery(query: HouseGetRequest) : ResponseEntity<CustomBody> {
+    fun find(request: HouseGetRequest) : ResponseEntity<CustomBody> {
         return CustomResponse(
             status = HttpStatus.OK,
             CustomBody(
                 message = "부동산 조회 성공",
-                data = houseService.find(query)
+                data = houseService.find(request)
                     ?: Collections.emptyMap<String, Any>()
             )
         ).toResponseEntity().also {
-            logger.info("get house: $query")
+            logger.info("get house: $request")
         }
     }
 
-    /*@PutMapping("/houses")
-    fun updateByQuery(query: HouseGetQuery, @RequestBody houseUpdateRequest: HouseUpdateRequest) : ResponseEntity<CustomBody> {
-        houseService.updateByQuery(query, houseUpdateRequest)
-        return CustomResponse(
-            status = HttpStatus.OK,
-            CustomBody(
-                message = "부동산 수정 성공"
-            )
-        ).toResponseEntity().also {
-            logger.info("update house: $query, $houseUpdateRequest")
-        }
-    }*/
-
     @DeleteMapping("/houses")
-    fun deleteByQuery(query: HouseGetRequest) : ResponseEntity<CustomBody> {
-        houseService.deleteByQuery(query)
+    fun delete(request: HouseGetRequest) : ResponseEntity<CustomBody> {
+        houseService.deleteByQuery(request)
         return CustomResponse(
             status = HttpStatus.OK,
             CustomBody(
                 message = "부동산 삭제 성공"
             )
         ).toResponseEntity().also {
-            logger.info("delete house: $query")
-        }
-    }
-
-    // 프론트에서 필터링 요청올 때
-    @GetMapping("/houses/filter")
-    fun filterByQuery(request: HouseFilterGetRequest) : ResponseEntity<CustomBody> {
-        return CustomResponse(
-            status = HttpStatus.OK,
-            CustomBody(
-                message = "부동산 필터링 조회 성공",
-                data = houseService.filter(request)
-            )
-        ).toResponseEntity().also {
-            logger.info("filter house: $request")
+            logger.info("delete house: $request")
         }
     }
 }

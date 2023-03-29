@@ -1,6 +1,5 @@
 package krescere.jipsayobackend.controller
 
-import krescere.jipsayobackend.service.DealService
 import org.junit.Before
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,9 +15,7 @@ import org.springframework.web.filter.CharacterEncodingFilter
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class DealControllerTest{
-    @Autowired
-    val dealService: DealService? = null
+class DealHistoryControllerTest {
     @Autowired
     val context: WebApplicationContext? = null
 

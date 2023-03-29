@@ -2,10 +2,8 @@ package krescere.jipsayobackend.service
 
 import krescere.jipsayobackend.dto.deal.DealFilterResponse
 import krescere.jipsayobackend.dto.deal.DealSaveRequest
-import krescere.jipsayobackend.dto.dealHistory.DealHistoryFilterRequest
-import krescere.jipsayobackend.dto.dealHistory.DealHistoryFilterResponse
-import krescere.jipsayobackend.dto.dealHistory.LawDealHistory
-import krescere.jipsayobackend.dto.dealHistory.DealHistorySaveRequest
+import krescere.jipsayobackend.dto.dealHistory.*
+import krescere.jipsayobackend.dto.house.HouseGetRequest
 import krescere.jipsayobackend.dto.houseDetail.HouseDetailGetRequest
 import krescere.jipsayobackend.service.handler.LawDealHistoryHandler
 import krescere.jipsayobackend.service.handler.PredictHandler
@@ -43,8 +41,7 @@ class DealHistoryService(
                 HouseDetailGetRequest(
                 dedicatedArea = lawDealHistory.dedicatedArea!!,
                 house = house
-            )
-            )
+            ))
             // dealHistory to dealDto
             dealService.save(
                 DealSaveRequest(
@@ -57,8 +54,17 @@ class DealHistoryService(
         }
     }
 
-    @Transactional
-    fun predict(request: DealHistoryFilterRequest): List<DealHistoryFilterResponse> {
+    @Transactional(readOnly = true)
+    fun find(request: DealHistoryGetRequest) : DealHistoryGetResponse? {
+        return houseService.get(HouseGetRequest(
+            id = null,
+            roadAddress = request.roadAddress,
+            danjiName = request.danjiName
+        ))?.let { DealHistoryGetResponse(it) }
+    }
+
+    @Transactional(readOnly = true)
+    fun filter(request: DealHistoryFilterRequest): List<DealHistoryFilterResponse> {
         // [id, {id,cost}] 형태의 map
         val candidatesMap= predictHandler.getCandidateMap(request)
         val ret = mutableListOf<DealHistoryFilterResponse>()

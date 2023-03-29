@@ -1,7 +1,7 @@
 package krescere.jipsayobackend.service.handler
 
 import com.google.gson.Gson
-import krescere.jipsayobackend.dto.HousePredictResponse
+import krescere.jipsayobackend.dto.house.HousePredictResponse
 import krescere.jipsayobackend.dto.dealHistory.DealHistoryFilterRequest
 import org.springframework.stereotype.Component
 @Component

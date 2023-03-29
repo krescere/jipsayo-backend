@@ -1,7 +1,4 @@
-package krescere.jipsayobackend.dto
-
-import lombok.Data
-
+package krescere.jipsayobackend.dto.house
 
 class HousePredictResponse(
     val id: Long,
