@@ -23,6 +23,8 @@ apply plugin: 'kotlin-allopen' // @entity -> open
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'idea'
 
 group = 'krescere'
 version '0.0.1-SNAPSHOT'
@@ -61,15 +63,18 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     // QueryDSL
     implementation("com.querydsl:querydsl-jpa:${queryDslVersion}")
-    annotationProcessor("javax.persistence:javax.persistence-api",
-            "javax.annotation:javax.annotation-api",
-            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+    implementation("com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+    kapt("com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
     // hibernate-spatial
     implementation("org.hibernate:hibernate-spatial:5.4.17.Final")
     // apache httpclient
     implementation('org.apache.httpcomponents:httpclient:4.5.14')
     // aws-sdk
     implementation('org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE')
+    // batch
+    implementation('org.springframework.boot:spring-boot-starter-batch')
+    // quartz
+    implementation('org.springframework.boot:spring-boot-starter-quartz')
     // test security (권한을 필요로하는 api 호출을 위한)
     testImplementation('org.springframework.security:spring-security-test')
     // test
@@ -80,13 +85,14 @@ dependencies {
     testImplementation 'org.mockito.kotlin:mockito-kotlin:4.1.0'
 }
 // QueryDSL
-sourceSets {
-    main {
-        java {
-            srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
-        }
+idea {
+    module {
+        def kaptMain = file("build/generated/source/kapt/main")
+        sourceDirs += kaptMain
+        generatedSourceDirs += kaptMain
     }
 }
+
 targetCompatibility = JavaVersion.VERSION_11
 compileKotlin {
     kotlinOptions {

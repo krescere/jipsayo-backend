@@ -11,7 +11,7 @@ import krescere.jipsayobackend.dto.house.HouseSaveRequest
 import krescere.jipsayobackend.dto.dealHistory.LawDealHistory
 import krescere.jipsayobackend.entity.House
 import krescere.jipsayobackend.repository.HouseRepository
-import krescere.jipsayobackend.service.handler.AddressHandler
+import krescere.jipsayobackend.common.handler.AddressHandler
 import org.apache.http.HttpEntity
 import org.apache.http.client.config.RequestConfig
 import org.apache.http.client.methods.CloseableHttpResponse

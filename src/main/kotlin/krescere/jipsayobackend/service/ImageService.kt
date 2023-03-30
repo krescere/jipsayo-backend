@@ -1,6 +1,6 @@
 package krescere.jipsayobackend.service
 
-import krescere.jipsayobackend.service.handler.S3Handler
+import krescere.jipsayobackend.common.handler.S3Handler
 import org.springframework.stereotype.Service
 
 @Service

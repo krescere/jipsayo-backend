@@ -5,7 +5,9 @@ import java.math.BigDecimal
 import javax.persistence.*
 
 @EntityListeners(AuditingEntityListener::class)
-@Table(name = "house")
+@Table(name = "house", indexes = [
+    Index(name = "idx_roadAddress_danjiName", columnList = "roadAddress, danjiName", unique = true),
+])
 @Entity
 class House(
     jibunAddress: String,

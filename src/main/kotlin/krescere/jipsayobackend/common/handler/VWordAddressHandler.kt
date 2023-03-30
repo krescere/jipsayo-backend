@@ -1,4 +1,4 @@
-package krescere.jipsayobackend.service.handler
+package krescere.jipsayobackend.common.handler
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject

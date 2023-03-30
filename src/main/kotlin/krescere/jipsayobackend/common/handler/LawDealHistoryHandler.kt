@@ -1,4 +1,4 @@
-package krescere.jipsayobackend.service.handler
+package krescere.jipsayobackend.common.handler
 
 import krescere.jipsayobackend.dto.dealHistory.DealHistorySaveRequest
 import krescere.jipsayobackend.dto.dealHistory.LawDealHistory

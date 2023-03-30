@@ -5,6 +5,7 @@ import krescere.jipsayobackend.dto.deal.DealGetRequest
 import krescere.jipsayobackend.dto.deal.DealGetResponse
 import krescere.jipsayobackend.dto.deal.DealSaveRequest
 import krescere.jipsayobackend.entity.Deal
+import krescere.jipsayobackend.repository.DealQueryDSLRepository
 import krescere.jipsayobackend.repository.DealRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -13,6 +14,7 @@ import java.util.stream.Stream
 @Service
 class DealService(
     private val dealRepository: DealRepository,
+    private val dealQueryDSLRepository: DealQueryDSLRepository
 ) {
     val logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)!!
 
@@ -36,6 +38,6 @@ class DealService(
 
     @Transactional(readOnly = true)
     fun findDealsByCostRange(lowCost: Long, highCost: Long): Stream<DealFilterResponse>{
-        return dealRepository.findDealsByCostRange(highCost, lowCost)
+        return dealQueryDSLRepository.findDealsByCostRange(highCost, lowCost)
     }
 }

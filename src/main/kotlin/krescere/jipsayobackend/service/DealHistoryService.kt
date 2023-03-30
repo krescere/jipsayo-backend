@@ -5,8 +5,8 @@ import krescere.jipsayobackend.dto.deal.DealSaveRequest
 import krescere.jipsayobackend.dto.dealHistory.*
 import krescere.jipsayobackend.dto.house.HouseGetRequest
 import krescere.jipsayobackend.dto.houseDetail.HouseDetailGetRequest
-import krescere.jipsayobackend.service.handler.LawDealHistoryHandler
-import krescere.jipsayobackend.service.handler.PredictHandler
+import krescere.jipsayobackend.common.handler.LawDealHistoryHandler
+import krescere.jipsayobackend.common.handler.PredictHandler
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityManager
