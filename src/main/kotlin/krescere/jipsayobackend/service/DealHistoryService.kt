@@ -26,9 +26,10 @@ class DealHistoryService(
 
     @PersistenceContext
     private val entityManager: EntityManager? = null
-    // save
+
+    // return : total count, 전체 데이터 개수
     @Transactional
-    fun save(request: DealHistorySaveRequest) {
+    fun save(request: DealHistorySaveRequest) : Int {
         val lawDealHistories = lawDealHistoryHandler.getLawDealHistories(request)
 
         for(lawDealHistory in lawDealHistories) {
@@ -52,6 +53,8 @@ class DealHistoryService(
                 houseDetail = houseDetail
             ))
         }
+
+        return lawDealHistoryHandler.getTotalCount()
     }
 
     @Transactional(readOnly = true)

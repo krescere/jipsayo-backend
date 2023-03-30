@@ -22,6 +22,8 @@ class LawDealHistoryHandler (
         return xmlHandler.deals
     }
 
+    fun getTotalCount() = xmlHandler.totalCount
+
     private fun getXml(request: DealHistorySaveRequest) : File {
         val url="http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?"
         // params

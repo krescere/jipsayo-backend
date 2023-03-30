@@ -12,7 +12,10 @@ class DealSaxHandler : DefaultHandler() {
     val deals = ArrayList<LawDealHistory>()
     var deal : LawDealHistory? = null
     var value : String? = null
+    var totalCount : Int = 0
+
     override fun startDocument() {
+        totalCount = 0
     }
 
     override fun endDocument() {
@@ -55,6 +58,7 @@ class DealSaxHandler : DefaultHandler() {
             "층" -> deal?.floor = value
             "해제사유발생일" -> deal?.cancelDate = value
             "해제여부" -> deal?.isCancel = value
+            "totalCount" -> totalCount = value?.toInt() ?: 0
         }
     }
 
