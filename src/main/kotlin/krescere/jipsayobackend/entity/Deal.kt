@@ -1,19 +1,14 @@
 package krescere.jipsayobackend.entity
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
 import javax.persistence.*
 
-/**
- * House 와 1:N 관계를 맺는다.
- */
-@EntityListeners(AuditingEntityListener::class)
 @Table(name = "deal")
 @Entity
-class Deal(
+class Deal (
     cost: Long,
     dealDate: LocalDateTime,
-    houseDetail: HouseDetail,
+    houseDetail: HouseDetail
 ) {
     @Column(nullable = false)
     var cost: Long = cost
@@ -23,12 +18,23 @@ class Deal(
     var dealDate: LocalDateTime = dealDate
         private set
 
-    @ManyToOne
-    @JoinColumn(name = "house_detail_id")
-    var houseDetail: HouseDetail = houseDetail
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "house_detail_id", nullable = false)
+    var houseDetail: HouseDetail? = null
         private set
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
+
+    init {
+        this.setHouseDetail(houseDetail)
+    }
+    private fun setHouseDetail(houseDetail: HouseDetail) {
+        // 기존에 연관관계가 있으면 제거
+        this.houseDetail?.deals?.remove(this)
+        // 연관관계 설정
+        this.houseDetail = houseDetail
+        houseDetail.deals.add(this)
+    }
 }

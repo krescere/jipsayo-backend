@@ -12,13 +12,14 @@ import org.springframework.stereotype.Component
 import java.io.File
 import java.time.LocalDateTime
 
+private const val DEFAULT_NUM_OF_ROWS = 100
+
 @Component
 class DealHistoryTasklet(
     private val dealHistoryService: DealHistoryService
 ) : Tasklet {
     val logger = LoggerFactory.getLogger(DealHistoryTasklet::class.java)!!
 
-    val DEFAULT_NUM_OF_ROWS = 100
     override fun execute(contribution: StepContribution, chunkContext: ChunkContext): RepeatStatus {
         // init
         val pageNo = 1

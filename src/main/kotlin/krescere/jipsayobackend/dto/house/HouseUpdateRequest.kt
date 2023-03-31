@@ -1,6 +1,6 @@
 package krescere.jipsayobackend.dto.house
 
-import krescere.jipsayobackend.common.DecimalPointHandler.Companion.doubleToBigDecimal
+import krescere.jipsayobackend.common.handler.DecimalPointHandler.Companion.doubleToBigDecimal
 import java.math.BigDecimal
 import java.time.LocalDateTime
 

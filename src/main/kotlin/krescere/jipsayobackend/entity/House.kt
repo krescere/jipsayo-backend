@@ -1,10 +1,8 @@
 package krescere.jipsayobackend.entity
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.math.BigDecimal
 import javax.persistence.*
 
-@EntityListeners(AuditingEntityListener::class)
 @Table(name = "house", indexes = [
     Index(name = "idx_roadAddress_danjiName", columnList = "roadAddress, danjiName", unique = true),
 ])
@@ -46,8 +44,8 @@ class House(
     var longitude: BigDecimal = longitude
         private set
 
-    @OneToMany(mappedBy = "house")
-    val houseDetails: List<HouseDetail> = mutableListOf()
+    @OneToMany(mappedBy = "house", cascade = [CascadeType.REMOVE])
+    val houseDetails: MutableCollection<HouseDetail> = mutableSetOf()
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
