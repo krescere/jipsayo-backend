@@ -27,7 +27,7 @@ class LawDealHistoryHandler (
     private fun getXml(request: DealHistorySaveRequest) : File {
         val url="http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?"
         // params
-        val serviceKey="1JBdQZMCAkRsMQpdbldQ0lc3NU%2BRweuoWT4V2bJQrYrBM6TM%2Fpm3c9R8U878%2FoFoV8c521rVU1xQMqS4kKQs7w%3D%3D"
+        val serviceKey="sRAhCwHRAK0cXEtlrLlUhNXY3%2F4NKDqQ70Utau8CGVch2sCqX54v1dk4lF1WguTUI%2F5TmfZncsWa%2FevT0oraWg%3D%3D"
         /*
                 # 재근
                 service_key = "1JBdQZMCAkRsMQpdbldQ0lc3NU%2BRweuoWT4V2bJQrYrBM6TM%2Fpm3c9R8U878%2FoFoV8c521rVU1xQMqS4kKQs7w%3D%3D"
@@ -43,8 +43,8 @@ class LawDealHistoryHandler (
         urlBuilder.append("serviceKey=${serviceKey}")
         urlBuilder.append("&pageNo=${request.pageNo}")
         urlBuilder.append("&numOfRows=${request.numOfRows}")
-        urlBuilder.append("&LAWD_CD=${request.LAWD_CD}")
-        urlBuilder.append("&DEAL_YMD=${request.DEAL_YMD}")
+        urlBuilder.append("&LAWD_CD=${request.lawdCd}")
+        urlBuilder.append("&DEAL_YMD=${request.dearYmd}")
 
         val response = httpHandler.get(urlBuilder.toString())
         // string to xml

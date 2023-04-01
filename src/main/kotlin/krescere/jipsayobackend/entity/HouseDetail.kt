@@ -39,10 +39,4 @@ class HouseDetail(
         this.house = house
         house.houseDetails.add(this)
     }
-
-    @PrePersist
-    fun prePersist() {
-        // count==null 이면  0으로 초기화
-        this.count = this.count ?: 0
-    }
 }

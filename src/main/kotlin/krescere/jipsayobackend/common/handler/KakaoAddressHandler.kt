@@ -5,6 +5,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import krescere.jipsayobackend.dto.common.KakaoAddressResponse
 import org.springframework.stereotype.Component
+import java.net.http.HttpHeaders
 
 @Component
 class KakaoAddressHandler(
@@ -14,13 +15,19 @@ class KakaoAddressHandler(
     // roadAddress search
     fun search(roadAddress: String): KakaoAddressResponse {
         val urlBuilder = StringBuilder()
-        val baseURL="https://dapi.kakao.com/v2/local/search/address.json"
-        val query="query=$roadAddress"
+        val baseURL="https://dapi.kakao.com/v2/local/search/address.json?"
+        val query= roadAddress
+        // header에 api key 추가
 
         urlBuilder.append(baseURL)
-        urlBuilder.append("?query=$query")
+        urlBuilder.append("query=${query}")
 
-        val response = httpHandler.get(urlBuilder.toString())
+        // add rest_api_key
+        val headers = mutableMapOf<String,String>()
+        val restApiKey="2aa3b0e83391bf1ae258957941ef8564"
+        headers.put("Authorization", "KakaoAK $restApiKey")
+
+        val response = httpHandler.get(urlBuilder.toString(),headers)
         val jsonObject = gson.fromJson(response, JsonObject::class.java)
         val documents = jsonObject.get("documents").asJsonArray
 

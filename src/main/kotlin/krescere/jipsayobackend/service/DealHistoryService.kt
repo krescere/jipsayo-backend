@@ -7,10 +7,15 @@ import krescere.jipsayobackend.dto.house.HouseGetRequest
 import krescere.jipsayobackend.dto.houseDetail.HouseDetailGetRequest
 import krescere.jipsayobackend.common.handler.LawDealHistoryHandler
 import krescere.jipsayobackend.common.handler.PredictHandler
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
+
+// filter 환경변수
+const val DEFAULT_FILTER_COUNT = 500
+const val MAX_FILTER_COUNT = 500
 
 @Service
 class DealHistoryService(
@@ -20,9 +25,7 @@ class DealHistoryService(
     private val lawDealHistoryHandler: LawDealHistoryHandler,
     private val predictHandler: PredictHandler
 ) {
-    // filter 환경변수
-    private val DEFAULT_FILTER_COUNT = 500
-    private val MAX_FILTER_COUNT = 500
+    val logger = LoggerFactory.getLogger(this.javaClass)!!
 
     @PersistenceContext
     private val entityManager: EntityManager? = null
@@ -33,25 +36,29 @@ class DealHistoryService(
         val lawDealHistories = lawDealHistoryHandler.getLawDealHistories(request)
 
         for(lawDealHistory in lawDealHistories) {
-            // check if dealDto is not null
-            if(!isDealDtoNotNull(lawDealHistory)) continue
-            // dealHistory to house
-            val house = houseService.findHouseOrSave(lawDealHistory)
-            // dealHistory to houseDetail
-            val houseDetail = houseDetailService.findHouseDetailOrSave(
-                HouseDetailGetRequest(
-                dedicatedArea = lawDealHistory.dedicatedArea!!,
-                house = house
-            ))
-            // dealHistory to dealDto
-            dealService.save(
-                DealSaveRequest(
-                cost = lawDealHistory.cost!!,
-                dealYear = lawDealHistory.dealYear!!,
-                dealMonth = lawDealHistory.dealMonth!!,
-                dealDay = lawDealHistory.dealDay!!,
-                houseDetail = houseDetail
-            ))
+            try {
+                // check if dealDto is not null
+                if(!isDealDtoNotNull(lawDealHistory)) continue
+                // dealHistory to house
+                val house = houseService.findHouseOrSave(lawDealHistory)
+                // dealHistory to houseDetail
+                val houseDetail = houseDetailService.findHouseDetailOrSave(
+                    HouseDetailGetRequest(
+                        dedicatedArea = lawDealHistory.dedicatedArea!!,
+                        house = house
+                    ))
+                // dealHistory to dealDto
+                dealService.save(
+                    DealSaveRequest(
+                        cost = lawDealHistory.cost!!,
+                        dealYear = lawDealHistory.dealYear!!,
+                        dealMonth = lawDealHistory.dealMonth!!,
+                        dealDay = lawDealHistory.dealDay!!,
+                        houseDetail = houseDetail
+                    ))
+            } catch (e: Exception) {
+                logger.error("save dealHistory error: ${e.message}")
+            }
         }
 
         return lawDealHistoryHandler.getTotalCount()

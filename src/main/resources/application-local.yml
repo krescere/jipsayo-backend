@@ -21,7 +21,15 @@ spring:
     driver-class-name: org.h2.Driver
     hikari:
       jdbc-url: jdbc:h2:mem:testdb;MODE=MySQL
+  # stop job
+  batch:
+    job:
+      enabled: false
 
 logging:
   level:
     root: info # trace<debug<info<warn<error<fatal
+
+app:
+  scheduling:
+    enable: false

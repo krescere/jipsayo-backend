@@ -3,6 +3,7 @@ package krescere.jipsayobackend.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import krescere.jipsayobackend.common.handler.DecimalPointHandler.Companion.doubleToBigDecimal
 import krescere.jipsayobackend.dto.house.HouseSaveRequest
 import krescere.jipsayobackend.entity.House
@@ -32,25 +33,25 @@ import org.springframework.web.filter.CharacterEncodingFilter
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class HouseControllerTest {
     @Autowired
-    val houseRepository: HouseRepository? = null
+    lateinit var houseRepository: HouseRepository
     @Autowired
-    val context: WebApplicationContext? = null
+    lateinit var context: WebApplicationContext
 
     @LocalServerPort
     val port: Int = 0
 
-    var mvc: MockMvc? = null
+    lateinit var mvc: MockMvc
     val localhost="http://localhost:"
     val apiV1="/api/v1"
 
     // houses
-    var 서북구: House? = null
-    var 호암동: House? = null
+    lateinit var 서북구: House
+    lateinit var 호암동: House
 
     @Before
     fun setUp() {
         mvc = MockMvcBuilders
-            .webAppContextSetup(context!!)
+            .webAppContextSetup(context)
             .addFilters<DefaultMockMvcBuilder>(CharacterEncodingFilter("UTF-8", true))
             .alwaysDo<DefaultMockMvcBuilder?>(MockMvcResultHandlers.print())
             .build()
@@ -78,7 +79,7 @@ class HouseControllerTest {
     // 시간 포멧을 yyyy-MM-dd'T'HH:mm:ss.SSS'Z'로 변경
     fun objectMapper(): ObjectMapper {
         val objectMapper = ObjectMapper()
-        objectMapper.registerModule(JavaTimeModule())
+        objectMapper.registerModule(KotlinModule())
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         return objectMapper
     }
@@ -97,43 +98,43 @@ class HouseControllerTest {
         )
         // when
         val url="$localhost$port$apiV1/houses"
-        val result = mvc!!.perform(post(url)
+        val result = mvc.perform(post(url)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper().writeValueAsString(houseSaveRequest)))
             .andExpect(status().isCreated)
             .andReturn()
         // then
         assertThat(result.response.contentAsString).contains(
-            houseRepository!!.findAll()[0].id.toString()
+            houseRepository.findAll()[0].id.toString()
         )
     }
 
     @Test
     fun 도로명주소_단지명으로_부동산찾기() {
         // given
-        서북구?.let { houseRepository!!.save(it) }
+        houseRepository.save(서북구)
         val underRoadAddress="충남_천안시_서북구_성정공원3길_4"
         val underDanjiName="학산리젠다빌_3차"
         // when
         val url="$localhost$port$apiV1/houses"
-        val result = mvc!!.perform(get(url)
+        val result = mvc.perform(get(url)
             .param("roadAddress", underRoadAddress)
             .param("danjiName", underDanjiName))
             .andExpect(status().isOk)
             .andReturn()
         // then
-        서북구?.let { assertThat(result.response.contentAsString).contains(it.roadAddress) }
+        assertThat(result.response.contentAsString).contains(서북구.roadAddress)
     }
 
     @Test
     fun 부동산찾기_실패() {
         // given
-        서북구?.let { houseRepository!!.save(it) }
+        houseRepository.save(서북구)
         val anotherRoadAddress="서울특별시_압구정동"
         val anotherDanjiName="압구정푸르지오"
         // when
         val url="$localhost$port$apiV1/houses"
-        val result = mvc!!.perform(get(url)
+        val result = mvc.perform(get(url)
             .param("roadAddress", anotherRoadAddress)
             .param("danjiName", anotherDanjiName))
             .andExpect(status().isOk)
@@ -145,32 +146,32 @@ class HouseControllerTest {
     @Test
     fun 도로명주소_단지명으로_삭제() {
         // given
-        서북구?.let { houseRepository!!.save(it) }
+        houseRepository.save(서북구)
         val underRoadAddress="충남_천안시_서북구_성정공원3길_4"
         val underDanjiName="학산리젠다빌_3차"
         // when
         val url="$localhost$port$apiV1/houses"
-        mvc!!.perform(delete(url)
+        mvc.perform(delete(url)
             .param("roadAddress", underRoadAddress)
             .param("danjiName", underDanjiName))
             .andExpect(status().isOk)
         // then
-        assertThat(houseRepository!!.findAll().size).isEqualTo(0)
+        assertThat(houseRepository.findAll().size).isEqualTo(0)
     }
 
     @Test
     fun 존재하지않는_부동산_삭제() {
         // given
-        서북구?.let { houseRepository!!.save(it) }
+        houseRepository.save(서북구)
         val anotherJibunAddress="서울특별시_압구정동"
         val anotherDanjiName="압구정빌라"
         // when
         val url="$localhost$port$apiV1/houses"
-        mvc!!.perform(delete(url)
+        mvc.perform(delete(url)
             .param("roadAddress", anotherJibunAddress)
             .param("danjiName", anotherDanjiName))
             .andExpect(status().isBadRequest)
         // then
-        assertThat(houseRepository!!.findAll()).isNotEmpty
+        assertThat(houseRepository.findAll()).isNotEmpty
     }
 }

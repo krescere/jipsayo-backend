@@ -32,6 +32,7 @@ class VWordAddressHandler(
         val key = "8425B03A-0112-30A8-AD77-74D7F5FD6C3A"
         val domain = "jipsayo.com"
         val attrFilter = "sig_cd:=:$roadNameCityCode"
+        val geometry = "false"
 
         val urlBuilder = StringBuilder()
         urlBuilder.append(baseURL)
@@ -41,6 +42,7 @@ class VWordAddressHandler(
         urlBuilder.append("&key=$key")
         urlBuilder.append("&domain=$domain")
         urlBuilder.append("&attrFilter=$attrFilter")
+        urlBuilder.append("&geometry=$geometry")
 
         // if error return ""
         try {

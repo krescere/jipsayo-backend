@@ -12,9 +12,13 @@ class ApacheHttpHandler(
 ) {
     // logger
     var logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)!!
-    fun get(url: String) : String? {
+    fun get(url: String,headers: Map<String,String> = emptyMap()) : String? {
         val httpGet = HttpGet(url)
         httpGet.setHeader("Content-type", "application/json; charset=utf-8")
+
+        headers.forEach { (key,value) ->
+            httpGet.setHeader(key,value)
+        }
 
         val requestConfig = org.apache.http.client.config.RequestConfig.custom()
             .setConnectTimeout(5000)

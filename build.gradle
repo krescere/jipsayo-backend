@@ -73,8 +73,6 @@ dependencies {
     implementation('org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE')
     // batch
     implementation('org.springframework.boot:spring-boot-starter-batch')
-    // quartz
-    implementation('org.springframework.boot:spring-boot-starter-quartz')
     // test security (권한을 필요로하는 api 호출을 위한)
     testImplementation('org.springframework.security:spring-security-test')
     // test

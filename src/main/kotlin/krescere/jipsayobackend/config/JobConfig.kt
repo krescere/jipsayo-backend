@@ -1,6 +1,7 @@
 package krescere.jipsayobackend.config
 
 import krescere.jipsayobackend.common.DealHistoryTasklet
+import krescere.jipsayobackend.service.DealHistoryService
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing
@@ -13,7 +14,6 @@ import org.springframework.scheduling.annotation.EnableScheduling
 
 @Configuration
 @EnableBatchProcessing
-@EnableScheduling
 class JobConfig {
     @Autowired
     lateinit var jobBuilderFactory: JobBuilderFactory
@@ -21,6 +21,7 @@ class JobConfig {
     lateinit var stepBuilderFactory: StepBuilderFactory
     @Autowired
     lateinit var dealHistoryTasklet: DealHistoryTasklet
+
 
     @Bean
     fun dealHistoryJob(): Job = jobBuilderFactory.get("dealHistoryJob")

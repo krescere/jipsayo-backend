@@ -9,7 +9,6 @@ import org.springframework.batch.core.step.tasklet.Tasklet
 import org.springframework.batch.repeat.RepeatStatus
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
-import java.io.File
 import java.time.LocalDateTime
 
 private const val DEFAULT_NUM_OF_ROWS = 100
@@ -41,8 +40,8 @@ class DealHistoryTasklet(
                     DealHistorySaveRequest(
                         pageNo = pageNo,
                         numOfRows = numOfRows,
-                        LAWD_CD = LAWD_CD,
-                        DEAL_YMD = DEAL_YMD
+                        lawdCd = LAWD_CD,
+                        dearYmd = DEAL_YMD
                     )
                 )
             } catch (e: Exception) {

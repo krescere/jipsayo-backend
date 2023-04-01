@@ -13,7 +13,7 @@ class DealHistoryScheduler(
     private val jobLauncher: JobLauncher
 ) {
     val logger = LoggerFactory.getLogger(DealHistoryScheduler::class.java)!!
-    @Scheduled(cron = "0 0 0 1 * *") // 0 0 0 1 * * 매달 1일 0시 0분 0초
+    @Scheduled(cron = "0 0 0 1 1/1 ?") // 매월 1일 0시 0분 0초
     fun executeJob() {
         val jobParameters = JobParametersBuilder()
             .addLong("time", System.currentTimeMillis())
