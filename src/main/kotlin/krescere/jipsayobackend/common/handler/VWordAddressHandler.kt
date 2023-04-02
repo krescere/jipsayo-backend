@@ -16,11 +16,14 @@ class VWordAddressHandler(
         // if return "" then return ""
         val roadNameCityName = getRoadNameCityName(lawDealHistory.roadNameCityCode!!)
         if(roadNameCityName == "") return ""
+
+        val intRoadNameBuildingMainCode = lawDealHistory.roadNameBuildingMainCode?.toInt()
+        val intRoadNameBuildingSubCode = lawDealHistory.roadNameBuildingSubCode?.toInt()
         // roadNameCityName +" "+ roadNameBuildingMainCode +"_"+ roadNameBuildingSubCode
-        return if(lawDealHistory.roadNameBuildingSubCode == "0") {
-            roadNameCityName + " " + lawDealHistory.roadNameBuildingMainCode
+        return if(intRoadNameBuildingSubCode == null || intRoadNameBuildingSubCode == 0) {
+            "$roadNameCityName ${lawDealHistory.roadName} $intRoadNameBuildingMainCode"
         } else {
-            roadNameCityName + " " + lawDealHistory.roadNameBuildingMainCode + "_" + lawDealHistory.roadNameBuildingSubCode
+            "$roadNameCityName ${lawDealHistory.roadName} {$intRoadNameBuildingMainCode}_$intRoadNameBuildingSubCode"
         }
     }
 

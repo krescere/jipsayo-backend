@@ -7,12 +7,12 @@ class HouseDetailGetResponse(
     val id: Long,
     val count: Int,
     val dedicatedArea: Double,
-    val dealGetResponses: List<DealGetResponse>,
+    val deals: List<DealGetResponse>,
 ) {
     constructor(houseDetail: HouseDetail) : this(
         id = houseDetail.id!!,
         count = houseDetail.count,
         dedicatedArea = houseDetail.dedicatedArea.toDouble(),
-        dealGetResponses = houseDetail.deals.map { DealGetResponse(it) }
+        deals = houseDetail.deals.map { DealGetResponse(it) }
     )
 }

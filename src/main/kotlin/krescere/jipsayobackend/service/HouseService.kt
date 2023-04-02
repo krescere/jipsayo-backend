@@ -1,10 +1,7 @@
 package krescere.jipsayobackend.service
 
-import com.google.gson.Gson
 import krescere.jipsayobackend.common.error.CustomException
 import krescere.jipsayobackend.common.error.ErrorCode
-import krescere.jipsayobackend.dto.*
-import krescere.jipsayobackend.dto.dealHistory.DealHistoryGetRequest
 import krescere.jipsayobackend.dto.house.HouseGetRequest
 import krescere.jipsayobackend.dto.house.HouseGetResponse
 import krescere.jipsayobackend.dto.house.HouseSaveRequest
@@ -12,18 +9,8 @@ import krescere.jipsayobackend.dto.dealHistory.LawDealHistory
 import krescere.jipsayobackend.entity.House
 import krescere.jipsayobackend.repository.HouseRepository
 import krescere.jipsayobackend.common.handler.AddressHandler
-import org.apache.http.HttpEntity
-import org.apache.http.client.config.RequestConfig
-import org.apache.http.client.methods.CloseableHttpResponse
-import org.apache.http.client.methods.HttpGet
-import org.apache.http.impl.client.CloseableHttpClient
-import org.apache.http.util.EntityUtils
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.nio.charset.StandardCharsets
-import java.util.*
-import javax.persistence.EntityManager
-import javax.persistence.PersistenceContext
 
 
 @Service
@@ -80,10 +67,9 @@ class HouseService(
     }
 
     @Transactional
-    fun findHouseOrSave(lawDealHistory: LawDealHistory): House {
+    fun getHouseOrSave(lawDealHistory: LawDealHistory): House {
         // get house save request
         val houseSaveRequest = addressHandler.getHouseSaveRequest(lawDealHistory)
-
         return houseRepository.findByRoadAddressAndDanjiName(houseSaveRequest.roadAddress, houseSaveRequest.danjiName)
             ?: houseRepository.save(House(
                 jibunAddress = houseSaveRequest.jibunAddress,

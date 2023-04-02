@@ -1,9 +1,9 @@
 package krescere.jipsayobackend.dto.house
 
 class HouseGetRequest(
-    id: Long?,
-    roadAddress: String?,
-    danjiName: String?
+    id: Long? = 0,
+    roadAddress: String? = null,
+    danjiName: String? = null
 ) {
     val id: Long ?= id
     val roadAddress: String ?= underScoreToSpace(roadAddress)

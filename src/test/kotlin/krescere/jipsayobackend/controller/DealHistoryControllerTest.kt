@@ -84,8 +84,12 @@ class DealHistoryControllerTest {
             .content(objectMapper().writeValueAsString(request)))
             .andExpect(status().isCreated)
         // then
+
+        println("dealRepository.findAll().size : ${dealRepository.findAll().size}")
         assertThat(dealRepository.findAll().size).isGreaterThan(0)
+        println("houseDetailRepository.findAll().size : ${houseDetailRepository.findAll().size}")
         assertThat(houseDetailRepository.findAll().size).isGreaterThan(0)
+        println("houseRepository.findAll().size : ${houseRepository.findAll().size}")
         assertThat(houseRepository.findAll().size).isGreaterThan(0)
     }
 
@@ -96,15 +100,25 @@ class DealHistoryControllerTest {
             pageNo = 1,
             numOfRows = 10,
             lawdCd = "11110",
-            dearYmd = "201512"
+            dearYmd = "202212"
         ))
         val request=DealHistoryGetRequest(
-            roadAddress = "서울특별시 종로구 사직로 161",
-            danjiName = "사직포레스트",
+            roadAddress = "서울_종로구_옥인3길_7",
+            danjiName = "청호그린빌",
         )
         // when
         val url="$localhost$port$apiV1/dealHistories"
-
+        val result=mvc.perform(get(url)
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("roadAddress", request.roadAddress)
+            .param("danjiName", request.danjiName))
+            .andExpect(status().isOk)
+            .andReturn()
         // then
+        println(houseRepository.findAll()[0].roadAddress+" "+houseRepository.findAll()[0].danjiName)
+        println("result.response.contentAsString : ${result.response.contentAsString}")
+        assertThat(result.response.contentAsString).contains(request.danjiName)
     }
+
+
 }

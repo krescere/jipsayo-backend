@@ -5,7 +5,10 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import krescere.jipsayobackend.dto.common.KakaoAddressResponse
 import org.springframework.stereotype.Component
+import java.math.BigDecimal
+import java.net.URLEncoder
 import java.net.http.HttpHeaders
+import java.nio.charset.StandardCharsets
 
 @Component
 class KakaoAddressHandler(
@@ -16,7 +19,7 @@ class KakaoAddressHandler(
     fun search(roadAddress: String): KakaoAddressResponse {
         val urlBuilder = StringBuilder()
         val baseURL="https://dapi.kakao.com/v2/local/search/address.json?"
-        val query= roadAddress
+        val query=URLEncoder.encode(roadAddress,StandardCharsets.UTF_8.toString())
         // header에 api key 추가
 
         urlBuilder.append(baseURL)
@@ -55,18 +58,18 @@ class KakaoAddressHandler(
     }
 
     private fun getDanjiName(documents: JsonArray): String {
-        return documents[0].asJsonObject.get("roadAddress").asJsonObject.get("building_name").asString
+        return documents[0].asJsonObject.get("road_address").asJsonObject.get("building_name").asString
     }
 
     private fun getPostCode(documents: JsonArray): Int {
-        return documents[0].asJsonObject.get("roadAddress").asJsonObject.get("zone_no").asInt
+        return documents[0].asJsonObject.get("road_address").asJsonObject.get("zone_no").asInt
     }
 
-    private fun getLatitude(documents: JsonArray): Double {
-        return documents[0].asJsonObject.get("y").asDouble
+    private fun getLatitude(documents: JsonArray): BigDecimal {
+        return documents[0].asJsonObject.get("y").asBigDecimal
     }
 
-    private fun getLongitude(documents: JsonArray): Double {
-        return documents[0].asJsonObject.get("x").asDouble
+    private fun getLongitude(documents: JsonArray): BigDecimal {
+        return documents[0].asJsonObject.get("x").asBigDecimal
     }
 }

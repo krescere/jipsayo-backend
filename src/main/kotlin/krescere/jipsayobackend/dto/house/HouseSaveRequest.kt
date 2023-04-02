@@ -5,22 +5,31 @@ import krescere.jipsayobackend.dto.common.KakaoAddressResponse
 import java.math.BigDecimal
 
 class HouseSaveRequest (
-    jibunAddress: String,
-    roadAddress: String,
-    hangCode: Long,
-    danjiName: String,
-    postCode: Int,
-    latitude: Double,
-    longitude: Double,
+    val jibunAddress: String,
+    val roadAddress: String,
+    val hangCode: Long,
+    val danjiName: String,
+    val postCode: Int,
+    val latitude: BigDecimal,
+    val longitude: BigDecimal,
 ) {
-    val jibunAddress: String = jibunAddress
-    val roadAddress: String = roadAddress
-    val hangCode: Long = hangCode
-    val danjiName: String = danjiName
-    val postCode: Int = postCode
-    val latitude: BigDecimal = doubleToBigDecimal(latitude)
-    val longitude: BigDecimal = doubleToBigDecimal(longitude)
-
+    constructor(
+        jibunAddress: String,
+        roadAddress: String,
+        hangCode: Long,
+        danjiName: String,
+        postCode: Int,
+        latitude: Double,
+        longitude: Double
+    ) : this(
+        jibunAddress = jibunAddress,
+        roadAddress = roadAddress,
+        hangCode = hangCode,
+        danjiName = danjiName,
+        postCode = postCode,
+        latitude = latitude.toBigDecimal(),
+        longitude = longitude.toBigDecimal()
+    )
     constructor(kakaoAddressResponse: KakaoAddressResponse) : this(
         jibunAddress = kakaoAddressResponse.jibunAddress,
         roadAddress = kakaoAddressResponse.roadAddress,

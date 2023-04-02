@@ -36,11 +36,11 @@ class House(
     var postCode: Int = postCode
         private set
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 10, scale = 7)
     var latitude: BigDecimal = latitude
         private set
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 10, scale = 7)
     var longitude: BigDecimal = longitude
         private set
 

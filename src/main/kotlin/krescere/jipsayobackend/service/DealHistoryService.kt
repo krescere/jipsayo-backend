@@ -1,12 +1,11 @@
 package krescere.jipsayobackend.service
 
-import krescere.jipsayobackend.dto.deal.DealFilterResponse
+import krescere.jipsayobackend.common.handler.LawDealHistoryHandler
+import krescere.jipsayobackend.common.handler.PredictHandler
 import krescere.jipsayobackend.dto.deal.DealSaveRequest
 import krescere.jipsayobackend.dto.dealHistory.*
 import krescere.jipsayobackend.dto.house.HouseGetRequest
 import krescere.jipsayobackend.dto.houseDetail.HouseDetailGetRequest
-import krescere.jipsayobackend.common.handler.LawDealHistoryHandler
-import krescere.jipsayobackend.common.handler.PredictHandler
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -33,19 +32,24 @@ class DealHistoryService(
     // return : total count, 전체 데이터 개수
     @Transactional
     fun save(request: DealHistorySaveRequest) : Int {
-        val lawDealHistories = lawDealHistoryHandler.getLawDealHistories(request)
+        val lawDealHistories = try {
+            lawDealHistoryHandler.getLawDealHistories(request)
+        } catch (e: Exception) {
+            logger.error("getLawDealHistories error: ${e.message}")
+            return 0
+        }
 
         for(lawDealHistory in lawDealHistories) {
             try {
                 // check if dealDto is not null
                 if(!isDealDtoNotNull(lawDealHistory)) continue
                 // dealHistory to house
-                val house = houseService.findHouseOrSave(lawDealHistory)
+                val house = houseService.getHouseOrSave(lawDealHistory)
                 // dealHistory to houseDetail
-                val houseDetail = houseDetailService.findHouseDetailOrSave(
+                val houseDetail = houseDetailService.getHouseDetailOrSave(
                     HouseDetailGetRequest(
                         dedicatedArea = lawDealHistory.dedicatedArea!!,
-                        house = house
+                        houseId = house.id!!
                     ))
                 // dealHistory to dealDto
                 dealService.save(
@@ -54,7 +58,7 @@ class DealHistoryService(
                         dealYear = lawDealHistory.dealYear!!,
                         dealMonth = lawDealHistory.dealMonth!!,
                         dealDay = lawDealHistory.dealDay!!,
-                        houseDetail = houseDetail
+                        houseDetailId = houseDetail.id!!
                     ))
             } catch (e: Exception) {
                 logger.error("save dealHistory error: ${e.message}")
@@ -67,7 +71,6 @@ class DealHistoryService(
     @Transactional(readOnly = true)
     fun find(request: DealHistoryGetRequest) : DealHistoryGetResponse? {
         return houseService.get(HouseGetRequest(
-            id = null,
             roadAddress = request.roadAddress,
             danjiName = request.danjiName
         ))?.let { DealHistoryGetResponse(it) }

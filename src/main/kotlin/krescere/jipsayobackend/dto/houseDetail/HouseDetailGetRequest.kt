@@ -4,9 +4,9 @@ import krescere.jipsayobackend.entity.House
 import java.math.BigDecimal
 
 class HouseDetailGetRequest(
-    dedicatedArea: String,
-    house: House,
+    val id: Long? = null,
+    dedicatedArea: String? = null,
+    val houseId: Long? = null
 ) {
-    val dedicatedArea: BigDecimal = dedicatedArea.toBigDecimal()
-    val house: House = house
+    val dedicatedArea: BigDecimal? = dedicatedArea?.toBigDecimal()
 }

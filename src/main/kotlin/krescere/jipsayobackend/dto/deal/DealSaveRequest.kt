@@ -8,9 +8,11 @@ class DealSaveRequest(
     dealYear: String,
     dealMonth: String,
     dealDay: String,
-    houseDetail: HouseDetail
+    houseDetailId: Long
 ) {
-    val cost: Long = cost.toLong()
+    // remove comma, space
+    val cost: Long = cost.replace(",", "")
+        .replace(" ","").toLong()
     val dealDate: LocalDateTime = LocalDateTime.of(dealYear.toInt(), dealMonth.toInt(), dealDay.toInt(), 0, 0)
-    val houseDetail: HouseDetail = houseDetail
+    val houseDetailId: Long = houseDetailId
 }

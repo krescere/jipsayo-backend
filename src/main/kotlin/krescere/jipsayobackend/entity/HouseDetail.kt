@@ -9,7 +9,7 @@ class HouseDetail(
     dedicatedArea: BigDecimal,
     house: House,
 ) {
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 10, scale = 2)
     var dedicatedArea: BigDecimal = dedicatedArea
         private set
 
@@ -38,5 +38,9 @@ class HouseDetail(
         // 연관관계 설정
         this.house = house
         house.houseDetails.add(this)
+    }
+
+    fun raiseCount() {
+        this.count += 1
     }
 }
