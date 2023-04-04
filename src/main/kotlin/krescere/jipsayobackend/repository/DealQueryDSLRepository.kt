@@ -15,35 +15,28 @@ class DealQueryDSLRepository(
     private val queryFactory: JPAQueryFactory,
 ) {
     fun findDealsByCostRange(highCost: Long, lowCost: Long): Stream<DealFilterResponse> {
-        val deal = QDeal.deal
-        val houseDetail = QHouseDetail.houseDetail
-        val house = QHouse.house
-
-        val deal2 = QDeal.deal
-        val house2 = QHouse.house
+        val qDeal = QDeal.deal
+        val qHouseDetail = QHouseDetail.houseDetail
+        val qHouse = QHouse.house
 
         return queryFactory.select(
-            Projections.constructor(DealFilterResponse::class.java,
-            house.id,
-            house.roadAddress,
-            house.danjiName,
-            deal.cost,
-            house.latitude,
-            house.longitude,
-            deal.dealDate,
-            houseDetail.dedicatedArea))
-            .from(deal)
-            .join(deal.houseDetail, houseDetail).fetchJoin()
-            .join(houseDetail.house, house).fetchJoin()
-            .where(deal.cost.lt(highCost), deal.cost.gt(lowCost),
-                deal.dealDate.eq(
-                    JPAExpressions.select(deal2.dealDate)
-                    .from(deal2)
-                    .join(deal2.houseDetail, houseDetail)
-                    .join(houseDetail.house, house2)
-                    .where(house2.roadAddress.eq(house.roadAddress),
-                        house2.danjiName.eq(house.danjiName))))
-            .groupBy(house.roadAddress, house.danjiName)
+            Projections.constructor(
+                DealFilterResponse::class.java,
+                qHouse.id,
+                qHouse.roadAddress,
+                qHouse.danjiName,
+                qDeal.cost,
+                qHouse.latitude,
+                qHouse.longitude,
+                qDeal.dealDate,
+                qHouseDetail.dedicatedArea
+            )
+        ).from(qDeal)
+            .join(qDeal.houseDetail, qHouseDetail)
+            .join(qHouseDetail.house, qHouse)
+            .where(qDeal.cost.between(lowCost, highCost))
+            .orderBy(qHouse.id.asc(), qDeal.dealDate.desc())
+            .distinct()
             .fetch().stream()
     }
 }
