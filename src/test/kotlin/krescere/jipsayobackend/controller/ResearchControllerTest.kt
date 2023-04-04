@@ -1,8 +1,12 @@
 package krescere.jipsayobackend.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import krescere.jipsayobackend.dto.dealHistory.DealHistorySaveRequest
 import krescere.jipsayobackend.dto.research.ResearchSaveRequest
+import krescere.jipsayobackend.repository.HouseDetailRepository
+import krescere.jipsayobackend.repository.HouseRepository
 import krescere.jipsayobackend.repository.ResearchRepository
+import krescere.jipsayobackend.service.DealHistoryService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -27,21 +31,25 @@ import org.springframework.web.filter.CharacterEncodingFilter
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ResearchControllerTest {
     @Autowired
-    val researchRepository: ResearchRepository? = null
+    lateinit var researchRepository: ResearchRepository
     @Autowired
-    val context: WebApplicationContext? = null
+    lateinit var context: WebApplicationContext
+    @Autowired
+    lateinit var dealHistoryService: DealHistoryService
+    @Autowired
+    lateinit var houseDetailRepository: HouseDetailRepository
     
     @LocalServerPort
     val port: Int = 0
 
-    var mvc: MockMvc? = null
+    lateinit var mvc: MockMvc
     val localhost="http://localhost:"
     val apiV1="/api/v1"
 
     @Before
     fun setUp() {
         mvc = MockMvcBuilders
-            .webAppContextSetup(context!!)
+            .webAppContextSetup(context)
             .addFilters<DefaultMockMvcBuilder>(CharacterEncodingFilter("UTF-8", true))
             .alwaysDo<DefaultMockMvcBuilder?>(MockMvcResultHandlers.print())
             .build()
@@ -50,18 +58,24 @@ class ResearchControllerTest {
     @Test
     fun 설문조사_저장() {
         // given
+        dealHistoryService.save(DealHistorySaveRequest(
+            pageNo = 1,
+            numOfRows = 10,
+            lawdCd = "11110",
+            dearYmd = "202212"
+        ))
+        val houseDetailId = houseDetailRepository.findAll()[0].id!!
         val researchSaveRequest = ResearchSaveRequest(
+            houseDetailId = houseDetailId,
             savedMoney = 1000,
             moneyPerMonth = 1000,
-            roadAddress = "충남_천안시_서북구_성정공원3길_4",
-            danjiName = "성정공원",
             increaseRate = 0.1,
             job = "개발자",
-            occupation = "IT"
+            occupation = "IT",
         )
         // when
         val url="$localhost$port$apiV1/research"
-        val result = mvc!!.perform(post(url)
+        val result = mvc.perform(post(url)
             .contentType(MediaType.APPLICATION_JSON)
             .content(ObjectMapper().writeValueAsString(researchSaveRequest)))
             .andExpect(status().isCreated)
@@ -69,7 +83,7 @@ class ResearchControllerTest {
 
         // then
         assertThat(result.response.contentAsString).contains(
-            researchRepository!!.findAll()[0].id.toString()
+            researchRepository.findAll()[0].id.toString()
         )
     }
 }

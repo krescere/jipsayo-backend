@@ -9,7 +9,7 @@ import javax.persistence.*
 class Research (
     savedMoney: Long,
     moneyPerMonth: Long,
-    house: House?,
+    houseDetail: HouseDetail,
     increaseRate: Double?,
     job: String?,
     occupation: String?
@@ -23,8 +23,8 @@ class Research (
         private set
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "HOUSE_ID", nullable = true)
-    var house: House? = house
+    @JoinColumn(name = "house_detail_id", nullable = false)
+    var houseDetail: HouseDetail = houseDetail
         private set
 
     @Column(nullable = false)
