@@ -1,7 +1,6 @@
 package krescere.jipsayobackend.repository
 
 import com.querydsl.core.types.Projections
-import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.impl.JPAQueryFactory
 import krescere.jipsayobackend.dto.deal.DealFilterResponse
 import krescere.jipsayobackend.entity.QDeal

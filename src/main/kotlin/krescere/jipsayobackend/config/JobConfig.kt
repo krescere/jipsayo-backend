@@ -1,7 +1,6 @@
 package krescere.jipsayobackend.config
 
 import krescere.jipsayobackend.common.DealHistoryTasklet
-import krescere.jipsayobackend.service.DealHistoryService
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing
@@ -10,7 +9,6 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.scheduling.annotation.EnableScheduling
 
 @Configuration
 @EnableBatchProcessing

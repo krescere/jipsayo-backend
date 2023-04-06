@@ -2,11 +2,9 @@ package krescere.jipsayobackend.service
 
 import krescere.jipsayobackend.common.error.CustomException
 import krescere.jipsayobackend.common.error.ErrorCode
-import krescere.jipsayobackend.dto.house.HouseGetRequest
 import krescere.jipsayobackend.dto.houseDetail.HouseDetailGetRequest
 import krescere.jipsayobackend.dto.research.ResearchSaveRequest
 import krescere.jipsayobackend.entity.Research
-import krescere.jipsayobackend.repository.HouseRepository
 import krescere.jipsayobackend.repository.ResearchRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

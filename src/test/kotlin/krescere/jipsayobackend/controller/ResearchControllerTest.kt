@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import krescere.jipsayobackend.dto.dealHistory.DealHistorySaveRequest
 import krescere.jipsayobackend.dto.research.ResearchSaveRequest
 import krescere.jipsayobackend.repository.HouseDetailRepository
-import krescere.jipsayobackend.repository.HouseRepository
 import krescere.jipsayobackend.repository.ResearchRepository
 import krescere.jipsayobackend.service.DealHistoryService
 import org.assertj.core.api.Assertions.assertThat

@@ -1,6 +1,5 @@
 package krescere.jipsayobackend.dto.houseDetail
 
-import krescere.jipsayobackend.entity.House
 import java.math.BigDecimal
 
 class HouseDetailGetRequest(

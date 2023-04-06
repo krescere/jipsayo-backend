@@ -1,6 +1,5 @@
 package krescere.jipsayobackend.common
 
-import org.hibernate.annotations.common.util.impl.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 

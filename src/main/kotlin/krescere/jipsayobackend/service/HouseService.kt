@@ -2,13 +2,13 @@ package krescere.jipsayobackend.service
 
 import krescere.jipsayobackend.common.error.CustomException
 import krescere.jipsayobackend.common.error.ErrorCode
+import krescere.jipsayobackend.common.handler.AddressHandler
+import krescere.jipsayobackend.dto.dealHistory.LawDealHistory
 import krescere.jipsayobackend.dto.house.HouseGetRequest
 import krescere.jipsayobackend.dto.house.HouseGetResponse
 import krescere.jipsayobackend.dto.house.HouseSaveRequest
-import krescere.jipsayobackend.dto.dealHistory.LawDealHistory
 import krescere.jipsayobackend.entity.House
 import krescere.jipsayobackend.repository.HouseRepository
-import krescere.jipsayobackend.common.handler.AddressHandler
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

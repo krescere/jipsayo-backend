@@ -1,9 +1,10 @@
 package krescere.jipsayobackend.common.handler
 
 import com.google.gson.Gson
-import krescere.jipsayobackend.dto.house.HousePredictResponse
 import krescere.jipsayobackend.dto.dealHistory.DealHistoryFilterRequest
+import krescere.jipsayobackend.dto.house.HousePredictResponse
 import org.springframework.stereotype.Component
+
 @Component
 class PredictHandler(
     private val httpHandler: ApacheHttpHandler,
