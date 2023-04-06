@@ -43,14 +43,25 @@ class HouseDetailService(
     }
 
     @Transactional
-    fun raiseCount(request: HouseDetailGetRequest) {
-        val houseDetail = get(request)
-            ?: throw CustomException(ErrorCode.HOUSE_DETAIL_NOT_FOUND)
+    fun raiseCount(id: Long) {
+        val houseDetail = houseDetailRepository.findById(id)
+            .orElseThrow { CustomException(ErrorCode.HOUSE_DETAIL_NOT_FOUND, "houseDetail id : $id") }
         houseDetail.raiseCount()
     }
 
     @Transactional(readOnly = true)
     fun get(request: HouseDetailGetRequest): HouseDetail? {
-        return request.id?.let { houseDetailRepository.findById(it).orElse(null) }
+        return if(request.id!= null) {
+            houseDetailRepository.findById(request.id).orElse(null)
+        } else if(request.dedicatedArea != null && request.houseId != null) {
+            val house = houseService.get(HouseGetRequest(id = request.houseId))
+                ?: return null
+            houseDetailRepository.findByDedicatedAreaAndHouse(
+                dedicatedArea = request.dedicatedArea,
+                house = house
+            )
+        } else {
+            null
+        }
     }
 }

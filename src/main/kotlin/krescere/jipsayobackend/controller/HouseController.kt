@@ -6,6 +6,7 @@ import krescere.jipsayobackend.dto.*
 import krescere.jipsayobackend.dto.common.EntitySaveResponse
 import krescere.jipsayobackend.dto.house.HouseGetRequest
 import krescere.jipsayobackend.dto.house.HouseSaveRequest
+import krescere.jipsayobackend.service.HouseDetailService
 import krescere.jipsayobackend.service.HouseService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -15,7 +16,8 @@ import java.util.*
 @RequestMapping("/api/v1")
 @RestController
 class HouseController(
-    private val houseService: HouseService
+    private val houseService: HouseService,
+    private val houseDetailService: HouseDetailService
 ) {
     val logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)!!
     @PostMapping("/houses")
@@ -56,5 +58,17 @@ class HouseController(
         ).toResponseEntity().also {
             logger.info("delete house: $request")
         }
+    }
+
+    // house detail raise count
+    @PutMapping("/house-details/{id}/count")
+    fun raiseCount(@PathVariable id: Long) : ResponseEntity<CustomBody> {
+        houseDetailService.raiseCount(id)
+        return CustomResponse(
+            status = HttpStatus.OK,
+            CustomBody(
+                message = "조회수 증가 성공"
+            )
+        ).toResponseEntity()
     }
 }
