@@ -8,7 +8,4 @@ import java.util.stream.Stream
 
 interface HouseRepository : JpaRepository<House, Long> {
     fun findByRoadAddressAndDanjiName(roadAddress: String, danjiName: String): House?
-
-    @Query("select h from House h where h.cost >= :lowCost and h.cost <= :highCost")
-    fun streamByCostBeforeAndCostAfter(@Param("lowCost") lowCost: Long, @Param("highCost") highCost: Long): Stream<House>
 }

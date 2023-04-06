@@ -1,4 +1,4 @@
-package krescere.jipsayobackend.common
+package krescere.jipsayobackend.common.handler
 
 import java.math.BigDecimal
 import kotlin.math.pow

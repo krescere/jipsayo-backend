@@ -1,17 +1,15 @@
 package krescere.jipsayobackend.entity
 
 import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
 import javax.persistence.*
 
-@EntityListeners(AuditingEntityListener::class)
 @Table(name = "research")
 @Entity
 class Research (
     savedMoney: Long,
     moneyPerMonth: Long,
-    house: House?,
+    houseDetail: HouseDetail,
     increaseRate: Double?,
     job: String?,
     occupation: String?
@@ -24,9 +22,9 @@ class Research (
     var moneyPerMonth: Long = moneyPerMonth
         private set
 
-    @ManyToOne
-    @JoinColumn(name = "HOUSE_ID", nullable = true)
-    var house: House? = house
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "house_detail_id", nullable = false)
+    var houseDetail: HouseDetail = houseDetail
         private set
 
     @Column(nullable = false)
