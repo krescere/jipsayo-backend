@@ -15,6 +15,7 @@ class DealHistoryScheduler(
     val logger = LoggerFactory.getLogger(DealHistoryScheduler::class.java)!!
     @Scheduled(cron = "0 0 0 1 1/1 ?") // 매월 1일 0시 0분 0초
     fun executeJob() {
+        logger.info("DealHistoryScheduler start")
         val jobParameters = JobParametersBuilder()
             .addLong("time", System.currentTimeMillis())
             .toJobParameters()

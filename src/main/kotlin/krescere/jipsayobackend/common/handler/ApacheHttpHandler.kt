@@ -33,7 +33,6 @@ class ApacheHttpHandler(
             response = httpClient.execute(httpGet)
             val entity = response?.entity
             responseBody = EntityUtils.toString(entity, "UTF-8")
-            println(responseBody)
         } catch (e: Exception) {
             logger.error(e.message)
         } finally {

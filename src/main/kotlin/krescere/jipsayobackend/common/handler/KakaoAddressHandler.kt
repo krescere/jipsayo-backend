@@ -7,7 +7,6 @@ import krescere.jipsayobackend.dto.common.KakaoAddressResponse
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 import java.net.URLEncoder
-import java.net.http.HttpHeaders
 import java.nio.charset.StandardCharsets
 
 @Component
