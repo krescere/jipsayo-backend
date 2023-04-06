@@ -1,7 +1,0 @@
-spring:
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://jipsayo-database.cz5bmx4ermfu.ap-northeast-2.rds.amazonaws.com:3306/jipsayo?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-    hikari:
-      username: jipsayo
-      password: 12345678
