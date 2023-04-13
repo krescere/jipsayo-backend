@@ -61,7 +61,7 @@ class DealHistoryService(
                         houseDetailId = houseDetail.id!!
                     ))
             } catch (e: Exception) {
-                logger.error("save dealHistory error: ${e.message}")
+                //logger.error("save dealHistory error: ${e.stackTrace}")
             }
         }
 
