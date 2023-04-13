@@ -32,6 +32,7 @@ class HouseDetailService(
         // validation
         if(request.dedicatedArea == null) throw CustomException(ErrorCode.INVALID_INPUT_VALUE, "dedicatedArea is null")
 
+        // check duplicate and save
         return houseDetailRepository.findByDedicatedAreaAndHouse(
             dedicatedArea = request.dedicatedArea,
             house = house

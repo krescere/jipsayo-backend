@@ -12,6 +12,8 @@ enum class ErrorCode(
     DUPLICATE_ROAD_ADDRESS_AND_DANJI_NAME("H002", HttpStatus.BAD_REQUEST, "중복된 도로명 주소와 단지명입니다."),
     // HouseDetail
     HOUSE_DETAIL_NOT_FOUND("HD001", HttpStatus.BAD_REQUEST, "부동산 상세 정보를 찾을 수 없습니다."),
+    // Deal
+    DUPLICATE_DEAL("D001", HttpStatus.BAD_REQUEST, "중복된 거래 정보입니다."),
     // Research
 
     // Common

@@ -27,6 +27,12 @@ class DealService(
         val houseDetail = houseDetailService.get(HouseDetailGetRequest(
             id = request.houseDetailId
         )) ?: throw CustomException(ErrorCode.HOUSE_DETAIL_NOT_FOUND, "houseDetail id : ${request.houseDetailId} not found")
+        // check duplicate
+        if(find(DealGetRequest(
+                cost = request.cost,
+                dealDate = request.dealDate,
+                houseDetail = houseDetail
+            )) != null) throw CustomException(ErrorCode.DUPLICATE_DEAL, "deal already exists")
         // db에 저장한다.
         return dealRepository.save(Deal(
             cost = request.cost,
