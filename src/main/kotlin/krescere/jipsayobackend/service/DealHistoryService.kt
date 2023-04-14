@@ -9,8 +9,6 @@ import krescere.jipsayobackend.dto.houseDetail.HouseDetailGetRequest
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import javax.persistence.EntityManager
-import javax.persistence.PersistenceContext
 
 // filter 환경변수
 const val DEFAULT_FILTER_COUNT = 500
@@ -25,9 +23,6 @@ class DealHistoryService(
     private val predictHandler: PredictHandler
 ) {
     val logger = LoggerFactory.getLogger(this.javaClass)!!
-
-    @PersistenceContext
-    private val entityManager: EntityManager? = null
 
     // return : total count, 전체 데이터 개수
     @Transactional
@@ -96,8 +91,6 @@ class DealHistoryService(
                     dealDate = it.dealDate,
                     dedicatedArea = it.dedicatedArea
                 ))
-                // detach
-                entityManager!!.detach(it)
             }
         } catch (e: Exception) {
             logger.error("filter error: $e")
