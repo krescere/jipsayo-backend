@@ -51,6 +51,12 @@ class DealService(
 
     @Transactional(readOnly = true)
     fun findDealsByCostRange(lowCost: Long, highCost: Long): Stream<DealFilterResponse>{
-        return dealQueryDSLRepository.findDealsByCostRange(highCost, lowCost)
+        return try{
+            dealQueryDSLRepository.findDealsByCostRange(highCost, lowCost)
+        } catch (e: Exception) {
+            logger.error("findDealsByCostRange error: ${e.message}")
+            return Stream.empty()
+        }
+
     }
 }

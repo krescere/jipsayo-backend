@@ -3,7 +3,10 @@ package krescere.jipsayobackend.common.handler
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import krescere.jipsayobackend.common.error.CustomException
+import krescere.jipsayobackend.common.error.ErrorCode
 import krescere.jipsayobackend.dto.common.KakaoAddressResponse
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 import java.net.URLEncoder
@@ -14,6 +17,7 @@ class KakaoAddressHandler(
     private val httpHandler: ApacheHttpHandler,
     private val gson: Gson
 ) {
+    val logger = LoggerFactory.getLogger(this.javaClass)!!
     // roadAddress search
     fun search(roadAddress: String): KakaoAddressResponse {
         val urlBuilder = StringBuilder()
@@ -30,7 +34,12 @@ class KakaoAddressHandler(
         headers.put("Authorization", "KakaoAK $restApiKey")
 
         val response = httpHandler.get(urlBuilder.toString(),headers)
-        val jsonObject = gson.fromJson(response, JsonObject::class.java)
+        val jsonObject = try{
+            gson.fromJson(response, JsonObject::class.java)
+        } catch (e: Exception) {
+            logger.error("카카오 주소값 검색에 실패했습니다. ${e.message}")
+            throw CustomException(ErrorCode.KAKAO_API_ERROR,"카카오 주소값 검색에 실패했습니다. ${e.message}")
+        }
         val documents = jsonObject.get("documents").asJsonArray
 
         return KakaoAddressResponse(

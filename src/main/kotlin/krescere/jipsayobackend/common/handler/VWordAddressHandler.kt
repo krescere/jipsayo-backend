@@ -59,7 +59,7 @@ class VWordAddressHandler(
                 .asJsonObject.get("properties")
                 .asJsonObject.get("full_nm").asString
         } catch (e: Exception) {
-            logger.error("getRoadNameCityName error: $e")
+            logger.error("도로명주소 검색 실패 $e")
         }
         return ""
     }

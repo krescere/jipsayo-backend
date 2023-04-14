@@ -16,6 +16,8 @@ enum class ErrorCode(
     DUPLICATE_DEAL("D001", HttpStatus.BAD_REQUEST, "중복된 거래 정보입니다."),
     // Research
 
+    // Kakao API
+    KAKAO_API_ERROR("KA001", HttpStatus.BAD_REQUEST, "카카오 API 오류입니다."),
     // Common
     INVALID_INPUT_VALUE("C001", HttpStatus.BAD_REQUEST, "유효하지 않은 입력 값입니다."),
     // Server
