@@ -26,4 +26,9 @@ class PredictHandler(
 
         return httpHandler.get(urlBuilder.toString()) ?: ""
     }
+
+    fun reload() {
+        val url="http://localhost:5000/api/v1/houses/reload"
+        httpHandler.get(url)
+    }
 }

@@ -105,6 +105,11 @@ class DealHistoryService(
         return ret.take(count)
     }
 
+    @Transactional
+    fun filterReload() {
+        predictHandler.reload()
+    }
+
     private fun isDealDtoNotNull(lawDealHistory: LawDealHistory) : Boolean {
         return lawDealHistory.cost != null &&
                 lawDealHistory.dealYear != null &&

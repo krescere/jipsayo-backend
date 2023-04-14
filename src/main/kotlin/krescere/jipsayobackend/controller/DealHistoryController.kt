@@ -55,4 +55,17 @@ class DealHistoryController(
             logger.info("filter dealHistory: $request")
         }
     }
+
+    @GetMapping("/dealHistories/filter/reload")
+    fun filterReload() : ResponseEntity<CustomBody> {
+        dealHistoryService.filterReload()
+        return CustomResponse(
+            status = HttpStatus.OK,
+            CustomBody(
+                message = "데이터 리로딩 성공",
+            )
+        ).toResponseEntity().also {
+            logger.info("filter dealHistory: reload")
+        }
+    }
 }
