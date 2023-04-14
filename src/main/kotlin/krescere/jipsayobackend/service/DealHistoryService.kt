@@ -79,24 +79,28 @@ class DealHistoryService(
     @Transactional(readOnly = true)
     fun filter(request: DealHistoryFilterRequest): List<DealHistoryFilterResponse> {
         // [id, {id,cost}] 형태의 map
-        val candidatesMap= predictHandler.getCandidateMap(request)
         val ret = mutableListOf<DealHistoryFilterResponse>()
 
-        val streamDeals=dealService.findDealsByCostRange(request.lowCost,request.highCost)
+        try {
+            val candidatesMap= predictHandler.getCandidateMap(request)
+            val streamDeals=dealService.findDealsByCostRange(request.lowCost,request.highCost)
 
-        streamDeals.forEach {
-            ret.add(DealHistoryFilterResponse(
-                roadAddress = it.roadAddress,
-                danjiName = it.danjiName,
-                cost = it.cost,
-                latitude = it.latitude,
-                longitude = it.longitude,
-                time = candidatesMap[it.houseId]!!.time,
-                dealDate = it.dealDate,
-                dedicatedArea = it.dedicatedArea
-            ))
-            // detach
-            entityManager!!.detach(it)
+            streamDeals.forEach {
+                ret.add(DealHistoryFilterResponse(
+                    roadAddress = it.roadAddress,
+                    danjiName = it.danjiName,
+                    cost = it.cost,
+                    latitude = it.latitude,
+                    longitude = it.longitude,
+                    time = candidatesMap[it.houseId]!!.time,
+                    dealDate = it.dealDate,
+                    dedicatedArea = it.dedicatedArea
+                ))
+                // detach
+                entityManager!!.detach(it)
+            }
+        } catch (e: Exception) {
+            logger.error("filter error: $e")
         }
 
         var count = request.count?:DEFAULT_FILTER_COUNT
