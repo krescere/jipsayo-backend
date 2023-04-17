@@ -80,17 +80,10 @@ class DealHistoryService(
             val candidatesMap= predictHandler.getCandidateMap(request)
             val streamDeals=dealService.findDealsByCostRange(request.lowCost,request.highCost)
 
-            streamDeals.forEach {
-                ret.add(DealHistoryFilterResponse(
-                    roadAddress = it.roadAddress,
-                    danjiName = it.danjiName,
-                    cost = it.cost,
-                    latitude = it.latitude,
-                    longitude = it.longitude,
-                    time = candidatesMap[it.houseId]!!.time,
-                    dealDate = it.dealDate,
-                    dedicatedArea = it.dedicatedArea
-                ))
+            streamDeals.forEach {deal ->
+                candidatesMap[deal.houseId]?.let {
+                    ret.add(DealHistoryFilterResponse(deal,it.time))
+                }
             }
         } catch (e: Exception) {
             logger.error("filter error: $e")
