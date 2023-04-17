@@ -3,8 +3,8 @@ cloud:
     s3:
       bucket: jipsayo-age
     credentials:
-      access-key: AKIAXETUFH7P6HYP4COR
-      secret-key: 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
+      access-key: AKIAXETUFH7PQXOU7YSQ
+      secret-key: 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
     region:
       static: ap-northeast-2
       auto: false
