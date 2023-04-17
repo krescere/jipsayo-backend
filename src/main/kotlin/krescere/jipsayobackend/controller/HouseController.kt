@@ -3,10 +3,6 @@ package krescere.jipsayobackend.controller
 import krescere.jipsayobackend.common.CustomBody
 import krescere.jipsayobackend.common.CustomResponse
 import krescere.jipsayobackend.dto.*
-import krescere.jipsayobackend.dto.common.EntitySaveResponse
-import krescere.jipsayobackend.dto.house.HouseGetRequest
-import krescere.jipsayobackend.dto.house.HouseSaveRequest
-import krescere.jipsayobackend.service.HouseDetailService
 import krescere.jipsayobackend.service.HouseService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,8 +12,7 @@ import java.util.*
 @RequestMapping("/api/v1")
 @RestController
 class HouseController(
-    private val houseService: HouseService,
-    private val houseDetailService: HouseDetailService
+    private val houseService: HouseService
 ) {
     val logger = org.slf4j.LoggerFactory.getLogger(this.javaClass)!!
     @PostMapping("/houses")
@@ -34,41 +29,56 @@ class HouseController(
     }
 
     @GetMapping("/houses")
-    fun find(request: HouseGetRequest) : ResponseEntity<CustomBody> {
+    fun findByQuery(query: HouseGetQuery) : ResponseEntity<CustomBody> {
         return CustomResponse(
             status = HttpStatus.OK,
             CustomBody(
                 message = "부동산 조회 성공",
-                data = houseService.find(request)
+                data = houseService.findByQuery(query)
                     ?: Collections.emptyMap<String, Any>()
             )
         ).toResponseEntity().also {
-            logger.info("get house: $request")
+            logger.info("get house: $query")
+        }
+    }
+
+    @PutMapping("/houses")
+    fun updateByQuery(query: HouseGetQuery, @RequestBody houseUpdateRequest: HouseUpdateRequest) : ResponseEntity<CustomBody> {
+        houseService.updateByQuery(query, houseUpdateRequest)
+        return CustomResponse(
+            status = HttpStatus.OK,
+            CustomBody(
+                message = "부동산 수정 성공"
+            )
+        ).toResponseEntity().also {
+            logger.info("update house: $query, $houseUpdateRequest")
         }
     }
 
     @DeleteMapping("/houses")
-    fun delete(request: HouseGetRequest) : ResponseEntity<CustomBody> {
-        houseService.deleteByQuery(request)
+    fun deleteByQuery(query: HouseGetQuery) : ResponseEntity<CustomBody> {
+        houseService.deleteByQuery(query)
         return CustomResponse(
             status = HttpStatus.OK,
             CustomBody(
                 message = "부동산 삭제 성공"
             )
         ).toResponseEntity().also {
-            logger.info("delete house: $request")
+            logger.info("delete house: $query")
         }
     }
 
-    // house detail raise count
-    @PutMapping("/house-details/{id}/count")
-    fun raiseCount(@PathVariable id: Long) : ResponseEntity<CustomBody> {
-        houseDetailService.raiseCount(id)
+    // 프론트에서 필터링 요청올 때
+    @GetMapping("/houses/filter")
+    fun filterByQuery(request: HouseFilterGetRequest) : ResponseEntity<CustomBody> {
         return CustomResponse(
             status = HttpStatus.OK,
             CustomBody(
-                message = "조회수 증가 성공"
+                message = "부동산 필터링 조회 성공",
+                data = houseService.filter(request)
             )
-        ).toResponseEntity()
+        ).toResponseEntity().also {
+            logger.info("filter house: $request")
+        }
     }
 }

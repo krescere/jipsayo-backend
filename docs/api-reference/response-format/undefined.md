@@ -19,7 +19,11 @@
 <table><thead><tr><th>코드</th><th>설명</th><th data-hidden></th></tr></thead><tbody><tr><td><pre><code>H001
 </code></pre></td><td><pre><code>부동산을 찾을 수 없습니다.
 </code></pre></td><td></td></tr><tr><td><pre><code>H002
-</code></pre></td><td><pre><code>중복된 도로명 주소와 단지명입니다.
+</code></pre></td><td><pre><code>중복된 부동산입니다.
+</code></pre></td><td></td></tr><tr><td><pre><code>H003
+</code></pre></td><td><pre><code>중복된 지번주소입니다.
+</code></pre></td><td></td></tr><tr><td><pre><code>H004
+</code></pre></td><td><pre><code>중복된 도로명주소입니다.
 </code></pre></td><td></td></tr></tbody></table>
 
 ### 서버 오류

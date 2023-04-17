@@ -7,16 +7,20 @@
 
 {% endswagger-description %}
 
-{% swagger-parameter in="body" name="houseDetailId" type="Long" required="true" %}
-부동산 상세 아이디
-{% endswagger-parameter %}
-
 {% swagger-parameter in="body" name="savedMoney" type="Long" required="true" %}
 보유한 현금
 {% endswagger-parameter %}
 
 {% swagger-parameter in="body" name="moneyPerMonth" type="Long" required="true" %}
 매달 저축가능 금액
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" name="roadAddress" type="String" required="false" %}
+도로명 주소
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" name="danjiNaME" %}
+단지명
 {% endswagger-parameter %}
 
 {% swagger-parameter in="body" name="increaseRate" type="Double" required="false" %}
@@ -29,6 +33,10 @@
 
 {% swagger-parameter in="body" name="occupation" type="String" required="false" %}
 직종
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" %}
+
 {% endswagger-parameter %}
 
 {% swagger-response status="201: Created" description="설문조사 삽입 성공" %}
@@ -47,13 +55,14 @@
 {% tabs %}
 {% tab title="curl" %}
 ```powershell
-curl --location 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/research' \
+curl --location --request POST 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/research' \
 --header 'Content-Type: application/json' \
---data '{
-    "houseDetailId":1,
-    "savedMoney":100,
-    "moneyPerMonth":10,
-    "increaseRate":0.5
+--data-raw '{
+    "savedMoney": 100,
+    "moneyPerMonth": 10,
+    "jibunAddress": "충남 천안시 서북구 성정동 1438",
+    "danjiName": "학산리젠다빌 3차",
+    "increaseRate": 0.5
 }'
 ```
 {% endtab %}
@@ -63,13 +72,14 @@ curl --location 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/re
 POST /api/v1/research HTTP/1.1
 Host: ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com
 Content-Type: application/json
-Content-Length: 100
+Content-Length: 154
 
 {
-    "houseDetailId":1,
-    "savedMoney":100,
-    "moneyPerMonth":10,
-    "increaseRate":0.5
+    "savedMoney": 100,
+    "moneyPerMonth": 10,
+    "jibunAddress": "충남 천안시 서북구 성정동 1438",
+    "danjiName": "학산리젠다빌 3차",
+    "increaseRate": 0.5
 }
 ```
 {% endtab %}
@@ -80,9 +90,10 @@ var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 
 var raw = JSON.stringify({
-  "houseDetailId": 1,
   "savedMoney": 100,
   "moneyPerMonth": 10,
+  "jibunAddress": "충남 천안시 서북구 성정동 1438",
+  "danjiName": "학산리젠다빌 3차",
   "increaseRate": 0.5
 });
 
@@ -102,17 +113,17 @@ fetch("ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/research", r
 
 {% tab title="NodeJs(Axios)" %}
 ```javascript
-const axios = require('axios');
-let data = JSON.stringify({
-  "houseDetailId": 1,
+var axios = require('axios');
+var data = JSON.stringify({
   "savedMoney": 100,
   "moneyPerMonth": 10,
+  "jibunAddress": "충남 천안시 서북구 성정동 1438",
+  "danjiName": "학산리젠다빌 3차",
   "increaseRate": 0.5
 });
 
-let config = {
+var config = {
   method: 'post',
-  maxBodyLength: Infinity,
   url: 'ec2-3-37-157-108.ap-northeast-2.compute.amazonaws.com/api/v1/research',
   headers: { 
     'Content-Type': 'application/json'
@@ -120,14 +131,13 @@ let config = {
   data : data
 };
 
-axios.request(config)
-.then((response) => {
+axios(config)
+.then(function (response) {
   console.log(JSON.stringify(response.data));
 })
-.catch((error) => {
+.catch(function (error) {
   console.log(error);
 });
-
 ```
 {% endtab %}
 {% endtabs %}

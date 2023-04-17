@@ -5,13 +5,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
 import javax.persistence.*
 
-@Table(name = "research")
 @EntityListeners(AuditingEntityListener::class)
+@Table(name = "research")
 @Entity
 class Research (
     savedMoney: Long,
     moneyPerMonth: Long,
-    houseDetail: HouseDetail,
+    house: House?,
     increaseRate: Double?,
     job: String?,
     occupation: String?
@@ -24,9 +24,9 @@ class Research (
     var moneyPerMonth: Long = moneyPerMonth
         private set
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "house_detail_id", nullable = false)
-    var houseDetail: HouseDetail = houseDetail
+    @ManyToOne
+    @JoinColumn(name = "HOUSE_ID", nullable = true)
+    var house: House? = house
         private set
 
     @Column(nullable = false)

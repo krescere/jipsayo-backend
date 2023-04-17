@@ -1,6 +1,7 @@
 spring:
   profiles:
     include:
+      - console-logging
       - s3
   jpa:
     show-sql: true
@@ -20,3 +21,7 @@ spring:
     driver-class-name: org.h2.Driver
     hikari:
       jdbc-url: jdbc:h2:mem:testdb;MODE=MySQL
+
+logging:
+  level:
+    root: info # trace<debug<info<warn<error<fatal

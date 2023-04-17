@@ -1,5 +1,6 @@
 package krescere.jipsayobackend.common
 
+import krescere.jipsayobackend.common.error.CustomException
 import krescere.jipsayobackend.common.error.GlobalExceptionHandler
 import java.time.LocalDateTime
 

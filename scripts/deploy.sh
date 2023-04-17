@@ -28,7 +28,8 @@ echo "> $JAR_NAME 에 실행권한 추가"
 chmod +x $JAR_NAME
 
 echo "> $JAR_NAME 실행"
+# 환경변수를 추가가 아닌 대체하는것!
 nohup java -jar $JAR_NAME \
-    -Dspring.config.location=classpath:/application.properties,classpath:/application-dev.properties,/home/ec2-user/app/application-rds.properties,/home/ec2-user/app/application-s3.properties \
+    -Dspring.config.location=classpath:/application.yml,classpath:/application-dev.yml,classpath:/application-rds.yml \
     -Dspring.profiles.active=dev \
     $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
