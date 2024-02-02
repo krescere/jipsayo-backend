@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPOSITORY=/home/ec2-user/app/deploy
+REPOSITORY=/home/ubuntu/app/deploy
 
 echo "> Build 파일 복사"
 cp $REPOSITORY/zip/*.jar $REPOSITORY/
