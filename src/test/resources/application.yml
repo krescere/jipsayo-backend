@@ -1,7 +1,4 @@
 spring:
-  profiles:
-    include:
-      - s3
   jpa:
     show-sql: true
     hibernate:
