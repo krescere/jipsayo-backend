@@ -68,8 +68,6 @@ dependencies {
     implementation("org.hibernate:hibernate-spatial:5.4.17.Final")
     // apache httpclient
     implementation('org.apache.httpcomponents:httpclient:4.5.14')
-    // aws-sdk
-    implementation('org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE')
     // test security (권한을 필요로하는 api 호출을 위한)
     testImplementation('org.springframework.security:spring-security-test')
     // test

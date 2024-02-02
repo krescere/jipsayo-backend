@@ -3,15 +3,15 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/app/deploy/zip/
+    destination: /home/ubuntu/app/deploy/zip/
     overwrite: yes
 
 # 권한 설정
 permissions:
   - object: /
     pattern: "**"
-    owner: ec2-user
-    group: ec2-user
+    owner: ubuntu
+    group: ubuntu
 
 # 배포 진행
 hooks:
@@ -19,4 +19,4 @@ hooks:
     ApplicationStart:
         - location: deploy.sh
           timeout: 60
-          runas: ec2-user
+          runas: root
