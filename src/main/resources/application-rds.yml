@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${RDS_URL}
+    hikari:
+      username: ${RDS_USERNAME}
+      password: ${RDS_PASSWORD}
